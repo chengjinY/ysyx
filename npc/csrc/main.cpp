@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env)
 	}
 	top -> final();
 #if VM_COVERAGE
-	Verilated::makedir("logs");
+	Verilated::mkdir("logs");
 	context -> coveragep() -> write("logs/coverage.dat");
 #endif
 	delete top;
