@@ -28,11 +28,10 @@ sim:
 	obj_dir/Vtop +trace
 
 	@echo
-	@echo "---------- CONVERAGE ----------"
-	@rm -rf logs/annotated
-	$(VERLATOR_COVERAGE) --annotate logs/annotated logs/coverage.dat
-
-	@echo
 	@echo "---------- DONE ----------"
+
+clean:
+	rm -rf logs
+	rm -rf obj_dir
 
 include ../Makefile
