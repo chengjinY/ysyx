@@ -46,7 +46,7 @@ void Vtop___024root___initial__TOP__1(Vtop___024root* vlSelf) {
     // Variables
     VlWide<5>/*159:0*/ __Vtemp1;
     // Body
-    if ((0U != VL_TESTPLUSARGS_I("trace"))) {
+    if (VL_UNLIKELY((0U != VL_TESTPLUSARGS_I("trace")))) {
         __Vtemp1[0U] = 0x2e766364U;
         __Vtemp1[1U] = 0x64756d70U;
         __Vtemp1[2U] = 0x766c745fU;
@@ -55,9 +55,13 @@ void Vtop___024root___initial__TOP__1(Vtop___024root* vlSelf) {
         vlSymsp->_vm_contextp__->dumpfile(VL_CVT_PACK_STR_NW(5, __Vtemp1));
         vlSymsp->_traceDumpOpen();
         ++(vlSymsp->__Vcoverage[3]);
+        VL_WRITEF("[%0t] Tracing to logs/vlt_dump.vcd...\n\n",
+                  64,VL_TIME_UNITED_Q(1),-12);
     } else {
         ++(vlSymsp->__Vcoverage[4]);
     }
+    VL_WRITEF("[%0t] Model running...\n\n",64,VL_TIME_UNITED_Q(1),
+              -12);
     ++(vlSymsp->__Vcoverage[5]);
 }
 
@@ -107,7 +111,7 @@ void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bool first) {
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "vsrc/top.v", 2, 8, ".top", "v_toggle/top", "a", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[1]), first, "vsrc/top.v", 3, 8, ".top", "v_toggle/top", "b", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "vsrc/top.v", 4, 9, ".top", "v_toggle/top", "f", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[3]), first, "vsrc/top.v", 9, 3, ".top", "v_branch/top", "if", "9-11");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[3]), first, "vsrc/top.v", 9, 3, ".top", "v_branch/top", "if", "9-12");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[4]), first, "vsrc/top.v", 9, 4, ".top", "v_branch/top", "else", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[5]), first, "vsrc/top.v", 8, 2, ".top", "v_line/top", "block", "8");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[5]), first, "vsrc/top.v", 8, 2, ".top", "v_line/top", "block", "8,14");
 }

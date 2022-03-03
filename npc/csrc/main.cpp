@@ -9,6 +9,7 @@ int main(int argc, char **argv, char **env)
 {
 	Verilated::mkdir("logs");
 	VerilatedContext *context = new VerilatedContext;
+	context -> debug(0);
 	context -> traceEverOn(true);
 	context -> commandArgs(argc, argv);
 	Vtop *top = new Vtop(context);
@@ -19,10 +20,13 @@ int main(int argc, char **argv, char **env)
 		top -> a = a;
 		top -> b = b;
 		top -> eval();
-		VL_PRINTF("a = %d, b = %d, f = %d\n", a, b, top -> f);
+		// VL_PRINTF("a = %d, b = %d, f = %d\n", a, b, top -> f);
 	}
 	top -> final();
+#if VM_COVERAGE
+	Verilated::makedir("logs");
 	context -> coveragep() -> write("logs/coverage.dat");
+#endif
 	delete top;
 	delete context;
 	return 0;
