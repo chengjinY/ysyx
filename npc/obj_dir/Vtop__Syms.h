@@ -28,6 +28,9 @@ class Vtop__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;
 
+    // COVERAGE
+    uint32_t __Vcoverage[3];
+
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);
     ~Vtop__Syms();

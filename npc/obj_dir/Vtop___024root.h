@@ -6,6 +6,7 @@
 #define VERILATED_VTOP___024ROOT_H_  // guard
 
 #include "verilated_heavy.h"
+#include "verilated_cov.h"
 
 //==========
 
@@ -23,8 +24,16 @@ VL_MODULE(Vtop___024root) {
     VL_IN8(b,0,0);
     VL_OUT8(f,0,0);
 
+    // LOCAL VARIABLES
+    CData/*0:0*/ top__DOT____Vtogcov__a;
+    CData/*0:0*/ top__DOT____Vtogcov__b;
+    CData/*0:0*/ top__DOT____Vtogcov__f;
+
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;  // Symbol table
+    // Coverage
+    void __vlCoverInsert(uint32_t* countp, bool enable, const char* filenamep, int lineno, int column,
+        const char* hierp, const char* pagep, const char* commentp, const char* linescovp);
 
     // CONSTRUCTORS
   private:

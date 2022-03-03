@@ -25,7 +25,7 @@ sim:
 	@echo "---------- RUN ----------"
 	@rm -rf logs
 	@mkdir -p logs
-	obj/dir/Vtop + trace
+	obj_dir/Vtop + trace
 
 	@echo
 	@echo "---------- CONVERAGE ----------"
