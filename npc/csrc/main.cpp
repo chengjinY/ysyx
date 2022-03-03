@@ -7,6 +7,7 @@
 
 int main(int argc, char **argv, char **env)
 {
+	Verilated::mkdir("logs");
 	VerilatedContext *context = new VerilatedContext;
 	context -> traceEverOn(true);
 	context -> commandArgs(argc, argv);
