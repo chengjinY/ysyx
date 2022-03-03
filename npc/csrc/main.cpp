@@ -3,14 +3,16 @@
 #include <assert.h>
 
 #include "Vtest.h"
-#include "verilated_fst_c.h"
+#include "verilated.h"
 
 int main(int argc, char **argv, char **env)
 {
-	VerilatedFstC *context = new VerilatedFstC;
+	VerilatedContext *context = new VerilatedContext;
+	context -> traceEverOn(true);
 	context -> commandArgs(argc, argv);
 	Vtest *top = new Vtest(context);
-	for (int i = 1; i <= 100000; ++i) {
+	while (!context -> gotFinish()) {
+		context -> timeInc(1);
 		int a = rand() & 1;
 		int b = rand() & 1;
 		top -> a = a;
