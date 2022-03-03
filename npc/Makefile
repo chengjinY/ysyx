@@ -19,7 +19,7 @@ sim:
 
 	@echo
 	@echo "---------- BUILD ----------"
-	$(MAKE) -j -C obj_dir Vtop.mk
+	$(MAKE) -j -C obj_dir -f Vtop.mk
 
 	@echo
 	@echo "---------- RUN ----------"
