@@ -8,6 +8,7 @@
 #define VERILATED_VTOP__SYMS_H_  // guard
 
 #include "verilated_heavy.h"
+#include "verilated_vcd_c.h"
 
 // INCLUDE MODEL CLASS
 
@@ -21,6 +22,9 @@ class Vtop__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
     Vtop* const __Vm_modelp;
+    bool __Vm_dumping = false;  // Dumping is active
+    VerilatedMutex __Vm_dumperMutex;  // Protect __Vm_dumperp
+    VerilatedVcdC* __Vm_dumperp VL_GUARDED_BY(__Vm_dumperMutex) = nullptr;  /// Trace class for $dump*
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     bool __Vm_didInit = false;
@@ -29,7 +33,7 @@ class Vtop__Syms final : public VerilatedSyms {
     Vtop___024root                 TOP;
 
     // COVERAGE
-    uint32_t __Vcoverage[3];
+    uint32_t __Vcoverage[6];
 
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);
@@ -37,6 +41,9 @@ class Vtop__Syms final : public VerilatedSyms {
 
     // METHODS
     const char* name() { return TOP.name(); }
+    void _traceDump();
+    void _traceDumpOpen();
+    void _traceDumpClose();
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 #endif  // guard
