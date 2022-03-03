@@ -23,10 +23,7 @@ int main(int argc, char **argv, char **env)
 		assert(top -> f == a ^ b);
 	}
 	top -> final();
-#if VM_COVERAGE
-	Verilated::mkdir("logs");
 	context -> coveragep() -> write("logs/coverage.dat");
-#endif
 	delete top;
 	delete context;
 	return 0;
