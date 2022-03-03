@@ -2,5 +2,7 @@
 #define VL_INCLUDE_OPT include
 #include "Vtest.cpp"
 #include "Vtest___024root.cpp"
+#include "Vtest__Trace.cpp"
 #include "Vtest___024root__Slow.cpp"
 #include "Vtest__Syms.cpp"
+#include "Vtest__Trace__Slow.cpp"

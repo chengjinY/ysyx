@@ -3,11 +3,11 @@
 #include <assert.h>
 
 #include "Vtest.h"
-#include "verilated.h"
+#include "verilated_fst_c.h"
 
 int main(int argc, char **argv, char **env)
 {
-	VerilatedContext *context = new VerilatedContext;
+	VerilatedFstC *context = new VerilatedFstC;
 	context -> commandArgs(argc, argv);
 	Vtest *top = new Vtest(context);
 	for (int i = 1; i <= 100000; ++i) {

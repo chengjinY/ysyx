@@ -10,6 +10,8 @@
 //==========
 
 class Vtest__Syms;
+class Vtest_VerilatedFst;
+
 
 //----------
 

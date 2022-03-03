@@ -3,6 +3,7 @@
 
 #include "Vtest.h"
 #include "Vtest__Syms.h"
+#include "verilated_fst_c.h"
 
 //============================================================
 // Constructors
@@ -46,6 +47,7 @@ static void _eval_initial_loop(Vtest__Syms* __restrict vlSymsp) {
     // Evaluate till stable
     int __VclockLoop = 0;
     QData __Vchange = 1;
+    vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial loop\n"););
         Vtest___024root___eval_settle(&(vlSymsp->TOP));
@@ -77,6 +79,7 @@ void Vtest::eval_step() {
     // Evaluate till stable
     int __VclockLoop = 0;
     QData __Vchange = 1;
+    vlSymsp->__Vm_activity = true;
     do {
         VL_DEBUG_IF(VL_DBG_MSGF("+ Clock loop\n"););
         Vtest___024root___eval(&(vlSymsp->TOP));
@@ -112,4 +115,31 @@ VerilatedContext* Vtest::contextp() const {
 
 const char* Vtest::name() const {
     return vlSymsp->name();
+}
+
+//============================================================
+// Trace configuration
+
+void Vtest___024root__traceInitTop(Vtest___024root* vlSelf, VerilatedFst* tracep);
+
+static void traceInit(void* voidSelf, VerilatedFst* tracep, uint32_t code) {
+    // Callback from tracep->open()
+    Vtest___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtest___024root*>(voidSelf);
+    Vtest__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    if (!vlSymsp->_vm_contextp__->calcUnusedSigs()) {
+        VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
+            "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
+    }
+    vlSymsp->__Vm_baseCode = code;
+    tracep->module(vlSymsp->name());
+    tracep->scopeEscape(' ');
+    Vtest___024root__traceInitTop(vlSelf, tracep);
+    tracep->scopeEscape('.');
+}
+
+void Vtest___024root__traceRegister(Vtest___024root* vlSelf, VerilatedFst* tracep);
+
+void Vtest::trace(VerilatedFstC* tfp, int, int) {
+    tfp->spTrace()->addInitCb(&traceInit, &(vlSymsp->TOP));
+    Vtest___024root__traceRegister(&(vlSymsp->TOP), tfp->spTrace());
 }
