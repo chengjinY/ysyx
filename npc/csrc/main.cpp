@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "Vtest.h"
+#include "Vtop.h"
 #include "verilated.h"
 
 int main(int argc, char **argv, char **env)
@@ -10,7 +10,7 @@ int main(int argc, char **argv, char **env)
 	VerilatedContext *context = new VerilatedContext;
 	context -> traceEverOn(true);
 	context -> commandArgs(argc, argv);
-	Vtest *top = new Vtest(context);
+	Vtop *top = new Vtop(context);
 	while (!context -> gotFinish()) {
 		context -> timeInc(1);
 		int a = rand() & 1;
