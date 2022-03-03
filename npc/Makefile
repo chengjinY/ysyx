@@ -1,7 +1,7 @@
 VERILATOR = verilator
 VERILATOR_COVERAGE = verilator_coverage
 VERILATOR_FLAGS = -cc --exe -Wall --trace --coverage
-VERILATOR_INPUT = -f csrc/main.cpp vsrc/top.v
+VERILATOR_INPUT = csrc/main.cpp vsrc/top.v
 
 
 all:
@@ -19,7 +19,7 @@ sim:
 
 	@echo
 	@echo "---------- BUILD ----------"
-	$(MAKE) -j -C obj_dir -f Vtop.mk
+	$(MAKE) -j -C obj_dir Vtop.mk
 
 	@echo
 	@echo "---------- RUN ----------"
