@@ -1,7 +1,7 @@
 VERILATOR = verilator
 VERILATOR_COVERAGE = verilator_coverage
 VERILATOR_FLAGS = -cc --exe -Wall --trace --coverage
-VERILATOR_INPUT = csrc/main.cpp vsrc/top.v
+VERILATOR_INPUT = -f csrc/main.cpp vsrc/top.v
 
 
 all:
