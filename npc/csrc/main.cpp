@@ -19,8 +19,7 @@ int main(int argc, char **argv, char **env)
 		top -> a = a;
 		top -> b = b;
 		top -> eval();
-		printf("a = %d, b = %d, f = %d\n", a, b, top -> f);
-		assert(top -> f == a ^ b);
+		VL_PRINTF("a = %d, b = %d, f = %d\n", a, b, top -> f);
 	}
 	top -> final();
 	context -> coveragep() -> write("logs/coverage.dat");
