@@ -4,6 +4,8 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+#include <memory/paddr.h>
+
 static int is_batch_mode = false;
 
 void init_regex();
@@ -51,7 +53,7 @@ static int cmd_si(char *args) {
     cpu_exec(cnt);
   /* arg not be a unsigned integer */
   else
-    printf("Unrecognized argument '%s'\n", arg);
+    printf("Unrecognized argument '%s', 'si' need an unsigned integer\n", arg);
   return 0;
 }
 
@@ -60,18 +62,36 @@ static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
   /* no argument */
   if (arg == NULL || strlen(arg) != 1)
-    printf("'info' need argument 'r' or 'w', but read '%s'.\n", arg);
+    printf("Unrecognized argument '%s', 'info' need 'r' or 'w'.\n", arg);
   /* registers */
   else if (strcmp(arg, "r") == 0) {
     isa_reg_display();
   }
   /* watchpoints */
   else if (strcmp(arg, "w") == 0)
-    return 0;
+    return 0; // TODO
   return 0;
 }
 
 static int cmd_x(char *args) {
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  unsigned int cnt;
+  if (arg == NULL || sscanf(arg, "%u", &cnt) != 1)
+    printf("Unrecognized argument '%s', 'x' need an integer firstly.\n", arg);
+  arg = strtok(NULL, " ");
+  unsigned int addr;
+  if (arg == NULL || sscanf(arg, "%u", &addr) != 1)
+    printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
+  uint8_t *pos = guest_to_host(addr);
+  int i, j, k;
+  for (i = 0, j = 0, k = 0; i < cnt;) {
+    printf("%x", *pos);
+    ++i, ++j, ++k, pos += 4;
+    if (j == 2) printf(" "), j = 0;
+    if (k == 8) printf("\n"), k = 0;
+  }
+  if (k != 0) printf("\n");
   return 0;
 }
 
