@@ -81,7 +81,7 @@ static int cmd_x(char *args) {
     printf("Unrecognized argument '%s', 'x' need an integer firstly.\n", arg);
   arg = strtok(NULL, " ");
   unsigned int addr;
-  if (arg == NULL || sscanf(arg, "%u", &addr) != 1)
+  if (arg == NULL || sscanf(arg, "%x", &addr) != 1)
     printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
   uint8_t *pos = guest_to_host(addr);
   int i, k;
