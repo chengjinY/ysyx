@@ -87,7 +87,7 @@ static int cmd_x(char *args) {
   int i, j, k;
   for (i = 0, j = 0, k = 0; i < cnt;) {
     printf("%x", *pos);
-    ++i, ++j, ++k, pos += 4;
+    ++i, ++j, ++k, pos += 1;
     if (j == 2) printf(" "), j = 0;
     if (k == 8) printf("\n"), k = 0;
   }
