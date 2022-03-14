@@ -43,7 +43,7 @@ static int cmd_si(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
   unsigned int cnt;
-  /* n = 1 by default */
+  /* no argument, n = 1 by default */
   if (arg == NULL)
     cpu_exec(1);
   /* n = N (unsigned int) */
@@ -51,11 +51,22 @@ static int cmd_si(char *args) {
     cpu_exec(cnt);
   /* arg not be a unsigned integer */
   else
-    printf("Unrecognized argument '%s'\n");
+    printf("Unrecognized argument '%s'\n", arg);
   return 0;
 }
 
 static int cmd_info(char *args) {
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  /* no argument */
+  if (arg == NULL || strlen(arg) != 1)
+    printf("'info' need argument 'r' or 'w', but read '%s'.\n", arg);
+  /* registers */
+  else if (arg[0] == 'r')
+    isa_reg_display();
+  /* watchpoints */
+  else if (arg[0] == 'w')
+    return 0;
   return 0;
 }
 
@@ -84,7 +95,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Usage: si N -- Single-step of execute N instructions. N is 1 by default.", cmd_si},
-  { "info" "Usage: info r/w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
+  { "info", "Usage: info r/w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
   { "x", "Usage: x N EXPR -- Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
   { "p", "Usage: p EXPR -- Calculate the result of EXPR", cmd_p},
   { "w", "Usage: w EXPR -- Set a watchpoint at EXPR", cmd_w},
