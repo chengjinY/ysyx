@@ -84,12 +84,11 @@ static int cmd_x(char *args) {
   if (arg == NULL || sscanf(arg, "%u", &addr) != 1)
     printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
   uint8_t *pos = guest_to_host(addr);
-  int i, j, k;
-  for (i = 0, j = 0, k = 0; i < cnt;) {
-    printf("%x", *pos);
-    ++i, ++j, ++k, pos += 1;
-    if (j == 2) printf(" "), j = 0;
-    if (k == 8) printf("\n"), k = 0;
+  int i, k;
+  for (i = 0, k = 0; i <= cnt;) {
+    printf("%02x ", *pos);
+    ++i, ++k, pos += 2;
+    if (k == 4) printf("\n"), k = 0;
   }
   if (k != 0) printf("\n");
   return 0;
