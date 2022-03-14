@@ -40,6 +40,18 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args) {
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  unsigned int cnt;
+  /* n = 1 by default */
+  if (arg == NULL)
+    cpu_exec(1);
+  /* n = N (unsigned int) */
+  else if (sscanf(arg, "%u", &cnt) == 1)
+    cpu_exec(cnt);
+  /* arg not be a unsigned integer */
+  else
+    printf("Unrecognized argument '%s'\n");
   return 0;
 }
 
@@ -71,12 +83,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Single-step of execute [N] instructions", cmd_si},
-  { "info" "Print the infomation of registers(r) or watchpoints(w)", cmd_info},
-  { "x", "Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
-  { "p", "Calculate the result of EXPR", cmd_p},
-  { "w", "Set a watchpoint at EXPR", cmd_w},
-  { "d", "Delate the watchpoint N", cmd_d}
+  { "si", "Usage: si N -- Single-step of execute N instructions. N is 1 by default.", cmd_si},
+  { "info" "Usage: info r/w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
+  { "x", "Usage: x N EXPR -- Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
+  { "p", "Usage: p EXPR -- Calculate the result of EXPR", cmd_p},
+  { "w", "Usage: w EXPR -- Set a watchpoint at EXPR", cmd_w},
+  { "d", "Usage: d N -- Delate the watchpoint N", cmd_d}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
