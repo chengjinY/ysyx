@@ -63,7 +63,6 @@ static int cmd_info(char *args) {
     printf("'info' need argument 'r' or 'w', but read '%s'.\n", arg);
   /* registers */
   else if (strcmp(arg, "r") == 0) {
-    printf("checkpoint");
     isa_reg_display();
   }
   /* watchpoints */
