@@ -39,6 +39,30 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args) {
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  return 0;
+}
+
+static int cmd_p(char *args) {
+  return 0;
+}
+
+static int cmd_w(char *args) {
+  return 0;
+}
+
+static int cmd_d(char *args) {
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -47,9 +71,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
-  /* TODO: Add more commands */
-
+  { "si", "Single-step of execute [N] instructions", cmd_si},
+  { "info" "Print the infomation of registers(r) or watchpoints(w)", cmd_info},
+  { "x", "Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
+  { "p", "Calculate the result of EXPR", cmd_p},
+  { "w", "Set a watchpoint at EXPR", cmd_w},
+  { "d", "Delate the watchpoint N", cmd_d}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
