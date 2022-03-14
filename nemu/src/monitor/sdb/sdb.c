@@ -62,10 +62,10 @@ static int cmd_info(char *args) {
   if (arg == NULL || strlen(arg) != 1)
     printf("'info' need argument 'r' or 'w', but read '%s'.\n", arg);
   /* registers */
-  else if (arg[0] == 'r')
+  else if (strcmp(arg, "r") == 0)
     isa_reg_display();
   /* watchpoints */
-  else if (arg[0] == 'w')
+  else if (strcmp(arg, "w") == 0)
     return 0;
   return 0;
 }
