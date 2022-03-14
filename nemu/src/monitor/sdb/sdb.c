@@ -77,17 +77,20 @@ static int cmd_x(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
   unsigned int cnt;
+  /* first argument unrecognized */
   if (arg == NULL || sscanf(arg, "%u", &cnt) != 1)
     printf("Unrecognized argument '%s', 'x' need an integer firstly.\n", arg);
   arg = strtok(NULL, " ");
   unsigned int addr;
+  /* second argument unrecognized */
   if (arg == NULL || sscanf(arg, "%x", &addr) != 1)
     printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
+  /* address guest to host */
   uint8_t *pos = guest_to_host(addr);
   int i, k;
   for (i = 0, k = 0; i <= cnt;) {
     printf("%02x ", *pos);
-    ++i, ++k, pos += 2;
+    ++i, ++k, pos += 1;
     if (k == 4) printf("\n"), k = 0;
   }
   if (k != 0) printf("\n");
