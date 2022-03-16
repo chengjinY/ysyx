@@ -6,7 +6,8 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256,
+  TK_EQ,
   TK_NUM
 };
 
@@ -83,7 +84,8 @@ static bool make_token(char *e) {
           continue;
         /* save token type */
         tokens[nr_token].type = rules[i].token_type;
-        switch (rules[nr_token].token_type) {
+        Log("%d %d", rules[i].token_type, TK_NUM);
+        switch (rules[i].token_type) {
           case TK_NUM:
             /* for TK_NUM, store its value (Need to be checked) */
             memcpy(tokens[nr_token].str, substr_start, substr_len);
