@@ -22,7 +22,7 @@ static struct rule {
   {"/", '/'},           // /
   {"\\(", '('},         // (
   {"\\)", ')'},         // )
-  {"\\d+", TK_NUM}      // 10-based number
+  {"[0-9]+", TK_NUM}    // 10-based number
 };
 
 #define NR_REGEX ARRLEN(rules)
