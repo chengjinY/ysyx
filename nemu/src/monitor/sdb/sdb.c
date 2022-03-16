@@ -95,8 +95,7 @@ static int cmd_x(char *args) {
 }
 
 static int cmd_p(char *args) {
-  /* extract the first argument */
-  bool success = false;
+  bool success = true;
   /* calculate expression */
   uint32_t ret = expr(args, &success);
   /* check if arg has errors */
