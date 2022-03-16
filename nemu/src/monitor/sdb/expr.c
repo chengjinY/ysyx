@@ -83,7 +83,7 @@ static bool make_token(char *e) {
           continue;
         /* save token type */
         tokens[nr_token].type = rules[i].token_type;
-        switch (rules[i].token_type) {
+        switch (rules[nr_token].token_type) {
           case TK_NUM:
             /* for TK_NUM, store its value (Need to be checked) */
             memcpy(tokens[nr_token].str, substr_start, substr_len);
