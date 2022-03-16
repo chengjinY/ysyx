@@ -89,7 +89,7 @@ static bool make_token(char *e) {
             /* for TK_NUM, store its value (Need to be checked) */
             memcpy(tokens[nr_token].str, substr_start, substr_len);
             break;
-          default: assert(0);
+          default: break;
         }
         ++nr_token;
         break;
