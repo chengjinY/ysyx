@@ -78,13 +78,18 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
+        /* ignore whitespaces */
+        if (rules[i].token_type == TK_NOTYPE)
+          continue;
+        /* save token type */
         tokens[nr_token].type = rules[i].token_type;
         switch (rules[i].token_type) {
           case TK_NUM:
+            /* for TK_NUM, store its value (Need to be checked) */
             memcpy(tokens[nr_token].str, substr_start, substr_len);
           default: assert(0);
         }
-
+        ++nr_token;
         break;
       }
     }
@@ -98,6 +103,75 @@ static bool make_token(char *e) {
   return true;
 }
 
+static bool check_parentheses(int p, int q)
+{
+  /* not surrounded by parenthese */
+  if (tokens[p].type != '(' || tokens[q].type != ')')
+    return false;
+  /* parentheses not match */
+  int par = 1;
+  for (int i = p + 1; i < q; ++i) {
+    if (tokens[i].type == '(') ++par;
+    if (tokens[i].type == ')') --par;
+    if (par == 0) return false;
+  }
+  return true;
+}
+
+static word_t eval(int p, int q)
+{
+  if (p > q) {
+    /* Bad expression */
+    assert(0);
+  }
+  else if (p == q) {
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+    if (tokens[p].type != TK_NUM)
+      assert(0);
+    word_t ret = 0;
+    for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
+      ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
+    }
+    return ret;
+  }
+  else if (check_parentheses(p, q) == true) {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses.
+     */
+    return eval(p + 1, q - 1);
+  }
+  else {
+    int op = -1;
+    int par = 0;
+    for (int i = p; i <= q; ++i) {
+      if (tokens[i].type == '(') ++par;
+      if (tokens[i].type == ')') --par;
+      if (par == 0) {
+        if (tokens[i].type != '+') continue;
+        if (tokens[i].type != '-') continue;
+        if (tokens[i].type != '*') continue;
+        if (tokens[i].type != '/') continue;
+        if (op == -1) op = i;
+        else if (tokens[i].type == '+' || tokens[i].type == '-') {
+          if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
+        }
+      }
+    }
+    word_t val1 = eval(p, op - 1);
+    word_t val2 = eval(op + 1, q);
+
+    switch (tokens[op].type) {
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      default: assert(0);
+    }
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -106,7 +180,7 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  int ret = eval(0, nr_token - 1);
 
-  return 0;
+  return ret;
 }

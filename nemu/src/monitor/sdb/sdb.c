@@ -87,17 +87,24 @@ static int cmd_x(char *args) {
     printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
   /* address guest to host */
   uint8_t *pos = guest_to_host(addr);
-  int i, k;
-  for (i = 0, k = 0; i <= cnt;) {
-    printf("%02x ", *pos);
-    ++i, ++k, pos += 1;
-    if (k == 4) printf("\n"), k = 0;
+  for (int i = 0; i <= cnt; ++i) {
+    printf("%p: %02x %02x %02x %02x\n", pos, *pos, *(pos + 1), *(pos + 2), *(pos + 3));
+    pos += 4;
   }
-  if (k != 0) printf("\n");
   return 0;
 }
 
 static int cmd_p(char *args) {
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
+  bool success = false;
+  /* calculate expression */
+  uint32_t ret = expr(arg, &success);
+  /* check if arg has errors */
+  if (success)
+    printf("%s = %u\n", arg, ret);
+  else
+    printf("%s: Syntax Error.\n", arg);
   return 0;
 }
 
@@ -117,12 +124,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Usage: si N -- Single-step of execute N instructions. N is 1 by default.", cmd_si},
-  { "info", "Usage: info r/w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
-  { "x", "Usage: x N EXPR -- Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
-  { "p", "Usage: p EXPR -- Calculate the result of EXPR", cmd_p},
-  { "w", "Usage: w EXPR -- Set a watchpoint at EXPR", cmd_w},
-  { "d", "Usage: d N -- Delate the watchpoint N", cmd_d}
+  { "si", "si <N> -- Single-step of execute N instructions. N is 1 by default.", cmd_si},
+  { "info", "info r / info w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
+  { "x", "x <N> <EXPR> -- Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
+  { "p", "p <EXPR> -- Calculate the result of EXPR", cmd_p},
+  { "w", "w <EXPR> -- Set a watchpoint at EXPR", cmd_w},
+  { "d", "d <N> -- Delate the watchpoint N", cmd_d}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
