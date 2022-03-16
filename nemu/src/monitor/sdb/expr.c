@@ -7,23 +7,22 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
-
-  /* TODO: Add more token types */
-
+  TK_NUM
 };
 
 static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
-
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
+  {"\\+", '+'},         // +
+  {"==", TK_EQ},        // ==
+  {"-", '-'},           // -
+  {"\\*", '*'},         // *
+  {"/", '/'},           // /
+  {"\\(", '('},         // (
+  {"\\)", ')'},         // )
+  {"\\d+", TK_NUM}      // 10-based number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -79,8 +78,11 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
+        tokens[nr_token].type = rules[i].token_type;
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NUM:
+            memcpy(tokens[nr_token].str, substr_start, substr_len);
+          default: assert(0);
         }
 
         break;
