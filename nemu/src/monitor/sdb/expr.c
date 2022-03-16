@@ -122,6 +122,7 @@ static bool check_parentheses(int p, int q)
 
 static word_t eval(int p, int q)
 {
+  Log("eval [%d, %d]:", p, q);
   if (p > q) {
     /* Bad expression */
     assert(0);
