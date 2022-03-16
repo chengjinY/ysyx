@@ -96,15 +96,14 @@ static int cmd_x(char *args) {
 
 static int cmd_p(char *args) {
   /* extract the first argument */
-  char *arg = strtok(NULL, " ");
   bool success = false;
   /* calculate expression */
-  uint32_t ret = expr(arg, &success);
+  uint32_t ret = expr(args, &success);
   /* check if arg has errors */
   if (success)
-    printf("%s = %u\n", arg, ret);
+    printf("%s = %u\n", args, ret);
   else
-    printf("%s: Syntax Error.\n", arg);
+    printf("%s: Syntax Error.\n", args);
   return 0;
 }
 
