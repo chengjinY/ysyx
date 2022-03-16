@@ -153,10 +153,8 @@ static word_t eval(int p, int q)
       if (tokens[i].type == '(') ++par;
       if (tokens[i].type == ')') --par;
       if (par == 0) {
-        if (tokens[i].type != '+') continue;
-        if (tokens[i].type != '-') continue;
-        if (tokens[i].type != '*') continue;
-        if (tokens[i].type != '/') continue;
+        if (tokens[i].type != '+' && tokens[i].type != '-' &&
+            tokens[i].type != '*' && tokens[i].type != '/') continue;
         if (op == -1) op = i;
         else if (tokens[i].type == '+' || tokens[i].type == '-') {
           if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
