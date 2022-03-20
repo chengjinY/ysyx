@@ -119,9 +119,9 @@ static struct {
   const char *description;
   int (*handler) (char *);
 } cmd_table [] = {
-  { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
+  { "help", "help -- Display informations about all supported commands", cmd_help },
+  { "c", "c -- Continue the execution of the program", cmd_c },
+  { "q", "q -- Exit NEMU", cmd_q },
   { "si", "si <N> -- Single-step of execute N instructions. N is 1 by default.", cmd_si},
   { "info", "info r / info w -- Print the infomation of registers(r) or watchpoints(w)", cmd_info},
   { "x", "x <N> <EXPR> -- Scan the N consecutive 4-bytes starting from EXPR", cmd_x},
