@@ -67,9 +67,9 @@ static int cmd_info(char *args) {
   else if (strcmp(arg, "r") == 0) {
     isa_reg_display();
   }
-  /* watchpoints */
+  /* TODO: watchpoints */
   else if (strcmp(arg, "w") == 0)
-    return 0; // TODO
+    assert(0);
   return 0;
 }
 

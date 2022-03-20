@@ -52,7 +52,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[65536] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -74,11 +74,6 @@ static bool make_token(char *e) {
 
         position += substr_len;
 
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
-
         /* ignore whitespaces */
         if (rules[i].token_type == TK_NOTYPE)
           continue;
@@ -86,7 +81,8 @@ static bool make_token(char *e) {
         tokens[nr_token].type = rules[i].token_type;
         switch (rules[i].token_type) {
           case TK_NUM:
-            /* for TK_NUM, store its value (Need to be checked) */
+            /* for TK_NUM, store its value */
+            assert(substr_len <= 32); // buffer size check
             memcpy(tokens[nr_token].str, substr_start, substr_len);
             break;
           default: break;
@@ -115,25 +111,30 @@ static bool check_parentheses(int p, int q)
   for (int i = p + 1; i < q; ++i) {
     if (tokens[i].type == '(') ++par;
     if (tokens[i].type == ')') --par;
-    if (par == 0) return false;
+    if (par == 0) assert(0);
   }
   return true;
 }
 
-static word_t eval(int p, int q)
+static word_t eval(int p, int q, bool *success)
 {
-  Log("eval [%d, %d]:", p, q);
+  if (*success == false) return 0;
   if (p > q) {
     /* Bad expression */
-    assert(0);
+    *success = false;
+		printf("Bad expression at eval(%d %d).\n", p, q);
+		return 0;
   }
   else if (p == q) {
     /* Single token.
      * For now this token should be a number.
      * Return the value of the number.
      */
-    if (tokens[p].type != TK_NUM)
-      assert(0);
+    if (tokens[p].type != TK_NUM) {
+		*success = false;
+		printf("Token '%s' is not a number.\n", tokens[p].str);
+		return 0;
+	}
     word_t ret = 0;
     for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
       ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
@@ -144,7 +145,7 @@ static word_t eval(int p, int q)
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
      */
-    return eval(p + 1, q - 1);
+    return eval(p + 1, q - 1, success);
   }
   else {
     int op = -1;
@@ -161,17 +162,38 @@ static word_t eval(int p, int q)
         }
       }
     }
-    word_t val1 = eval(p, op - 1);
-    word_t val2 = eval(op + 1, q);
+    /* check if we cannot find the main operator */
+    if (op == -1) {
+			*success = false;
+			printf("Cannot find the main operator at eval(%d, %d).\n", p, q);
+			return 0;
+		}
+    word_t val1 = eval(p, op - 1, success);
+    word_t val2 = eval(op + 1, q, success);
+		if (*success == false) return 0;
 
     switch (tokens[op].type) {
-      case '+': return val1 + val2;
-      case '-': return val1 - val2;
-      case '*': return val1 * val2;
-      case '/': return val1 / val2;
-      default: assert(0);
+      case '+':
+        return val1 + val2;
+      case '-':
+        return val1 - val2;
+      case '*':
+        return val1 * val2;
+      case '/':
+        // The divisor cannot be zero
+        if (val2 == 0) {
+					success = false;
+					printf("The divisior might be zero while calculating at eval(%d, %d).\n", p, q);
+					return 0;
+				}
+        return val1 / val2;
+      default:
+				assert(0);
     }
   }
+	*success = false;
+	printf("Unknown error.\n");
+	return 0;
 }
 
 word_t expr(char *e, bool *success) {
@@ -180,8 +202,8 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /* TODO: Insert codes to evaluate the expression. */
-  int ret = eval(0, nr_token - 1);
+  unsigned ret = eval(0, nr_token - 1, success);
+  if (*success == false) return 0;
 
   return ret;
 }
