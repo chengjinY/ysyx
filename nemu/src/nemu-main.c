@@ -7,7 +7,6 @@ int is_exit_status_bad();
 
 // Here, I will test function expr()
 #include "/home/johnson/ysyx-workbench/nemu/src/monitor/sdb/expr.c"
-#include "/home/johnson/ysyx-workbench/nemu/src/monitor/sdb/sdb.h"
 #include "/home/johnson/ysyx-workbench/nemu/src/monitor/sdb/sdb.c"
 void test_expr() {
 	int cnt = 0;
