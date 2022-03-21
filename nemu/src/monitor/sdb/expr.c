@@ -165,9 +165,8 @@ static uint32_t eval(int p, int q, bool *success)
         if (tokens[i].type != '+' && tokens[i].type != '-' &&
             tokens[i].type != '*' && tokens[i].type != '/') continue;
         if (op == -1) op = i;
-        else if (tokens[i].type == '+' || tokens[i].type == '-') {
-          if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
-        }
+				else if (tokens[i].type == '+' || tokens[i].type == '-') op = i;
+				else if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
       }
     }
 		printf("Eval(%d, %d): main operator at %d.\n", p, q, op);
