@@ -108,8 +108,8 @@ static bool check_parentheses(int p, int q)
   if (tokens[p].type != '(' || tokens[q].type != ')')
     return false;
   /* parentheses not match */
-  int par = 0;
-  for (int i = p; i <= q; ++i) {
+  int par = 1;
+  for (int i = p + 1; i < q; ++i) {
     if (tokens[i].type == '(') ++par;
     if (tokens[i].type == ')') --par;
 		if (par == 0) return false;
