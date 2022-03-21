@@ -27,6 +27,7 @@ static void gen_num(int l)
   for (int i = 0; i < l; ++i) {
     buf[len++] = '0' + rand() % 10;
   }
+	buf[len++] = 'u';
 }
 
 /* generate whitespaces */
