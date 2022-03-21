@@ -173,7 +173,7 @@ static uint32_t eval(int p, int q, bool *success)
 		}
     uint32_t val1 = eval(p, op - 1, success);
     uint32_t val2 = eval(op + 1, q, success);
-		// printf("%u %u\n", val1, val2);
+		printf("%u %c %u\n", val1, tokens[op].type, val2);
 
 		if (*success == false) return 0;
 
