@@ -17,7 +17,7 @@ void test_expr() {
 		int ret = sscanf(result, "%u", &a);
 		if (ret != 1) assert(0);
 		b = cmd_p(expression);
-		printf("%s", expression);
+		// printf("%s", expression);
 		if (a == b) {
 			printf("OK. Loop %d.\n", ++cnt);
 		} else {

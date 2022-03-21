@@ -103,7 +103,7 @@ int cmd_p(char *args) {
     printf("%s = %u\n", args, ret);
   else
     printf("%s: Syntax Error.\n", args);
-  return 0;
+  return ret;
 }
 
 static int cmd_w(char *args) {
