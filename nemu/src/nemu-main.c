@@ -21,7 +21,7 @@ void test_expr() {
 		if (a == b) {
 			printf("OK. Loop %d.\n", ++cnt);
 		} else {
-			printf("Error. Loop %d, while a = %d, b = %d.\n", ++cnt, a, b);
+			printf("Error. Loop %d, while a = %u, b = %u.\n", ++cnt, a, b);
 			break;
 		}
 	}
