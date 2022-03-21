@@ -116,7 +116,7 @@ static bool check_parentheses(int p, int q)
   return true;
 }
 
-static word_t eval(int p, int q, bool *success)
+static uint32_t eval(int p, int q, bool *success)
 {
   if (*success == false) return 0;
   if (p > q) {
@@ -202,7 +202,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  unsigned ret = eval(0, nr_token - 1, success);
+  uint32_t ret = eval(0, nr_token - 1, success);
   if (*success == false) return 0;
 
   return ret;
