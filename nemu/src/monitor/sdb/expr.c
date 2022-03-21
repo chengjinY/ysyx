@@ -102,7 +102,7 @@ static bool make_token(char *e) {
   return true;
 }
 
-static bool check_parentheses(int p, int q)
+static bool check_parentheses(int p, int q, bool *success)
 {
   /* not surrounded by parenthese */
   if (tokens[p].type != '(' || tokens[q].type != ')')
@@ -113,7 +113,11 @@ static bool check_parentheses(int p, int q)
     if (tokens[i].type == '(') ++par;
     if (tokens[i].type == ')') --par;
 		if (par == 0) return false;
-    if (par < 0) assert(0);
+    if (par < 0) {
+			*success = false;
+			printf("Unclosed parentheses before %d.\n", i);
+			return false;
+		}
   }
   return true;
 }
@@ -144,13 +148,14 @@ static uint32_t eval(int p, int q, bool *success)
 		// printf("%u\n", ret);
     return ret;
   }
-  else if (check_parentheses(p, q) == true) {
+  else if (check_parentheses(p, q, success) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses.
      */
     return eval(p + 1, q - 1, success);
   }
   else {
+		if (*success == false) return 0;
     int op = -1;
     int par = 0;
     for (int i = p; i <= q; ++i) {
@@ -165,6 +170,7 @@ static uint32_t eval(int p, int q, bool *success)
         }
       }
     }
+		printf("Eval(%d, %d): main operator at %d.\n", p, q, op);
     /* check if we cannot find the main operator */
     if (op == -1) {
 			*success = false;
