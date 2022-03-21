@@ -205,7 +205,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+	if (*success == true) puts("ok");
   uint32_t ret = eval(0, nr_token - 1, success);
 	printf("%u\n", ret);
 
