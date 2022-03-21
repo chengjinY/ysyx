@@ -20,7 +20,7 @@ void test_expr() {
 		if (a == b) {
 			printf("OK. Loop %d.\n", ++cnt);
 		} else {
-			printf("Error. Loop %d.\n", ++cnt);
+			printf("Error. Loop %d, while a = %d, b = %d.\n", ++cnt, a, b);
 			break;
 		}
 	}
