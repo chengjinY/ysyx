@@ -76,7 +76,7 @@ static bool make_token(char *e) {
 
         /* ignore whitespaces */
         if (rules[i].token_type == TK_NOTYPE)
-          continue;
+          break;
         /* save token type */
         tokens[nr_token].type = rules[i].token_type;
         switch (rules[i].token_type) {
@@ -205,7 +205,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-	if (*success == true) puts("ok");
+
   uint32_t ret = eval(0, nr_token - 1, success);
 	printf("%u\n", ret);
 
