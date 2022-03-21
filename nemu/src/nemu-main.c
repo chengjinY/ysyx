@@ -12,7 +12,7 @@ void test_expr() {
 	int cnt = 0;
 	for (char *str; (str = rl_gets()) != NULL; ) {
 		char *result = strtok(str, " ");
-		char *expression = strtok(NULL, " ");
+		char *expression = result + strlen(result) + 1;
 		unsigned a, b;
 		int ret = sscanf(result, "%u", &a);
 		if (ret != 1) assert(0);
