@@ -108,11 +108,11 @@ static bool check_parentheses(int p, int q)
   if (tokens[p].type != '(' || tokens[q].type != ')')
     return false;
   /* parentheses not match */
-  int par = 1;
-  for (int i = p + 1; i < q; ++i) {
+  int par = 0;
+  for (int i = p; i <= q; ++i) {
     if (tokens[i].type == '(') ++par;
     if (tokens[i].type == ')') --par;
-    if (par == 0) assert(0);
+    if (par < 0) assert(0);
   }
   return true;
 }
@@ -207,7 +207,7 @@ word_t expr(char *e, bool *success) {
   }
 
   uint32_t ret = eval(0, nr_token - 1, success);
-	printf("%u\n", ret);
+	// printf("%u\n", ret);
 
   if (*success == false) return 0;
 
