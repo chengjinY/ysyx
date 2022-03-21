@@ -169,7 +169,7 @@ static uint32_t eval(int p, int q, bool *success)
 				else if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
       }
     }
-		printf("Eval(%d, %d): main operator at %d.\n", p, q, op);
+		// printf("Eval(%d, %d): main operator at %d.\n", p, q, op);
     /* check if we cannot find the main operator */
     if (op == -1) {
 			*success = false;
@@ -178,7 +178,7 @@ static uint32_t eval(int p, int q, bool *success)
 		}
     uint32_t val1 = eval(p, op - 1, success);
     uint32_t val2 = eval(op + 1, q, success);
-		printf("%d %d: %u %c %u\n", p, q, val1, tokens[op].type, val2);
+		// printf("%d %d: %u %c %u\n", p, q, val1, tokens[op].type, val2);
 
 		if (*success == false) return 0;
 
