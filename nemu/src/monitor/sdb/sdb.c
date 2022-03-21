@@ -12,7 +12,7 @@ void init_regex();
 void init_wp_pool();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
-static char* rl_gets() {
+char* rl_gets() {
   static char *line_read = NULL;
 
   if (line_read) {
@@ -94,7 +94,7 @@ static int cmd_x(char *args) {
   return 0;
 }
 
-static int cmd_p(char *args) {
+int cmd_p(char *args) {
   bool success = true;
   /* calculate expression */
   uint32_t ret = expr(args, &success);

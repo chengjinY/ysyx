@@ -6,8 +6,8 @@ void engine_start();
 int is_exit_status_bad();
 
 // Here, I will test function expr()
-char *rl_gets();
-unsigned cmd_p(char *);
+char* rl_gets();
+int cmd_p(char *args);
 void test_expr() {
 	int cnt = 0;
 	for (char *str; (str = rl_gets()) != NULL; ) {
