@@ -140,7 +140,7 @@ static uint32_t eval(int p, int q, bool *success)
     for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
       ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
     }
-		printf("%u\n", ret);
+		// printf("%u\n", ret);
     return ret;
   }
   else if (check_parentheses(p, q) == true) {
@@ -172,7 +172,7 @@ static uint32_t eval(int p, int q, bool *success)
 		}
     uint32_t val1 = eval(p, op - 1, success);
     uint32_t val2 = eval(op + 1, q, success);
-		printf("%u %u\n", val1, val2);
+		// printf("%u %u\n", val1, val2);
 
 		if (*success == false) return 0;
 
