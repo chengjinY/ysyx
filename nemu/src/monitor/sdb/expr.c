@@ -83,6 +83,7 @@ static bool make_token(char *e) {
           case TK_NUM:
             /* for TK_NUM, store its value */
             assert(substr_len <= 32); // buffer size check
+						memset(tokens[nr_token].str, 0, sizeof(tokens[nr_token].str));
             memcpy(tokens[nr_token].str, substr_start, substr_len);
             break;
           default: break;
