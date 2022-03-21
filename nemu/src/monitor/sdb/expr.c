@@ -135,7 +135,7 @@ static uint32_t eval(int p, int q, bool *success)
 		printf("Token '%s' is not a number.\n", tokens[p].str);
 		return 0;
 	}
-    word_t ret = 0;
+    uint32_t ret = 0;
     for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
       ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
     }
@@ -168,8 +168,8 @@ static uint32_t eval(int p, int q, bool *success)
 			printf("Cannot find the main operator at eval(%d, %d).\n", p, q);
 			return 0;
 		}
-    word_t val1 = eval(p, op - 1, success);
-    word_t val2 = eval(op + 1, q, success);
+    uint32_t val1 = eval(p, op - 1, success);
+    uint32_t val2 = eval(op + 1, q, success);
 		if (*success == false) return 0;
 
     switch (tokens[op].type) {
