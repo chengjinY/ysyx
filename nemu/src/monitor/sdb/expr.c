@@ -131,14 +131,15 @@ static uint32_t eval(int p, int q, bool *success)
      * Return the value of the number.
      */
     if (tokens[p].type != TK_NUM) {
-		*success = false;
-		printf("Token '%s' is not a number.\n", tokens[p].str);
-		return 0;
-	}
+			*success = false;
+			printf("Token '%s' is not a number.\n", tokens[p].str);
+			return 0;
+		}
     uint32_t ret = 0;
     for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
       ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
     }
+		printf("%u\n", ret);
     return ret;
   }
   else if (check_parentheses(p, q) == true) {
