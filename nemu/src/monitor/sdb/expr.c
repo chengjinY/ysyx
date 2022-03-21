@@ -203,6 +203,8 @@ word_t expr(char *e, bool *success) {
   }
 
   uint32_t ret = eval(0, nr_token - 1, success);
+	printf("%u\n", ret);
+
   if (*success == false) return 0;
 
   return ret;
