@@ -6,8 +6,8 @@ void engine_start();
 int is_exit_status_bad();
 
 // Here, I will test function expr()
-#include "/home/johnson/ysyx-workbench/nemu/src/monitor/sdb/expr.c"
-#include "/home/johnson/ysyx-workbench/nemu/src/monitor/sdb/sdb.c"
+char *rl_gets();
+unsigned cmd_p(char *);
 void test_expr() {
 	int cnt = 0;
 	for (char *str; (str = rl_gets()) != NULL; ) {
@@ -27,10 +27,6 @@ void test_expr() {
 }
 
 int main(int argc, char *argv[]) {
-	/* Oh, I wanna test my function expr() */
-	test_expr();
-	return 0;
-
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
@@ -38,6 +34,7 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
+	test_expr();
   /* Start engine. */
   engine_start();
 
