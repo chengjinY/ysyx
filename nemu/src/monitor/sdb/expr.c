@@ -112,6 +112,7 @@ static bool check_parentheses(int p, int q)
   for (int i = p; i <= q; ++i) {
     if (tokens[i].type == '(') ++par;
     if (tokens[i].type == ')') --par;
+		if (par == 0) return false;
     if (par < 0) assert(0);
   }
   return true;
