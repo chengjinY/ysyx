@@ -8,7 +8,12 @@
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
-  TK_NUM
+	TK_NOTEQ,
+	TK_LOGAND,
+  TK_DECNUM,
+	TK_HEXNUM,
+	TK_REG,
+	TK_POINTER
 };
 
 static struct rule {
@@ -17,13 +22,16 @@ static struct rule {
 } rules[] = {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // +
-  {"==", TK_EQ},        // ==
   {"-", '-'},           // -
   {"\\*", '*'},         // *
   {"/", '/'},           // /
   {"\\(", '('},         // (
   {"\\)", ')'},         // )
-  {"[0-9]+", TK_NUM}    // 10-based number
+	{"==", TK_EQ},				// ==
+	{"!=", TK_NOTEQ},			// !=
+	{"&&", TK_LOGAND},		// &&
+  {"[0-9]+", TK_DECNUM}, 		// 10-based number
+	{"0x[0-9]+", TK_HEXNUM} 	// 16-based number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -80,8 +88,9 @@ static bool make_token(char *e) {
         /* save token type */
         tokens[nr_token].type = rules[i].token_type;
         switch (rules[i].token_type) {
-          case TK_NUM:
-            /* for TK_NUM, store its value */
+					case TK_DECNUM:
+					case TK_HEXNUM:
+            /* for TK_DECNUM and TK_HEXNUM, store its value */
             assert(substr_len <= 32); // buffer size check
 						memset(tokens[nr_token].str, 0, sizeof(tokens[nr_token].str));
             memcpy(tokens[nr_token].str, substr_start, substr_len);
@@ -122,7 +131,7 @@ static bool check_parentheses(int p, int q, bool *success)
   return true;
 }
 
-static uint32_t eval(int p, int q, bool *success)
+static uint64_t eval(int p, int q, bool *success)
 {
   if (*success == false) return 0;
   if (p > q) {
@@ -136,12 +145,12 @@ static uint32_t eval(int p, int q, bool *success)
      * For now this token should be a number.
      * Return the value of the number.
      */
-    if (tokens[p].type != TK_NUM) {
+    if (tokens[p].type != TK_DECNUM && tokens[p].type != TK_HEXNUM) {
 			*success = false;
 			printf("Token '%s' is not a number.\n", tokens[p].str);
 			return 0;
 		}
-    uint32_t ret = 0;
+    uint64_t ret = 0;
     for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
       ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
     }
@@ -176,8 +185,8 @@ static uint32_t eval(int p, int q, bool *success)
 			printf("Cannot find the main operator at eval(%d, %d).\n", p, q);
 			return 0;
 		}
-    uint32_t val1 = eval(p, op - 1, success);
-    uint32_t val2 = eval(op + 1, q, success);
+    uint64_t val1 = eval(p, op - 1, success);
+    uint64_t val2 = eval(op + 1, q, success);
 		// printf("%d %d: %u %c %u\n", p, q, val1, tokens[op].type, val2);
 
 		if (*success == false) return 0;
@@ -212,8 +221,14 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  uint32_t ret = eval(0, nr_token - 1, success);
-	// printf("%u\n", ret);
+	for (int i = 0; i < nr_token; ++i) {
+		// Pointer
+		if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == TK_DECNUM || tokens[i - 1].type == TK_HEXNUM)) {
+			tokens[i].type = TK_POINTER;
+		}
+		// TODO: Negative number.
+	}
+  uint64_t ret = eval(0, nr_token - 1, success);
 
   if (*success == false) return 0;
 
