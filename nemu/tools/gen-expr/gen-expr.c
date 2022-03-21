@@ -113,7 +113,9 @@ int main(int argc, char *argv[]) {
 			--i;
 			continue;
 		}
-
+		for (int i = 0; buf[i] != '\0'; ++i) {
+			if (buf[i] == 'u') buf[i] = ' ';
+		}
     printf("%u %s\n", result, buf);
 		fflush(stdout);
   }
