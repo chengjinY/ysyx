@@ -97,7 +97,7 @@ static int cmd_x(char *args) {
 int cmd_p(char *args) {
   bool success = true;
   /* calculate expression */
-  uint32_t ret = expr(args, &success);
+  int ret = expr(args, &success);
   /* check if arg has errors */
   if (success)
     printf("%s = %u\n", args, ret);

@@ -13,7 +13,7 @@ void test_expr() {
 	for (char *str; (str = rl_gets()) != NULL; ) {
 		char *result = strtok(str, " ");
 		char *expression = result + strlen(result) + 1;
-		unsigned a, b;
+		uint32_t a, b;
 		int ret = sscanf(result, "%u", &a);
 		if (ret != 1) assert(0);
 		b = cmd_p(expression);
