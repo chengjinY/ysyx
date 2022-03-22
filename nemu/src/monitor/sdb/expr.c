@@ -145,7 +145,10 @@ static uint64_t str2int(char *s, unsigned base)
 	for (int i = 0; i < len; ++i) {
 		ret = ret * base + s[i] - '0';
 	}
-	Log("%llu\n", (unsigned long long)ret);
+	for (int i = 0; i < len; ++i) {
+		Log("%c\n", s[i]);
+	}
+	// Log("%llu\n", (unsigned long long)ret);
 	return ret;
 }
 
