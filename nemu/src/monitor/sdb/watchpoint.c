@@ -71,7 +71,7 @@ void watchpoints_add(char *e) {
 		/* store result */
 		pt -> result = ret;
 	} else {
-		printf("%s: Syntax error.\n", e);
+		printf("w: %s: Syntax error.\n", e);
 	}
 }
 
