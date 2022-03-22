@@ -15,15 +15,15 @@ void test_expr() {
 	for (char *str; (str = rl_gets()) != NULL; ) {
 		char *result = strtok(str, " ");
 		char *expression = result + strlen(result) + 1;
-		uint32_t a, b;
-		int ret = sscanf(result, "%u", &a);
+		uint64_t a, b;
+		int ret = sscanf(result, "%lu", &a);
 		if (ret != 1) assert(0);
 		b = cmd_p(expression);
 		// printf("%s", expression);
 		if (a == b) {
 			printf("OK. Loop %d.\n", ++cnt);
 		} else {
-			printf("Error. Loop %d, while a = %u, b = %u.\n", ++cnt, a, b);
+			printf("Error. Loop %d, while a = %lu, b = %lu.\n", ++cnt, a, b);
 			break;
 		}
 	}
