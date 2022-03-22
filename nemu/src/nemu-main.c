@@ -7,7 +7,7 @@ int is_exit_status_bad();
 
 // Here, I will test function expr()
 // Don't forget to change these two functions.
-
+/*
 char* rl_gets();
 word_t expr(char *e, bool *success);
 void test_expr() {
@@ -30,7 +30,7 @@ void test_expr() {
 		}
 	}
 }
-
+*/
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-	test_expr();
+	// test_expr();
   /* Start engine. */
-  // engine_start();
+  engine_start();
 
   return is_exit_status_bad();
 }
