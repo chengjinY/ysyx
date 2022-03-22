@@ -105,8 +105,8 @@ int main(int argc, char *argv[]) {
     fp = popen("/tmp/.expr", "r");
     assert(fp != NULL);
 
-    unsigned result;
-    ret = fscanf(fp, "%u", &result);
+    unsigned long long result;
+    ret = fscanf(fp, "%llu", &result);
     pclose(fp);
 
 		// oh, we cannot read a number from the output.
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 		for (int i = 0; buf[i] != '\0'; ++i) {
 			if (buf[i] == 'u' || buf[i] == 'l') buf[i] = ' ';
 		}
-    printf("%u %s\n", result, buf);
+    printf("%llu %s\n", result, buf);
 		fflush(stdout);
   }
   return 0;
