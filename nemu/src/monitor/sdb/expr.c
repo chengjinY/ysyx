@@ -35,8 +35,8 @@ static struct rule {
 	{"==", TK_EQ},				// ==
 	{"!=", TK_NOTEQ},			// !=
 	{"&&", TK_LOGAND},		// &&
-  {"[0-9]+", TK_DECNUM}, 		// 10-based number
-	{"0x[0-9]+", TK_HEXNUM},	// 16-based number
+  {"[0-9]+", TK_DECNUM}, 			// 10-based number
+	{"0x([0-9]+)", TK_HEXNUM},	// 16-based number
 	{"$\\S+", TK_REG}			// register
 };
 
