@@ -11,8 +11,8 @@ static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = %s; "
-"  printf(\"%%u\", result); "
+"  unsigned long long result = %s; "
+"  printf(\"%%llu\", result); "
 "  return 0; "
 "}";
 
@@ -28,6 +28,8 @@ static void gen_num(int l)
     buf[len++] = '0' + rand() % 10;
   }
 	buf[len++] = 'u';
+	buf[len++] = 'l';
+	buf[len++] = 'l';
 }
 
 /* generate whitespaces */
@@ -42,14 +44,14 @@ static void gen_rand_expr(int dep) {
   if (dep == 0) len = 0;
   if (dep > 50) {
     rand_whitespace();
-    gen_num(rand() % 5 + 1);
+    gen_num(rand() % 10 + 1);
     rand_whitespace();
     return;
   }
   switch (rand() % 3) {
     case 0:
       rand_whitespace();
-      gen_num(rand() % 9 + 1);
+      gen_num(rand() % 18 + 1);
       rand_whitespace();
       break;
     case 1:
@@ -114,7 +116,7 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 		for (int i = 0; buf[i] != '\0'; ++i) {
-			if (buf[i] == 'u') buf[i] = ' ';
+			if (buf[i] == 'u' || buf[i] == 'l') buf[i] = ' ';
 		}
     printf("%u %s\n", result, buf);
 		fflush(stdout);
