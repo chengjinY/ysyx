@@ -60,7 +60,7 @@ void free_wp(WP *wp) {
 
 /* add watchpoint */
 void watchpoints_add(char *e) {
-	bool success = false;
+	bool success = true;
 	/* calculate expression */
 	uint64_t ret = expr(e, &success);
 	/* check if argument has errors */
@@ -71,7 +71,7 @@ void watchpoints_add(char *e) {
 		/* store result */
 		pt -> result = ret;
 	} else {
-		printf("w: %s: Syntax error.\n", e);
+		printf("%s: Syntax error.\n", e);
 	}
 }
 
