@@ -5,6 +5,8 @@
  */
 #include <regex.h>
 
+#include <memory/paddr.h>
+
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
@@ -13,8 +15,11 @@ enum {
   TK_DECNUM,
 	TK_HEXNUM,
 	TK_REG,
+	TK_NEGATIVE,
 	TK_POINTER
 };
+
+static int token_rank[512];
 
 static struct rule {
   const char *regex;
@@ -31,7 +36,8 @@ static struct rule {
 	{"!=", TK_NOTEQ},			// !=
 	{"&&", TK_LOGAND},		// &&
   {"[0-9]+", TK_DECNUM}, 		// 10-based number
-	{"0x[0-9]+", TK_HEXNUM} 	// 16-based number
+	{"0x[0-9]+", TK_HEXNUM},	// 16-based number
+	{"$\\S+", TK_REG}			// register
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -90,6 +96,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 					case TK_DECNUM:
 					case TK_HEXNUM:
+					case TK_REG:
             /* for TK_DECNUM and TK_HEXNUM, store its value */
             assert(substr_len <= 32); // buffer size check
 						memset(tokens[nr_token].str, 0, sizeof(tokens[nr_token].str));
@@ -131,6 +138,16 @@ static bool check_parentheses(int p, int q, bool *success)
   return true;
 }
 
+static uint64_t str2int(char *s, unsigned base)
+{
+	int len = strlen(s + 1);
+	uint64_t ret = 0;
+	for (int i = 0; i < len; ++i) {
+		ret = ret * base + s[i] - '0';
+	}
+	return ret;
+}
+
 static uint64_t eval(int p, int q, bool *success)
 {
   if (*success == false) return 0;
@@ -145,17 +162,14 @@ static uint64_t eval(int p, int q, bool *success)
      * For now this token should be a number.
      * Return the value of the number.
      */
-    if (tokens[p].type != TK_DECNUM && tokens[p].type != TK_HEXNUM) {
+		if (tokens[p].type == TK_DECNUM) return str2int(tokens[p].str, 10u);
+		else if (tokens[p].type == TK_HEXNUM) return str2int(tokens[p].str, 16u);
+		else if (tokens[p].type == TK_REG) return isa_reg_str2val(tokens[p].str, success);
+		else {
 			*success = false;
-			printf("Token '%s' is not a number.\n", tokens[p].str);
+			printf("Token '%s' is not a number or a register.\n", tokens[p].str);
 			return 0;
 		}
-    uint64_t ret = 0;
-    for (int i = 0; tokens[p].str[i] != '\0'; ++i) {
-      ret = (ret << 3) + (ret << 1) + tokens[p].str[i] - '0';
-    }
-		// printf("%u\n", ret);
-    return ret;
   }
   else if (check_parentheses(p, q, success) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
@@ -171,11 +185,9 @@ static uint64_t eval(int p, int q, bool *success)
       if (tokens[i].type == '(') ++par;
       if (tokens[i].type == ')') --par;
       if (par == 0) {
-        if (tokens[i].type != '+' && tokens[i].type != '-' &&
-            tokens[i].type != '*' && tokens[i].type != '/') continue;
-        if (op == -1) op = i;
-				else if (tokens[i].type == '+' || tokens[i].type == '-') op = i;
-				else if (tokens[op].type == '*' || tokens[op].type == '/') op = i;
+				if (token_rank[tokens[i].type] == 0) continue;
+				// Compare the level of operators, find the last lowest one.
+				if (op == -1 || token_rank[tokens[i].type] >= token_rank[tokens[op].type]) op = i;
       }
     }
 		// printf("Eval(%d, %d): main operator at %d.\n", p, q, op);
@@ -183,6 +195,17 @@ static uint64_t eval(int p, int q, bool *success)
     if (op == -1) {
 			*success = false;
 			printf("Cannot find the main operator at eval(%d, %d).\n", p, q);
+			return 0;
+		}
+		// For pointer and negative operation, p = op
+		if (p == op) {
+			uint64_t res = eval(op + 1, q, success);
+			if (*success == false) return 0;
+			if (tokens[op].type == TK_POINTER)
+				return (uint64_t)(*guest_to_host(res));
+			if (tokens[op].type == TK_NEGATIVE)
+				return (uint64_t)(-res);
+			*success = false;
 			return 0;
 		}
     uint64_t val1 = eval(p, op - 1, success);
@@ -206,13 +229,35 @@ static uint64_t eval(int p, int q, bool *success)
 					return 0;
 				}
         return val1 / val2;
+			case TK_EQ:
+				return val1 == val2;
+			case TK_NOTEQ:
+				return val1 != val2;
+			case TK_LOGAND:
+				return val1 && val2;
       default:
-				assert(0);
+				*success = false;
+				printf("Unknown token's type at %d.\n", op);
+				return 0;
     }
   }
-	*success = false;
-	printf("Unknown error.\n");
-	return 0;
+}
+
+static void init_token_rank()
+{
+	#define r token_rank
+	// 1: ( )
+	r['('] = r[')'] = 1;
+	// 2: -(negative) *(pointer)
+	r[TK_NEGATIVE] = r[TK_POINTER] = 2;
+	// 3: / *
+	r['/'] = r['*'] = 3;
+	// 4: + -
+	r['+'] = r['-'] = 4;
+	// 5: == !=
+	r[TK_EQ] = r[TK_NOTEQ] = 5;
+	// 6: &&
+	r[TK_LOGAND] = 6;
 }
 
 word_t expr(char *e, bool *success) {
@@ -221,12 +266,16 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
+	init_token_rank();
+
 	for (int i = 0; i < nr_token; ++i) {
-		// Pointer
-		if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == TK_DECNUM || tokens[i - 1].type == TK_HEXNUM)) {
-			tokens[i].type = TK_POINTER;
+		if (i == 0 || (tokens[i - 1].type != TK_DECNUM && tokens[i - 1].type != TK_HEXNUM
+					&& tokens[i - 1].type != ')' && tokens[i - 1].type != TK_REG)) {
+			// Pointer
+			if (tokens[i].type == '*') tokens[i].type = TK_POINTER;
+			// Negative number
+			if (tokens[i].type == '-') tokens[i].type = TK_NEGATIVE;
 		}
-		// TODO: Negative number.
 	}
   uint64_t ret = eval(0, nr_token - 1, success);
 
