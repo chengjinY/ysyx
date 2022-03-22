@@ -9,7 +9,7 @@ int is_exit_status_bad();
 // Don't forget to change these two functions.
 
 char* rl_gets();
-int cmd_p(char *args);
+uint64_t eval(char *arg);
 void test_expr() {
 	int cnt = 0;
 	for (char *str; (str = rl_gets()) != NULL; ) {
@@ -18,7 +18,7 @@ void test_expr() {
 		uint64_t a, b;
 		int ret = sscanf(result, "%lu", &a);
 		if (ret != 1) assert(0);
-		b = cmd_p(expression);
+		b = eval(expression);
 		// printf("%s", expression);
 		if (a == b) {
 			printf("OK. Loop %d.\n", ++cnt);
