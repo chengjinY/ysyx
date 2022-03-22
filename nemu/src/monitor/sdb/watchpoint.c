@@ -120,6 +120,7 @@ bool watchpoints_check() {
 			printf("New value = %lx\n\n", now);
 			pt -> result = now;
 		}
+		pt = pt -> next;
 	}
 	return is_changed;
 }
