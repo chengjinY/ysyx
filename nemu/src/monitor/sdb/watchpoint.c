@@ -99,6 +99,7 @@ void watchpoints_display() {
 		printf("Watchpoints List\n");
 		while (pt != NULL) {
 			printf("No %d: %s\n", pt -> NO, pt -> expr);
+			pt = pt -> next;
 		}
 	}
 }
