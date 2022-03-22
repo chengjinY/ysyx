@@ -9,7 +9,7 @@ int is_exit_status_bad();
 // Don't forget to change these two functions.
 
 char* rl_gets();
-word_t eval(char *e, bool *success);
+word_t expr(char *e, bool *success);
 void test_expr() {
 	int cnt = 0;
 	for (char *str; (str = rl_gets()) != NULL; ) {
@@ -19,7 +19,7 @@ void test_expr() {
 		int ret = sscanf(result, "%lu", &a);
 		if (ret != 1) assert(0);
 		bool success = true;
-		b = eval(expression, &success);
+		b = expr(expression, &success);
 		assert(success);
 		// printf("%s", expression);
 		if (a == b) {
