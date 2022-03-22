@@ -11,9 +11,9 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 
-extern void watchpoints_add(char *e);
-extern void watchpoints_del(int id);
-extern void watchpoints_display();
+void watchpoints_add(char *e);
+void watchpoints_del(int id);
+void watchpoints_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -109,12 +109,12 @@ static int cmd_p(char *args) {
   return 0;
 }
 
-static int cmd_w(char *args) {
+int cmd_w(char *args) {
 	watchpoints_add(args);
   return 0;
 }
 
-static int cmd_d(char *args) {
+int cmd_d(char *args) {
 	/* extract the first argument */
 	char *arg = strtok(NULL, " ");
 	unsigned id;
