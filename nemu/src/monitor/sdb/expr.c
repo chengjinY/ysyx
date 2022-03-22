@@ -164,8 +164,14 @@ static uint64_t eval(int p, int q, bool *success)
      */
 		if (tokens[p].type == TK_DECNUM) return str2int(tokens[p].str, 10u);
 		else if (tokens[p].type == TK_HEXNUM) return str2int(tokens[p].str, 16u);
-		else if (tokens[p].type == TK_REG) return isa_reg_str2val(tokens[p].str, success);
-		else {
+		else if (tokens[p].type == TK_REG) {
+			uint64_t ret = isa_reg_str2val(tokens[p].str, success);
+			if (*success == false) {
+				printf("No such register '%s'.\n", tokens[p].str);
+				return 0;
+			}
+			return ret;
+		} else {
 			*success = false;
 			printf("Token '%s' is not a number or a register.\n", tokens[p].str);
 			return 0;
