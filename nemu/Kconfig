@@ -147,6 +147,11 @@ config ITRACE_COND
   default "true"
 
 
+config WATCHPOINT
+	bool "Enable watchpoints"
+	default n
+
+
 config DIFFTEST
   depends on TARGET_NATIVE_ELF
   bool "Enable differential testing"

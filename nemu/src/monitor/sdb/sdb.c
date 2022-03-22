@@ -53,7 +53,7 @@ static int cmd_si(char *args) {
     cpu_exec(cnt);
   /* arg not be a unsigned integer */
   else
-    printf("Unrecognized argument '%s', 'si' need an unsigned integer\n", arg);
+    printf("'%s' must be an integer.\n", arg);
   return 0;
 }
 
@@ -62,14 +62,13 @@ static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
   /* no argument */
   if (arg == NULL || strlen(arg) != 1)
-    printf("Unrecognized argument '%s', 'info' need 'r' or 'w'.\n", arg);
+    printf("'%s' must be 'r' or 'w'.\n", arg);
   /* registers */
-  else if (strcmp(arg, "r") == 0) {
+  else if (strcmp(arg, "r") == 0)
     isa_reg_display();
-  }
-  /* TODO: watchpoints */
+  /* watchpoints */
   else if (strcmp(arg, "w") == 0)
-    assert(0);
+		watchpoints_display();
   return 0;
 }
 
@@ -79,12 +78,12 @@ static int cmd_x(char *args) {
   unsigned int cnt;
   /* first argument unrecognized */
   if (arg == NULL || sscanf(arg, "%u", &cnt) != 1)
-    printf("Unrecognized argument '%s', 'x' need an integer firstly.\n", arg);
+    printf("'%s' must be an integer.\n", arg);
   arg = strtok(NULL, " ");
   unsigned int addr;
   /* second argument unrecognized */
   if (arg == NULL || sscanf(arg, "%x", &addr) != 1)
-    printf("Unrecognized argument '%s', 'x' need an expression secondly.\n", arg);
+    printf("'%s' must be an expression.\n", arg);
   /* address guest to host */
   uint8_t *pos = guest_to_host(addr);
   for (int i = 0; i <= cnt; ++i) {
@@ -97,20 +96,28 @@ static int cmd_x(char *args) {
 static int cmd_p(char *args) {
   bool success = true;
   /* calculate expression */
-  int ret = expr(args, &success);
-  /* check if arg has errors */
+  uint64_t ret = expr(args, &success);
+  /* check if argument has errors */
   if (success)
-    printf("%s = %u\n", args, ret);
+    printf("%s = %lx(%lu)\n", args, ret, ret);
   else
     printf("%s: Syntax Error.\n", args);
-  return ret;
+  return 0;
 }
 
 static int cmd_w(char *args) {
+	watchpoints_add(args);
   return 0;
 }
 
 static int cmd_d(char *args) {
+	/* extract the first argument */
+	char *arg = strtok(NULL, " ");
+	unsigned id;
+	if (arg == NULL || sscanf(arg, "%u", &id) != 1)
+		printf("'%s' must be an integer.\n", arg);
+	/* free watchpoint */
+	watchpoints_del(id);
   return 0;
 }
 
