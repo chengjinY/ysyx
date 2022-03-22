@@ -109,12 +109,12 @@ static int cmd_p(char *args) {
   return 0;
 }
 
-int cmd_w(char *args) {
+static int cmd_w(char *args) {
 	watchpoints_add(args);
   return 0;
 }
 
-int cmd_d(char *args) {
+static int cmd_d(char *args) {
 	/* extract the first argument */
 	char *arg = strtok(NULL, " ");
 	unsigned id;
