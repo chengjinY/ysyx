@@ -59,7 +59,7 @@ void free_wp(WP *wp) {
 }
 
 /* add watchpoint */
-void watchpointes_add(char *e) {
+void watchpoints_add(char *e) {
 	bool success = false;
 	/* calculate expression */
 	uint64_t ret = expr(e, &success);
