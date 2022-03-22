@@ -140,15 +140,11 @@ static bool check_parentheses(int p, int q, bool *success)
 
 static uint64_t str2int(char *s, unsigned base)
 {
-	int len = strlen(s + 1);
+	int len = strlen(s);
 	uint64_t ret = 0;
 	for (int i = 0; i < len; ++i) {
 		ret = ret * base + s[i] - '0';
 	}
-	for (int i = 0; i < len; ++i) {
-		Log("%c\n", s[i]);
-	}
-	// Log("%llu\n", (unsigned long long)ret);
 	return ret;
 }
 
