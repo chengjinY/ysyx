@@ -32,4 +32,7 @@ $(clean-tools):
 clean-tools: $(clean-tools)
 clean-all: clean distclean clean-tools
 
+count:
+	find -name '*.c' -o -name '*.h' | xargs cat | wc -l
+
 .PHONY: run gdb run-env clean-tools clean-all $(clean-tools)
