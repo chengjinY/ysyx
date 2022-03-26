@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
 
 	// test_expr();
   /* Start engine. */
+#ifdef CONFIG_ISA64
+	Log("ISA64");
+#endif
   engine_start();
 
   return is_exit_status_bad();
