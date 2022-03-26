@@ -111,7 +111,6 @@ bool watchpoints_check() {
 	while (pt != NULL) {
 		bool success = true;
 		uint64_t now = expr(pt -> expr, &success);
-		printf("now: %lu\n", now);
 		assert(success);
 		/* expression's result changed, output the result */
 		if (now != pt -> result) {
