@@ -24,6 +24,9 @@ word_t isa_reg_str2val(const char *s, bool *success) {
 			return gpr(i);
 		}
 	}
+	if (s[0] == 'p' && s[1] == 'c') {
+		return cpu.pc;
+	}
 	*success = false;
 	return 0;
 }
