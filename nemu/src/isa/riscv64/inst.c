@@ -24,7 +24,7 @@ enum {
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immS(uint32_t i) { return (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); }
 static word_t immU(uint32_t i) { return SEXT(BITS(i, 31, 12), 20) << 12; }
-// static word_t immJ(uint32_t i) { return SINGLEBIT(i, 31, 20) | (SEXT(BITS(i, 19, 12), 8) << 12) | SINGLEBIT(i, 20, 11) | SEXT(BITS(i, 30, 21), 10); }
+static word_t immJ(uint32_t i) { return SINGLEBIT(i, 31, 20) | (SEXT(BITS(i, 19, 12), 8) << 12) | SINGLEBIT(i, 20, 11) | SEXT(BITS(i, 30, 21), 10); }
 
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
   uint32_t i = s->isa.inst.val;
@@ -36,7 +36,7 @@ static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, 
     case TYPE_I:  src1R(rs1);    	src2I(immI(i)); break;
     case TYPE_S:  destI(immS(i));	src1R(rs1); src2R(rs2); break;
     case TYPE_U:  src1I(immU(i));	break;
-		// case TYPE_J:	src1I(immJ(i));	break;
+		case TYPE_J:	src1I(immJ(i));	break;
   }
 }
 
