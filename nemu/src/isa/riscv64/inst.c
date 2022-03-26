@@ -19,7 +19,7 @@ enum {
 #define src2I(i) do { *src2 = i; } while (0)
 #define destI(i) do { *dest = i; } while (0)
 
-#define SINGLEBIT(i, p, q) (SEXT(BITS(i, p, p), q))
+#define SINGLEBIT(i, p, q) (SEXT(BITS(i, p, p), 1) << q)
 
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immS(uint32_t i) { return (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); }
