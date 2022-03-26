@@ -8,8 +8,7 @@
 #define Mw vaddr_write
 
 enum {
-  // TYPE_R, TYPE_I, TYPE_S, TYPE_B, TYPE_U, TYPE_J,
-	TYPE_I, TYPE_U, TYPE_S,
+  TYPE_R, TYPE_I, TYPE_S, TYPE_B, TYPE_U, TYPE_J,
   TYPE_N, // none
 };
 
