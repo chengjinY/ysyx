@@ -54,7 +54,7 @@ static int decode_exec(Decode *s) {
   decode_operand(s, &dest, &src1, &src2, concat(TYPE_, type)); \
   __VA_ARGS__ ; \
 }
-
+	Log("Sizeof word_t: %ld\n", sizeof(word_t));
   INSTPAT_START();
 	INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add   , R, R(dest) = src1 + src2);
 	INSTPAT("??????? ????? ????? 000 ????? 00100 11", addi  , I, R(dest) = src1 + src2);
