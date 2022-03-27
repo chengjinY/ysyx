@@ -26,7 +26,7 @@ enum {
 static word_t immI(uint32_t i) { return SEXT(BITS(i, 31, 20), 12); }
 static word_t immS(uint32_t i) { return (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); }
 static word_t immB(uint32_t i) { return (SEXT(SINGLEBIT(i, 31), 1) << 12) | (SINGLEBIT(i, 7) << 11) | (BITS(i, 30, 25) << 5) | (BITS(i, 11, 8) << 1); }
-static word_t immU(uint32_t i) { return SEXT(BITS(i, 31, 12), 12) << 12; }
+static word_t immU(uint32_t i) { return BITS(i, 31, 12) << 12; }
 static word_t immJ(uint32_t i) { return (SEXT(SINGLEBIT(i, 31), 1) << 20) | (BITS(i, 19, 12) << 12) | (SINGLEBIT(i, 20) << 11) | (BITS(i, 30, 21) << 1); }
 
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
@@ -74,7 +74,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 010 ????? 00000 11", lw   	, I, R(dest) = Mr(src1 + src2, 4));
   INSTPAT("0000001 ????? ????? 000 ????? 01110 11", multw	, R, R(dest) = BITS(src1 * src2, 31, 0));
   INSTPAT("0000000 ????? ????? 110 ????? 01100 11", or  	, R, R(dest) = src1 | src2);
-  INSTPAT("0000001 ????? ????? 110 ????? 01110 11", remw 	, R, R(dest) = SEXT(S64(BITS(src1, 31, 0)) % S64(BITS(src2, 31, 0)), 32); Log("%ld %ld %ld", S64(BITS(src1, 31, 0)), S64(BITS(src2, 31, 0)), R(dest)));
+  INSTPAT("0000001 ????? ????? 110 ????? 01110 11", remw 	, R, R(dest) = SEXT(S64(BITS(src1, 31, 0)) % S64(BITS(src2, 31, 0)), 32));
   INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb   	, S, Mw(src1 + dest, 1, BITS(src2, 7, 0)));
   INSTPAT("??????? ????? ????? 011 ????? 01000 11", sd   	, S, Mw(src1 + dest, 8, src2));
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw   	, S, Mw(src1 + dest, 4, BITS(src2, 31, 0)));
