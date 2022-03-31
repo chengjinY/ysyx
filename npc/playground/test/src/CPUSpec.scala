@@ -6,7 +6,7 @@ import utest._
 object IFUSpec extends ChiselUtestTester {
   val tests = Tests {
     test("IFU") {
-      testCircuit(new IFU()) {
+      testCircuit(new IFU(32)) {
         dut =>
           dut.in.initSource()
           dut.in.setSourceClock(dut.clock)
