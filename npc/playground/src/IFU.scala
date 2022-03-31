@@ -9,7 +9,7 @@ class IFUOutput(val w: Int) extends Bundle {
   val data = UInt(w.W)
 }
 
-class IFU(val w: Int) extends Module {
+class IFU(val w: Int) extends MultiIOModule {
   val in = IO(Flipped(Decoupled(new IFUInput(w))))
   val out = IO(Decoupled(new IFUOutput(w)))
 
