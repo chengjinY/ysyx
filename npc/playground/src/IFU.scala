@@ -1,19 +1,21 @@
 import chisel3._
 import chisel3.util.Decoupled
 
-class IFUInput(val w: Int) extends Bundle {
-  val addr = UInt(w.W)
+class IFUInput extends Bundle {
+  val addr = UInt(32.W)
 }
 
-class IFUOutput(val w: Int) extends Bundle {
-  val data = UInt(w.W)
+class IFUOutput extends Bundle {
+  val inst = UInt(32.W)
 }
 
-class IFU(val w: Int) extends MultiIOModule {
-  val in = IO(Flipped(Decoupled(new IFUInput(w))))
-  val out = IO(Decoupled(new IFUOutput(w)))
+class IFU() extends MultiIOModule {
+  val in = IO(Flipped(Decoupled(new IFUInput())))
+  val out = IO(Decoupled(new IFUOutput()))
 
   // just pass the address from in to out
   // and in c program, we'll simulate a memory.
-  out := in
+  out.inst <> in.addr
+  // addr(pc): auto inc 1.
+  addr := addr + 4.U
 }
