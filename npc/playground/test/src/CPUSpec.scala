@@ -1,5 +1,5 @@
 import chisel3._
-import chisel3.tester
+import chisel3.tester._
 
 import utest._
 
