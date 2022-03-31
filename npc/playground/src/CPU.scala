@@ -1,6 +1,6 @@
 import chisel3._
 
-class cpu extends Module {
+class CPU extends Module {
   val pc = Reg(UInt(32.W))
 
   val IFU = Module(new IFU(32))
