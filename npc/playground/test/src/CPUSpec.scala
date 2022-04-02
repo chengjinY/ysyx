@@ -3,15 +3,12 @@ import chisel3.tester._
 
 import utest._
 
-object IFUSpec extends ChiselUtestTester {
+object CPUSpec extends ChiselUtestTester {
   val tests = Tests {
-    test("IFU") {
-      testCircuit(new IFU(32)) {
-        dut =>
-          dut.in.initSource()
-          dut.in.setSourceClock(dut.clock)
-          dut.out.initSink()
-          dut.out.setSinkClock(dut.clock)
+    test("CPU") {
+      testCircuit(new CPU(0x80000000)) {
+        c => {
+        }
       }
     }
   }

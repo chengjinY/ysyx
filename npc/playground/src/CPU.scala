@@ -1,17 +1,20 @@
 import chisel3._
+import chisel3.util._
 
-class CPU(val pc: Int) extends MultiIOModule {
-  val pc = RegInit(pc.U(32.W))
-  val snpc = RegInit(pc.U(32.W))
-  val dnpc = RegInit(pc.U(32.W))
+class CPU(val pcInit: Int) extends Module {
+  val io = IO(new Bundle {
+  })
+  val pc = RegInit(pcInit.U(64.W))
 
   val IFU = Module(new IFU())
-  IFU.in.addr <> snpc
+  IFU.io.addr := pc
+  pc := pc + 4.U
 
   val IDU = Module(new IDU())
-  IDU.in.inst <> IFU.out.inst
-
+  IDU.io.inst := IFU.io.inst
+  IDU.io.rd_data := IFU.io.inst
+  
   val EXU = Module(new EXU())
-
-
+  EXU.io.rs1 := IDU.io.rs1_data
+  EXU.io.rs2 := IDU.io.rs2_data
 }
