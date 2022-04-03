@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-class CPU(val pcInit: UInt) extends Module {
+class CPU(val pcInit: Long) extends Module {
   val io = IO(new Bundle {
   })
   val pc = RegInit(pcInit.U(64.W))
