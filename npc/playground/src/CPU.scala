@@ -4,7 +4,7 @@ import chisel3.util._
 class CPU extends Module {
   val io = IO(new Bundle {
   })
-  val pc = RegInit(0x80000000.U(64.W))
+  val pc = RegInit(0x0000000080000000.U(64.W))
 
   val IFU = Module(new IFU())
   IFU.io.addr := pc
