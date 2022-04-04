@@ -48,17 +48,17 @@ module CPU(
 );
   wire [31:0] IDU_io_inst; // @[CPU.scala 15:19]
   wire [63:0] IDU_io_rs2_data; // @[CPU.scala 15:19]
-  wire [63:0] EXU_io_rs2; // @[CPU.scala 20:19]
-  wire [63:0] EXU_io_dest; // @[CPU.scala 20:19]
+  wire [63:0] EXU_io_rs2; // @[CPU.scala 19:19]
+  wire [63:0] EXU_io_dest; // @[CPU.scala 19:19]
   IDU IDU ( // @[CPU.scala 15:19]
     .io_inst(IDU_io_inst),
     .io_rs2_data(IDU_io_rs2_data)
   );
-  EXU EXU ( // @[CPU.scala 20:19]
+  EXU EXU ( // @[CPU.scala 19:19]
     .io_rs2(EXU_io_rs2),
     .io_dest(EXU_io_dest)
   );
   assign io_out = EXU_io_dest; // @[CPU.scala 23:10]
   assign IDU_io_inst = io_inst; // @[CPU.scala 16:15]
-  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 22:14]
+  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 21:14]
 endmodule
