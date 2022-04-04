@@ -49,7 +49,9 @@ int main(int argc, char **argv, char **env)
 	for (int i = 0; i < 10; ++i, ++sim_time) {
 		gen_addi(gen_pc, 20, 20, i);
 		cpu -> io_inst = gen_inst(inst_pc);
+		cpu -> clock = 1;
 		cpu -> eval();
+		cpu -> clock = 0;
 		m_trace -> dump(sim_time);
 	}
 	m_trace -> close();
