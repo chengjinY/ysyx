@@ -1,4 +1,5 @@
-BUILD_DIR = ./build
+TOPNAME = CPU
+BUILD_DIR = ./vsrc
 
 test:
 	mill -i __.test
@@ -30,6 +31,10 @@ clean:
 
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@echo "Write this Makefile by yourself."
+	verilator --trace --cc --exe ./csrc/$(TOPNAME).cpp ./vsrc/$(TOPNAME).v
+	make -j -C ./obj_dir/ -f V$(TOPNAME).mk V$(TOPNAME)
+	./obj_dir/V$(TOPNAME)
+	gtkwave waveform.vcd
+
 
 include ../Makefile
