@@ -7,7 +7,7 @@ class Contr extends Module {
     val reg_write = Output(Bool())
   })
   
-  if (io.opcode == 0x13.U) {
+  if (io.opcode == 0x13.U(7.W)) {
     io.reg_write := true.B
     io.alu_src := true.B
   } else {
