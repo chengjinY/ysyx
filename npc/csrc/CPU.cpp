@@ -18,8 +18,8 @@ uint8_t mem[SIZE_MEM];
 
 void gen_addi(int &pos, int rd, int rs1, int imm)
 {
-	mem[pos] = (imm >> 2);
-	mem[pos + 1] = ((imm & MASK(2)) << 6) | (rs1 >> 1);
+	mem[pos] = (imm >> 4);
+	mem[pos + 1] = ((imm & MASK(4)) << 4) | (rs1 >> 1);
 	mem[pos + 2] = ((rs1 & MASK(1)) << 7) | (rd >> 1);
 	mem[pos + 3] = ((rd & MASK(1)) << 7) | (0b0010011);
 	pos += 4;
