@@ -9,7 +9,8 @@ class Contr extends Module {
   })
 
   io.alu_src := false.B
-  io.reg_write := MuxLookup(io.opcode, false.B, Array(
-    0x13.U(7.W) -> true.B
-  ))
+  io.reg_write := true.B
+  // io.reg_write := MuxLookup(io.opcode, false.B, Array(
+  //   0x13.U(7.W) -> true.B
+  // ))
 }
