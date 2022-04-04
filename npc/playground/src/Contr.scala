@@ -8,6 +8,7 @@ class Contr extends Module {
     val reg_write = Output(Bool())
   })
 
+  io.alu_src := false.B
   io.reg_write := MuxLookup(io.opcode, false.B, Array(
     0x13.U -> true.B,
     0x93.U -> true.B
