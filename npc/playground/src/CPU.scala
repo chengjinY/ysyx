@@ -15,10 +15,10 @@ class CPU extends Module {
   val IDU = Module(new IDU())
   IDU.io.inst := io.inst
   // IDU.io.inst := IFU.io.inst
-  IDU.io.rd_data := IFU.io.inst
   
   val EXU = Module(new EXU())
   EXU.io.rs1 := IDU.io.rs1_data
   EXU.io.rs2 := IDU.io.rs2_data
+  IDU.io.rd_data := EXU.io.dest
   io.out := EXU.io.dest
 }
