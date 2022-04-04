@@ -11,14 +11,14 @@ module IDU(
   input  [31:0] io_inst,
   output [63:0] io_rs2_data
 );
-  wire [31:0] immgen_io_inst; // @[IDU.scala 25:22]
-  wire [63:0] immgen_io_imm; // @[IDU.scala 25:22]
-  ImmGen immgen ( // @[IDU.scala 25:22]
+  wire [31:0] immgen_io_inst; // @[IDU.scala 24:22]
+  wire [63:0] immgen_io_imm; // @[IDU.scala 24:22]
+  ImmGen immgen ( // @[IDU.scala 24:22]
     .io_inst(immgen_io_inst),
     .io_imm(immgen_io_imm)
   );
-  assign io_rs2_data = immgen_io_imm; // @[IDU.scala 27:21]
-  assign immgen_io_inst = io_inst; // @[IDU.scala 26:18]
+  assign io_rs2_data = immgen_io_imm; // @[IDU.scala 26:21]
+  assign immgen_io_inst = io_inst; // @[IDU.scala 25:18]
 endmodule
 module ALU(
   input  [63:0] io_src2,
