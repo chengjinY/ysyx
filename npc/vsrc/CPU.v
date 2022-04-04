@@ -24,7 +24,8 @@ module ALU(
   input  [63:0] io_src2,
   output [63:0] io_dest
 );
-  assign io_dest = 64'h0 - io_src2; // @[ALU.scala 14:21]
+  wire [64:0] _io_dest_T = {{1'd0}, io_src2}; // @[ALU.scala 13:21]
+  assign io_dest = _io_dest_T[63:0]; // @[ALU.scala 13:21]
 endmodule
 module EXU(
   input  [63:0] io_rs2,
