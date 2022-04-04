@@ -14,7 +14,7 @@ class IDU extends Module {
   contr.io.opcode := io.inst(6, 0)
 
   val reg = Module(new RegFile())
-  reg.io.wen := contr.io.reg_write
+  reg.io.wen <> contr.io.reg_write
   reg.io.rs1_addr := io.inst(19, 15)
   reg.io.rs2_addr := io.inst(24, 20)
   reg.io.rd_addr := io.inst(11, 7)

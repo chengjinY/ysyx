@@ -3,7 +3,7 @@ import chisel3.util._
 
 class RegFile extends Module {
   val io = IO(new Bundle {
-    val wen = Input(UInt(1.W))
+    val wen = Input(Bool())
     val rs1_addr = Input(UInt(5.W))
     val rs2_addr = Input(UInt(5.W))
     val rd_addr = Input(UInt(5.W))
@@ -16,7 +16,7 @@ class RegFile extends Module {
 
   io.rs1_data := reg(io.rs1_addr)
   io.rs2_data := reg(io.rs2_addr)
-  if (io.wen == 1.U)
+  if (io.wen == true.B)
     reg(io.rd_addr) := io.rd_data
 
   reg(0) := 0.U
