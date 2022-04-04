@@ -1,4 +1,5 @@
 import chisel3._
+import chisel3.util._
 
 class Contr extends Module {
   val io = IO(new Bundle{
@@ -6,12 +7,9 @@ class Contr extends Module {
     val alu_src = Output(Bool())
     val reg_write = Output(Bool())
   })
-  
-  if (io.opcode === 0x13.U(7.W)) {
-    io.reg_write := true.B
-    io.alu_src := true.B
-  } else {
-    io.reg_write := false.B
-    io.alu_src := false.B
-  }
+
+  io.reg_write := MuxLookup(io.opcode, false.B, Array(
+    0x13.U -> true.B,
+    0x93.U -> true.B
+  ))
 }
