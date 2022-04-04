@@ -16,7 +16,7 @@ class RegFile extends Module {
 
   io.rs1_data := reg(io.rs1_addr)
   io.rs2_data := reg(io.rs2_addr)
-  if (io.wen == true.B)
+  when (io.wen)
     reg(io.rd_addr) := io.rd_data
 
   reg(0) := 0.U
