@@ -19,6 +19,7 @@ void VCPU___024root__traceChgTop0(void* voidSelf, VerilatedVcd* tracep) {
 void VCPU___024root__traceChgSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep) {
     if (false && vlSelf) {}  // Prevent unused
     VCPU__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VlWide<3>/*95:0*/ __Vtemp3;
     vluint32_t* const oldp = tracep->oldp(vlSymsp->__Vm_baseCode + 1);
     if (false && oldp) {}  // Prevent unused
     // Body
@@ -35,14 +36,16 @@ void VCPU___024root__traceChgSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep) 
                                                    << 0xcU) 
                                                   | (vlSelf->io_inst 
                                                      >> 0x14U))))),64);
-        tracep->chgQData(oldp+7,((- (QData)((IData)(
-                                                    ((((vlSelf->io_inst 
-                                                        >> 0x1fU)
-                                                        ? 0xfffffU
-                                                        : 0U) 
-                                                      << 0xcU) 
-                                                     | (vlSelf->io_inst 
-                                                        >> 0x14U)))))),64);
+        VL_EXTEND_WI(65,32, __Vtemp3, ((((vlSelf->io_inst 
+                                          >> 0x1fU)
+                                          ? 0xfffffU
+                                          : 0U) << 0xcU) 
+                                       | (vlSelf->io_inst 
+                                          >> 0x14U)));
+        tracep->chgQData(oldp+7,((((QData)((IData)(
+                                                   __Vtemp3[1U])) 
+                                   << 0x20U) | (QData)((IData)(
+                                                               __Vtemp3[0U])))),64);
         tracep->chgIData(oldp+9,(((vlSelf->io_inst 
                                    >> 0x1fU) ? 0xfffffU
                                    : 0U)),20);
