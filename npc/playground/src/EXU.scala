@@ -8,7 +8,7 @@ class EXU extends Module {
   })
 
   val ALU = Module(new ALU())
-  ALU.io.srcen := true.B
+  ALU.io.srcen := 0.U
   ALU.io.src1 := io.rs1
   ALU.io.src2 := io.rs2
   io.dest := ALU.io.dest
