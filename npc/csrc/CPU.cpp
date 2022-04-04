@@ -28,7 +28,7 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 unsigned int gen_inst(int &pos)
 {
 	unsigned int ret = 0;
-	for (int i = 0; i < 4; ++i; ++pos) {
+	for (int i = 0; i < 4; ++i, ++pos) {
 		ret = (ret << 8) | mem[pos];
 	}
 	return ret;
@@ -37,7 +37,7 @@ unsigned int gen_inst(int &pos)
 int main(int argc, char **argv, char **env)
 {
 	VerilatedContext *contextp = new VerilatedContext;
-	contextp -> commandArg(argc, argv);
+	contextp -> commandArgs(argc, argv);
 	VCPU *cpu = new VCPU(contextp);
 	
 	Verilated::traceEverOn(true);
