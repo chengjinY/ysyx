@@ -31,8 +31,8 @@ clean:
 
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	verilator --trace --cc --exe ./csrc/$(TOPNAME).cpp ./vsrc/$(TOPNAME).v
-	make -j -C ./obj_dir/ -f V$(TOPNAME).mk V$(TOPNAME)
+	verilator --trace --cc --exe ./csrc/$(TOPNAME).cpp ./vsrc/*.v
+	make -j -C ./obj_dir/ -f V*.mk V$(TOPNAME)
 	./obj_dir/V$(TOPNAME)
 	gtkwave waveform.vcd
 
