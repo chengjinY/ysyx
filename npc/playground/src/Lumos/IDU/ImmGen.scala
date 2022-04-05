@@ -12,8 +12,7 @@ class ImmGen extends Module {
   // I-type
   def i(): Cat(Fill(20, io.in.inst(31)), io.in.inst(31, 20))
   
-  val opcode = io.in.inst(6, 0)
-  io.out.imm := MuxLookup(opcode, 0.U, Array(
+  io.out.imm := MuxLookup(io.in.inst(6, 0), 0.U, Array(
     ADDI.U -> i()
   ));
 }

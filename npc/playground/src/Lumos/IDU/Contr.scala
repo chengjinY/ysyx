@@ -22,7 +22,7 @@ class Contr extends Module {
   })
 
   io.out.reg_write := MuxLookup(io.in.opcode, false.B, Array(
-    ADDI.U_-> true.B
+    ADDI.U -> true.B
   ))
 
   io.out.alu_src := MuxLookup(io.in.opcode, false.B, Array(
