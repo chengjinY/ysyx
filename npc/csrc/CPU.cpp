@@ -26,7 +26,7 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 
 uint32_t instpc = 0;
 
-int gen_inst()
+extern int gen_inst()
 {
 	int ret = 0;
 	for (int i = 0; i < 4; ++i, ++instpc) {

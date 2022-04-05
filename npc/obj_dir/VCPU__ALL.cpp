@@ -2,7 +2,10 @@
 #define VL_INCLUDE_OPT include
 #include "VCPU.cpp"
 #include "VCPU___024root.cpp"
+#include "VCPU___024unit.cpp"
+#include "VCPU__Dpi.cpp"
 #include "VCPU__Trace.cpp"
 #include "VCPU___024root__Slow.cpp"
+#include "VCPU___024unit__Slow.cpp"
 #include "VCPU__Syms.cpp"
 #include "VCPU__Trace__Slow.cpp"
