@@ -1,7 +1,9 @@
+package lumos.IDU
+
 import chisel3._
 import chisel3.util._
 
-import lumos.shared.OpcodeConstants
+import lumos.shared.OpcodeConstants._
 
 class ImmGen extends Module {
   val io = IO(new Bundle {
