@@ -5,10 +5,18 @@ import chisel3.util._
 
 import lumos.Shared.OpcodeConstants._
 
+class ImmGenInput extends Bundle {
+  val inst = UInt(32.W)
+}
+
+class ImmGenOutput extends Bundle {
+  val imm = UInt(64.W)
+}
+
 class ImmGen extends Module {
   val io = IO(new Bundle {
-    val inst = Input(UInt(32.W))
-    val imm = Output(UInt(64.W))
+    val in = Input(new ImmGenInput())
+    val out = Output(new ImmGenOutput())
   })
 
   // I-type
