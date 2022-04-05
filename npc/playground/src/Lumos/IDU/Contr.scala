@@ -1,7 +1,8 @@
 import chisel3._
 import chisel3.util._
 
-import lumos.Shared._
+import lumos.Shared.Constants._
+import lumos.Shared.ALUConstants._
 
 class ContrInput extends Bundle {
   val opcode = UInt(7.W)
