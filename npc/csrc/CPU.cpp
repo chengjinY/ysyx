@@ -4,7 +4,6 @@
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 // DPI-C
-#include <svdpi.h>
 #include <VCPU__Dpi.h>
 
 // sim time
