@@ -3,6 +3,9 @@
 #include <VCPU.h>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
+// DPI-C
+#include <svdpi.h>
+#include <VCPU__Dpi.h>
 
 // sim time
 vluint64_t sim_time = 0;
@@ -26,7 +29,7 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 
 uint32_t instpc = 0;
 
-extern int gen_inst()
+int gen_inst()
 {
 	int ret = 0;
 	for (int i = 0; i < 4; ++i, ++instpc) {
