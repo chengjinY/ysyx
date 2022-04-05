@@ -2,8 +2,10 @@ import chisel3._
 import chisel3.util._
 
 class CPU extends Module {
-  val io = IO(new Bundle {
+  val in = IO(new Bundle {
     val inst = Input(UInt(32.W))
+  })
+  val out = IO(new Bundle {
     val out = Output(UInt(64.W))
   })
   val pc = RegInit((0x0000000080000000L).U(64.W))
