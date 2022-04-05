@@ -1,6 +1,7 @@
 package lumos.IDU
 
 import chisel3._
+import chisel3.util._
 
 class IDUInput extends Bundle {
   val inst = UInt(32.W)
