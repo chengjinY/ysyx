@@ -502,28 +502,28 @@ module IDU(
   output [63:0] io_out_rs2_data,
   output [3:0]  io_contr_alu_op
 );
-  wire [6:0] contr_io_in_opcode; // @[IDU.scala 26:21]
-  wire  contr_io_out_reg_write; // @[IDU.scala 26:21]
-  wire  contr_io_out_alu_src; // @[IDU.scala 26:21]
-  wire [3:0] contr_io_out_alu_op; // @[IDU.scala 26:21]
-  wire  reg__clock; // @[IDU.scala 30:19]
-  wire  reg__reset; // @[IDU.scala 30:19]
-  wire  reg__io_in_reg_write; // @[IDU.scala 30:19]
-  wire [4:0] reg__io_in_rs1_addr; // @[IDU.scala 30:19]
-  wire [4:0] reg__io_in_rs2_addr; // @[IDU.scala 30:19]
-  wire [4:0] reg__io_in_rd_addr; // @[IDU.scala 30:19]
-  wire [63:0] reg__io_in_rd_data; // @[IDU.scala 30:19]
-  wire [63:0] reg__io_out_rs1_data; // @[IDU.scala 30:19]
-  wire [63:0] reg__io_out_rs2_data; // @[IDU.scala 30:19]
-  wire [31:0] immgen_io_in_inst; // @[IDU.scala 38:22]
-  wire [63:0] immgen_io_out_imm; // @[IDU.scala 38:22]
-  Contr contr ( // @[IDU.scala 26:21]
+  wire [6:0] contr_io_in_opcode; // @[IDU.scala 41:21]
+  wire  contr_io_out_reg_write; // @[IDU.scala 41:21]
+  wire  contr_io_out_alu_src; // @[IDU.scala 41:21]
+  wire [3:0] contr_io_out_alu_op; // @[IDU.scala 41:21]
+  wire  reg__clock; // @[IDU.scala 45:19]
+  wire  reg__reset; // @[IDU.scala 45:19]
+  wire  reg__io_in_reg_write; // @[IDU.scala 45:19]
+  wire [4:0] reg__io_in_rs1_addr; // @[IDU.scala 45:19]
+  wire [4:0] reg__io_in_rs2_addr; // @[IDU.scala 45:19]
+  wire [4:0] reg__io_in_rd_addr; // @[IDU.scala 45:19]
+  wire [63:0] reg__io_in_rd_data; // @[IDU.scala 45:19]
+  wire [63:0] reg__io_out_rs1_data; // @[IDU.scala 45:19]
+  wire [63:0] reg__io_out_rs2_data; // @[IDU.scala 45:19]
+  wire [31:0] immgen_io_in_inst; // @[IDU.scala 53:22]
+  wire [63:0] immgen_io_out_imm; // @[IDU.scala 53:22]
+  Contr contr ( // @[IDU.scala 41:21]
     .io_in_opcode(contr_io_in_opcode),
     .io_out_reg_write(contr_io_out_reg_write),
     .io_out_alu_src(contr_io_out_alu_src),
     .io_out_alu_op(contr_io_out_alu_op)
   );
-  RegFile reg_ ( // @[IDU.scala 30:19]
+  RegFile reg_ ( // @[IDU.scala 45:19]
     .clock(reg__clock),
     .reset(reg__reset),
     .io_in_reg_write(reg__io_in_reg_write),
@@ -534,22 +534,22 @@ module IDU(
     .io_out_rs1_data(reg__io_out_rs1_data),
     .io_out_rs2_data(reg__io_out_rs2_data)
   );
-  ImmGen immgen ( // @[IDU.scala 38:22]
+  ImmGen immgen ( // @[IDU.scala 53:22]
     .io_in_inst(immgen_io_in_inst),
     .io_out_imm(immgen_io_out_imm)
   );
-  assign io_out_rs1_data = reg__io_out_rs1_data; // @[IDU.scala 36:19]
-  assign io_out_rs2_data = contr_io_out_alu_src ? reg__io_out_rs2_data : immgen_io_out_imm; // @[IDU.scala 40:25]
-  assign io_contr_alu_op = contr_io_out_alu_op; // @[IDU.scala 28:19]
-  assign contr_io_in_opcode = io_in_inst[6:0]; // @[IDU.scala 27:35]
+  assign io_out_rs1_data = reg__io_out_rs1_data; // @[IDU.scala 51:19]
+  assign io_out_rs2_data = contr_io_out_alu_src ? reg__io_out_rs2_data : immgen_io_out_imm; // @[IDU.scala 55:25]
+  assign io_contr_alu_op = contr_io_out_alu_op; // @[IDU.scala 43:19]
+  assign contr_io_in_opcode = io_in_inst[6:0]; // @[IDU.scala 42:35]
   assign reg__clock = clock;
   assign reg__reset = reset;
-  assign reg__io_in_reg_write = contr_io_out_reg_write; // @[IDU.scala 31:23]
-  assign reg__io_in_rs1_addr = io_in_inst[19:15]; // @[IDU.scala 32:35]
-  assign reg__io_in_rs2_addr = io_in_inst[24:20]; // @[IDU.scala 33:35]
-  assign reg__io_in_rd_addr = io_in_inst[11:7]; // @[IDU.scala 34:34]
-  assign reg__io_in_rd_data = io_in_rd_data; // @[IDU.scala 35:21]
-  assign immgen_io_in_inst = io_in_inst; // @[IDU.scala 39:21]
+  assign reg__io_in_reg_write = contr_io_out_reg_write; // @[IDU.scala 46:23]
+  assign reg__io_in_rs1_addr = io_in_inst[19:15]; // @[IDU.scala 47:35]
+  assign reg__io_in_rs2_addr = io_in_inst[24:20]; // @[IDU.scala 48:35]
+  assign reg__io_in_rd_addr = io_in_inst[11:7]; // @[IDU.scala 49:34]
+  assign reg__io_in_rd_data = io_in_rd_data; // @[IDU.scala 50:21]
+  assign immgen_io_in_inst = io_in_inst; // @[IDU.scala 54:21]
 endmodule
 module ALU(
   input  [3:0]  io_in_alu_op,
