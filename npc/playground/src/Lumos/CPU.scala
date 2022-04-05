@@ -3,9 +3,9 @@ package lumos
 import chisel3._
 import chisel3.util._
 
-import lumos.IFU.IFU
-import lumos.IDU.IDU
-import lumos.EXU.EXU
+import lumos.IFU._
+import lumos.IDU._
+import lumos.EXU._
 
 class CPUInput extends Bundle {
   val inst = UInt(32.W)
