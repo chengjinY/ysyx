@@ -9,7 +9,7 @@ class IFUOutput extends Bundle {
   val inst = UInt(32.W)
 }
 
-class IFU_DPIC extends HasBlackboxInline {
+class IFU_DPIC extends HasBlackBoxInline {
   val io = IO(new Bundle {
     val in = Input(new IFUInput())
     val out = Output(new IFUOutput())
