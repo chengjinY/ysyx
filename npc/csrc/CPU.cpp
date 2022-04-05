@@ -24,11 +24,11 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 	pos += 4;
 }
 
-unsigned int gen_inst(int &pos)
+uint32_t gen_inst(uint64_t pos)
 {
-	unsigned int ret = 0;
-	for (int i = 0; i < 4; ++i, ++pos) {
-		ret = (ret << 8) | mem[pos];
+	uint32_t ret = 0;
+	for (int i = 0; i < 4; ++i) {
+		ret = (ret << 8) | mem[pos + i];
 	}
 	return ret;
 }

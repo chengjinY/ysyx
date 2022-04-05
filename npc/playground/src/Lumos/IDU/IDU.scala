@@ -25,6 +25,7 @@ class IDU extends Module {
 
   val contr = Module(new Contr())
   contr.io.in.opcode := io.in.inst(6, 0)
+  io.contr.alu_op := contr.io.out.alu_op  // TODO
 
   val reg = Module(new RegFile())
   reg.io.in.reg_write := contr.io.out.reg_write

@@ -12,13 +12,12 @@ class IFUOutput extends Bundle {
   val inst = UInt(32.W)
 }
 
-/*
-class IFU_DPIC extends HasBlackBoxInline {
+class FetchInst extends HasBlackBoxInline {
   val io = IO(new Bundle {
     val in = Input(new IFUInput())
     val out = Output(new IFUOutput())
   })
-  setInline("IFU_DPIC.v",
+  setInline("FetchInst.v",
     s"""
     |import "DPI-C" context function uint32_t get_inst(uint64_t addr);
     |module IFU_DPIC(addr, inst);
@@ -29,7 +28,6 @@ class IFU_DPIC extends HasBlackBoxInline {
     |endmodule
     """.stripMargin);
 }
-*/
 
 class IFU extends Module {
   val io = IO(new Bundle {
@@ -39,5 +37,5 @@ class IFU extends Module {
 
   // using DPI-C to get instructions
   // val ifu_dpic = Module(new IFU_DPIC());
-  // io <> ifu_dpic.io
+  io <> ifu_dpic.io
 }

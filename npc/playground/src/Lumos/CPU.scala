@@ -31,6 +31,7 @@ class CPU extends Module {
   IDU.io.in.inst := IFU.io.out.inst
   
   val EXU = Module(new EXU())
+  EXU.io.in.alu_op := IDU.io.out.alu_op
   EXU.io.in.rs1 := IDU.io.out.rs1_data
   EXU.io.in.rs2 := IDU.io.out.rs2_data
   IDU.io.in.rd_data := EXU.io.out.dest
