@@ -1,4 +1,4 @@
-package Lumos.IFU
+package lumos.IFU
 
 import chisel3._
 import chisel3.util._

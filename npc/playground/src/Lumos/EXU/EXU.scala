@@ -1,4 +1,4 @@
-package Lumos.EXU
+package lumos.EXU
 
 import chisel3._
 

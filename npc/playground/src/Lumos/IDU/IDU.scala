@@ -1,4 +1,4 @@
-package Lumos.IDU
+package lumos.IDU
 
 import chisel3._
 
