@@ -1,3 +1,14 @@
+module IFU(
+  input  [63:0] io_in_addr
+);
+  wire [63:0] ifu_dpic_in_addr; // @[IFU.scala 37:24]
+  wire [31:0] ifu_dpic_out_inst; // @[IFU.scala 37:24]
+  IFU_DPIC ifu_dpic ( // @[IFU.scala 37:24]
+    .in_addr(ifu_dpic_in_addr),
+    .out_inst(ifu_dpic_out_inst)
+  );
+  assign ifu_dpic_in_addr = io_in_addr; // @[IFU.scala 38:6]
+endmodule
 module RegFile(
   input         clock,
   input         reset,
@@ -440,16 +451,25 @@ module CPU(
   input  [31:0] io_in_inst,
   output [63:0] io_out_result
 );
-  wire  IDU_clock; // @[CPU.scala 23:19]
-  wire  IDU_reset; // @[CPU.scala 23:19]
-  wire [31:0] IDU_io_inst; // @[CPU.scala 23:19]
-  wire [63:0] IDU_io_rd_data; // @[CPU.scala 23:19]
-  wire [63:0] IDU_io_rs1_data; // @[CPU.scala 23:19]
-  wire [63:0] IDU_io_rs2_data; // @[CPU.scala 23:19]
-  wire [63:0] EXU_io_rs1; // @[CPU.scala 27:19]
-  wire [63:0] EXU_io_rs2; // @[CPU.scala 27:19]
-  wire [63:0] EXU_io_dest; // @[CPU.scala 27:19]
-  IDU IDU ( // @[CPU.scala 23:19]
+`ifdef RANDOMIZE_REG_INIT
+  reg [63:0] _RAND_0;
+`endif // RANDOMIZE_REG_INIT
+  wire [63:0] IFU_io_in_addr; // @[CPU.scala 20:19]
+  wire  IDU_clock; // @[CPU.scala 24:19]
+  wire  IDU_reset; // @[CPU.scala 24:19]
+  wire [31:0] IDU_io_inst; // @[CPU.scala 24:19]
+  wire [63:0] IDU_io_rd_data; // @[CPU.scala 24:19]
+  wire [63:0] IDU_io_rs1_data; // @[CPU.scala 24:19]
+  wire [63:0] IDU_io_rs2_data; // @[CPU.scala 24:19]
+  wire [63:0] EXU_io_rs1; // @[CPU.scala 28:19]
+  wire [63:0] EXU_io_rs2; // @[CPU.scala 28:19]
+  wire [63:0] EXU_io_dest; // @[CPU.scala 28:19]
+  reg [63:0] pc; // @[CPU.scala 18:19]
+  wire [63:0] _pc_T_1 = pc + 64'h4; // @[CPU.scala 22:12]
+  IFU IFU ( // @[CPU.scala 20:19]
+    .io_in_addr(IFU_io_in_addr)
+  );
+  IDU IDU ( // @[CPU.scala 24:19]
     .clock(IDU_clock),
     .reset(IDU_reset),
     .io_inst(IDU_io_inst),
@@ -457,16 +477,69 @@ module CPU(
     .io_rs1_data(IDU_io_rs1_data),
     .io_rs2_data(IDU_io_rs2_data)
   );
-  EXU EXU ( // @[CPU.scala 27:19]
+  EXU EXU ( // @[CPU.scala 28:19]
     .io_rs1(EXU_io_rs1),
     .io_rs2(EXU_io_rs2),
     .io_dest(EXU_io_dest)
   );
-  assign io_out_result = EXU_io_dest; // @[CPU.scala 31:17]
+  assign io_out_result = EXU_io_dest; // @[CPU.scala 32:17]
+  assign IFU_io_in_addr = pc; // @[CPU.scala 21:18]
   assign IDU_clock = clock;
   assign IDU_reset = reset;
-  assign IDU_io_inst = io_in_inst; // @[CPU.scala 24:15]
-  assign IDU_io_rd_data = EXU_io_dest; // @[CPU.scala 30:18]
-  assign EXU_io_rs1 = IDU_io_rs1_data; // @[CPU.scala 28:14]
-  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 29:14]
+  assign IDU_io_inst = io_in_inst; // @[CPU.scala 25:15]
+  assign IDU_io_rd_data = EXU_io_dest; // @[CPU.scala 31:18]
+  assign EXU_io_rs1 = IDU_io_rs1_data; // @[CPU.scala 29:14]
+  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 30:14]
+  always @(posedge clock) begin
+    if (reset) begin // @[CPU.scala 18:19]
+      pc <= 64'h80000000; // @[CPU.scala 18:19]
+    end else begin
+      pc <= _pc_T_1; // @[CPU.scala 22:6]
+    end
+  end
+// Register and memory initialization
+`ifdef RANDOMIZE_GARBAGE_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_INVALID_ASSIGN
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_REG_INIT
+`define RANDOMIZE
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+`define RANDOMIZE
+`endif
+`ifndef RANDOM
+`define RANDOM $random
+`endif
+`ifdef RANDOMIZE_MEM_INIT
+  integer initvar;
+`endif
+`ifndef SYNTHESIS
+`ifdef FIRRTL_BEFORE_INITIAL
+`FIRRTL_BEFORE_INITIAL
+`endif
+initial begin
+  `ifdef RANDOMIZE
+    `ifdef INIT_RANDOM
+      `INIT_RANDOM
+    `endif
+    `ifndef VERILATOR
+      `ifdef RANDOMIZE_DELAY
+        #`RANDOMIZE_DELAY begin end
+      `else
+        #0.002 begin end
+      `endif
+    `endif
+`ifdef RANDOMIZE_REG_INIT
+  _RAND_0 = {2{`RANDOM}};
+  pc = _RAND_0[63:0];
+`endif // RANDOMIZE_REG_INIT
+  `endif // RANDOMIZE
+end // initial
+`ifdef FIRRTL_AFTER_INITIAL
+`FIRRTL_AFTER_INITIAL
+`endif
+`endif // SYNTHESIS
 endmodule

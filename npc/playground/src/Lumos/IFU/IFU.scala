@@ -1,3 +1,5 @@
+package Lumos.IFU
+
 import chisel3._
 import chisel3.util._
 import chisel3.experimental._
@@ -10,6 +12,7 @@ class IFUOutput extends Bundle {
   val inst = UInt(32.W)
 }
 
+/*
 class IFU_DPIC extends HasBlackBoxInline {
   val io = IO(new Bundle {
     val in = Input(new IFUInput())
@@ -26,6 +29,7 @@ class IFU_DPIC extends HasBlackBoxInline {
     |endmodule
     """.stripMargin);
 }
+*/
 
 class IFU extends Module {
   val io = IO(new Bundle {
@@ -34,6 +38,6 @@ class IFU extends Module {
   })
 
   // using DPI-C to get instructions
-  val ifu_dpic = Module(new IFU_DPIC());
-  io <> ifu_dpic.io
+  // val ifu_dpic = Module(new IFU_DPIC());
+  // io <> ifu_dpic.io
 }

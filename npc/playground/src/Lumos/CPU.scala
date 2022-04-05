@@ -1,5 +1,11 @@
+package Lumos
+
 import chisel3._
 import chisel3.util._
+
+import Lumos.IFU.IFU
+import Lumos.IDU.IDU
+import Lumos.EXU.EXU
 
 class CPUInput extends Bundle {
   val inst = UInt(32.W)
@@ -14,19 +20,19 @@ class CPU extends Module {
     val in = Input(new CPUInput())
     val out = Output(new CPUOutput())
   })
+
   val pc = RegInit((0x0000000080000000L).U(64.W))
 
   val IFU = Module(new IFU())
-  IFU.io.addr := pc
+  IFU.io.in.addr := pc
   pc := pc + 4.U
 
   val IDU = Module(new IDU())
-  IDU.io.inst := io.in.inst
-  // IDU.io.inst := IFU.io.inst
+  IDU.io.in.inst := IFU.io.out.inst
   
   val EXU = Module(new EXU())
-  EXU.io.rs1 := IDU.io.rs1_data
-  EXU.io.rs2 := IDU.io.rs2_data
-  IDU.io.rd_data := EXU.io.dest
-  io.out.result := EXU.io.dest
+  EXU.io.in.rs1 := IDU.io.out.rs1_data
+  EXU.io.in.rs2 := IDU.io.out.rs2_data
+  IDU.io.in.rd_data := EXU.io.out.dest
+  io.out.result := EXU.io.out.dest
 }
