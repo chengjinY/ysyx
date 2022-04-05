@@ -11,20 +11,28 @@
 
 class VCPU__Syms;
 class VCPU_VerilatedVcd;
+class VCPU___024unit;
 
 
 //----------
 
 VL_MODULE(VCPU___024root) {
   public:
+    // CELLS
+    VCPU___024unit* __PVT____024unit;
 
     // PORTS
     VL_IN8(clock,0,0);
     VL_IN8(reset,0,0);
-    VL_IN(io_inst,31,0);
-    VL_OUT64(io_out,63,0);
+    VL_IN(io_in_inst,31,0);
+    VL_OUT64(io_out_result,63,0);
 
     // LOCAL SIGNALS
+    IData/*31:0*/ CPU__DOT__IFU__DOT__fetchinst_out_inst;
+    QData/*63:0*/ CPU__DOT__IDU_io_out_rs2_data;
+    QData/*63:0*/ CPU__DOT__pc;
+    QData/*63:0*/ CPU__DOT___pc_T_1;
+    QData/*63:0*/ CPU__DOT__IDU__DOT__reg___05Fio_out_rs1_data;
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_1;
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_2;
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_3;
@@ -56,8 +64,8 @@ VL_MODULE(VCPU___024root) {
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_29;
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_30;
     QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT__reg_31;
-    QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT___GEN_26;
-    QData/*63:0*/ CPU__DOT__EXU__DOT__ALU_io_dest;
+    QData/*63:0*/ CPU__DOT__IDU__DOT__reg___DOT___GEN_58;
+    QData/*63:0*/ CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_5;
 
     // LOCAL VARIABLES
     CData/*0:0*/ __Vclklast__TOP__clock;

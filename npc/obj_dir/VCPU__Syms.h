@@ -15,6 +15,9 @@
 
 // INCLUDE MODULE CLASSES
 #include "VCPU___024root.h"
+#include "VCPU___024unit.h"
+
+// DPI TYPES for DPI Export callbacks (Internal use)
 
 // SYMS CLASS (contains all model state)
 class VCPU__Syms final : public VerilatedSyms {
@@ -27,6 +30,7 @@ class VCPU__Syms final : public VerilatedSyms {
 
     // MODULE INSTANCE STATE
     VCPU___024root                 TOP;
+    VCPU___024unit                 TOP____024unit;
 
     // CONSTRUCTORS
     VCPU__Syms(VerilatedContext* contextp, const char* namep, VCPU* modelp);
