@@ -36,6 +36,6 @@ class IFU extends Module {
   })
 
   // using DPI-C to get instructions
-  // val ifu_dpic = Module(new IFU_DPIC());
-  io <> ifu_dpic.io
+  val fetchinst = Module(new FetchInst());
+  io <> fetchinst.io
 }
