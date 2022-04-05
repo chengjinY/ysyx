@@ -1,5 +1,5 @@
 
-import "DPI-C" context function bits[31:0] get_inst(bits[63:0] addr);
+import "DPI-C" context function int get_inst(long long addr);
 module FetchInst(in_addr, out_inst);
   input [63:0] in_addr;
   output [31:0] out_inst;
