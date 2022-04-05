@@ -24,8 +24,10 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 	pos += 4;
 }
 
-uint32_t gen_inst(uint64_t addr)
+svLogicVec32 gen_inst(const svLogicVec32 addr[2])
 {
+	uint64_t pos = ((uint64_t)addr[0] << 32) | addr[1];
+	pos = pos - 0x0000000080000000u;
 	uint32_t ret = 0;
 	for (int i = 0; i < 4; ++i) {
 		ret = (ret << 8) | mem[addr + i];
