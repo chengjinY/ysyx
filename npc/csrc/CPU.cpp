@@ -27,6 +27,8 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 	pos += 4;
 }
 
+// Fetch instructions
+
 uint32_t instpc = 0;
 
 int gen_inst()
@@ -36,6 +38,13 @@ int gen_inst()
 		ret = (ret << 8) | mem[instpc];
 	}
 	return ret;
+}
+
+// Ebreak
+
+void ebreak()
+{
+	exit(0);
 }
 
 int main(int argc, char **argv, char **env)

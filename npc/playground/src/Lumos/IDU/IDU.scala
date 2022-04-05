@@ -16,6 +16,20 @@ class IDUOutput extends Bundle {
   val rs2_data = Output(UInt(64.W))
 }
 
+class Ebreak extends HasBlackBoxInline {
+  val io = IO(new Bundle {
+    val inst = Input(UInt(32.W))
+  })
+  setInline("Ebreak.v",
+    s"""
+    |import "DPI-C" function void ebreak();
+    |module Ebreak(inst);
+    |  input [31:0] inst;
+    |  ebreak();
+    |endmodule
+    """.stripMargin);
+}
+
 class IDU extends Module {
   val io = IO(new Bundle {
     val in = Input(new IDUInput())
