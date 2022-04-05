@@ -7,7 +7,7 @@ class IDUInput extends Bundle {
   val rd_data = UInt(64.W)
 }
 
-class ContrOutput extends Bundle {
+class IDUControl extends Bundle {
   val alu_op = UInt(4.W)  // need to be modified as same as Contr.scala
 }
 
@@ -20,7 +20,7 @@ class IDU extends Module {
   val io = IO(new Bundle {
     val in = Input(new IDUInput())
     val out = Output(new IDUOutput())
-    val contr = Output(new ContrOutput())
+    val contr = Output(new IDUControl())
   })
 
   val contr = Module(new Contr())
