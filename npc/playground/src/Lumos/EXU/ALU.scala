@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-import lumos.shared.ALUConstants
+import lumos.Shared.ALUConstants
 
 class ALUInput extends Bundle {
   val alu_op = UInt(4.W)
