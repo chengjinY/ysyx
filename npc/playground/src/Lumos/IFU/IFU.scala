@@ -19,7 +19,7 @@ class FetchInst extends HasBlackBoxInline {
   })
   setInline("FetchInst.v",
     s"""
-    |import "DPI-C" context function uint32_t get_inst(uint64_t addr);
+    |import "DPI-C" context function unsigned int get_inst(unsigned long long addr);
     |module IFU_DPIC(addr, inst);
     |  input [63:0] addr;
     |  output [31:0] inst;
