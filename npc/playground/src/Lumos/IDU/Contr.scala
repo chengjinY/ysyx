@@ -32,7 +32,7 @@ class Contr extends Module {
     ADDI.U -> true.B
   ))
 
-  io.out.alu_op := MuxLookup(io.in.opcode, ALUNOP, Array(
+  io.out.alu_op := MuxLookup(io.in.opcode, ALUNOP.U, Array(
     ADDI.U -> ALUADD.U
   ))
 }

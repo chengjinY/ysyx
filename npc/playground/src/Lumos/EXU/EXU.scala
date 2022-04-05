@@ -3,7 +3,7 @@ package lumos.EXU
 import chisel3._
 
 class EXUInput extends Bundle {
-  val alu_src = UInt(4.W)
+  val alu_op = UInt(4.W)
   val rs1 = UInt(64.W)
   val rs2 = UInt(64.W)
 }
@@ -19,7 +19,7 @@ class EXU extends Module {
   })
 
   val ALU = Module(new ALU())
-  ALU.io.in.alu_src := io.in.alu_src
+  ALU.io.in.alu_op := io.in.alu_op
   ALU.io.in.src1 := io.in.rs1
   ALU.io.in.src2 := io.in.rs2
   io.out.dest := ALU.io.out.dest
