@@ -1,4 +1,5 @@
 import chisel3._
+import chisel3.experimental._
 
 class IFUInput extends Bundle {
   val addr = UInt(64.W)
@@ -32,6 +33,6 @@ class IFU extends Module {
   })
 
   // using DPI-C to get instructions
-  val ifu_dpic = new IFU_DPIC();
+  val ifu_dpic = Module(new IFU_DPIC());
   io <> ifu_dpic.io
 }
