@@ -24,11 +24,11 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 	pos += 4;
 }
 
-uint32_t gen_inst(uint64_t pos)
+uint32_t gen_inst(uint64_t addr)
 {
 	uint32_t ret = 0;
 	for (int i = 0; i < 4; ++i) {
-		ret = (ret << 8) | mem[pos + i];
+		ret = (ret << 8) | mem[addr + i];
 	}
 	return ret;
 }
@@ -48,7 +48,6 @@ int main(int argc, char **argv, char **env)
 	for (int i = 0; i < 10; ++i) {
 		gen_addi(gen_pc, 20, 20, i);
 		cpu -> clock = 0;
-		cpu -> io_inst = gen_inst(inst_pc);
 		cpu -> eval();
 		m_trace -> dump(sim_time++);
 		cpu -> clock = 1;
