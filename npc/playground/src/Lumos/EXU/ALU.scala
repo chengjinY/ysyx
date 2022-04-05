@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util._
 
-import lumos.Shared.ALUConstants
+import lumos.Shared._
 
 class ALUInput extends Bundle {
   val alu_op = UInt(4.W)
@@ -22,7 +22,7 @@ class ALU extends Module {
   val src1 = io.in.src1
   val src2 = io.in.src2
 
-  io.out.dest := MuxLookup(io.in.srcen, 0.U, Array(
+  io.out.dest := MuxLookup(io.in.alu_op, 0.U, Array(
     ALUADD.U -> (src1 + src2),
     ALUSUB.U -> (src1 - src2)
   ))
