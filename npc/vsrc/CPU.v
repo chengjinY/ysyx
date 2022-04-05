@@ -387,8 +387,8 @@ module IDU(
   wire [4:0] reg__io_rd_addr; // @[IDU.scala 16:19]
   wire [63:0] reg__io_rd_data; // @[IDU.scala 16:19]
   wire [63:0] reg__io_rs1_data; // @[IDU.scala 16:19]
-  wire [31:0] immgen_io_inst; // @[IDU.scala 25:22]
-  wire [63:0] immgen_io_imm; // @[IDU.scala 25:22]
+  wire [31:0] immgen_io_inst; // @[IDU.scala 24:22]
+  wire [63:0] immgen_io_imm; // @[IDU.scala 24:22]
   RegFile reg_ ( // @[IDU.scala 16:19]
     .clock(reg__clock),
     .reset(reg__reset),
@@ -397,18 +397,18 @@ module IDU(
     .io_rd_data(reg__io_rd_data),
     .io_rs1_data(reg__io_rs1_data)
   );
-  ImmGen immgen ( // @[IDU.scala 25:22]
+  ImmGen immgen ( // @[IDU.scala 24:22]
     .io_inst(immgen_io_inst),
     .io_imm(immgen_io_imm)
   );
-  assign io_rs1_data = reg__io_rs1_data; // @[IDU.scala 23:15]
-  assign io_rs2_data = immgen_io_imm; // @[IDU.scala 27:21]
+  assign io_rs1_data = reg__io_rs1_data; // @[IDU.scala 22:15]
+  assign io_rs2_data = immgen_io_imm; // @[IDU.scala 26:21]
   assign reg__clock = clock;
   assign reg__reset = reset;
-  assign reg__io_rs1_addr = io_inst[19:15]; // @[IDU.scala 19:29]
-  assign reg__io_rd_addr = io_inst[11:7]; // @[IDU.scala 21:28]
-  assign reg__io_rd_data = io_rd_data; // @[IDU.scala 22:18]
-  assign immgen_io_inst = io_inst; // @[IDU.scala 26:18]
+  assign reg__io_rs1_addr = io_inst[19:15]; // @[IDU.scala 18:29]
+  assign reg__io_rd_addr = io_inst[11:7]; // @[IDU.scala 20:28]
+  assign reg__io_rd_data = io_rd_data; // @[IDU.scala 21:18]
+  assign immgen_io_inst = io_inst; // @[IDU.scala 25:18]
 endmodule
 module ALU(
   input  [63:0] io_src1,
@@ -437,19 +437,19 @@ endmodule
 module CPU(
   input         clock,
   input         reset,
-  input  [31:0] io_inst,
-  output [63:0] io_out
+  input  [31:0] io_in_inst,
+  output [63:0] io_out_result
 );
-  wire  IDU_clock; // @[CPU.scala 15:19]
-  wire  IDU_reset; // @[CPU.scala 15:19]
-  wire [31:0] IDU_io_inst; // @[CPU.scala 15:19]
-  wire [63:0] IDU_io_rd_data; // @[CPU.scala 15:19]
-  wire [63:0] IDU_io_rs1_data; // @[CPU.scala 15:19]
-  wire [63:0] IDU_io_rs2_data; // @[CPU.scala 15:19]
-  wire [63:0] EXU_io_rs1; // @[CPU.scala 19:19]
-  wire [63:0] EXU_io_rs2; // @[CPU.scala 19:19]
-  wire [63:0] EXU_io_dest; // @[CPU.scala 19:19]
-  IDU IDU ( // @[CPU.scala 15:19]
+  wire  IDU_clock; // @[CPU.scala 23:19]
+  wire  IDU_reset; // @[CPU.scala 23:19]
+  wire [31:0] IDU_io_inst; // @[CPU.scala 23:19]
+  wire [63:0] IDU_io_rd_data; // @[CPU.scala 23:19]
+  wire [63:0] IDU_io_rs1_data; // @[CPU.scala 23:19]
+  wire [63:0] IDU_io_rs2_data; // @[CPU.scala 23:19]
+  wire [63:0] EXU_io_rs1; // @[CPU.scala 27:19]
+  wire [63:0] EXU_io_rs2; // @[CPU.scala 27:19]
+  wire [63:0] EXU_io_dest; // @[CPU.scala 27:19]
+  IDU IDU ( // @[CPU.scala 23:19]
     .clock(IDU_clock),
     .reset(IDU_reset),
     .io_inst(IDU_io_inst),
@@ -457,16 +457,16 @@ module CPU(
     .io_rs1_data(IDU_io_rs1_data),
     .io_rs2_data(IDU_io_rs2_data)
   );
-  EXU EXU ( // @[CPU.scala 19:19]
+  EXU EXU ( // @[CPU.scala 27:19]
     .io_rs1(EXU_io_rs1),
     .io_rs2(EXU_io_rs2),
     .io_dest(EXU_io_dest)
   );
-  assign io_out = EXU_io_dest; // @[CPU.scala 23:10]
+  assign io_out_result = EXU_io_dest; // @[CPU.scala 31:17]
   assign IDU_clock = clock;
   assign IDU_reset = reset;
-  assign IDU_io_inst = io_inst; // @[CPU.scala 16:15]
-  assign IDU_io_rd_data = EXU_io_dest; // @[CPU.scala 22:18]
-  assign EXU_io_rs1 = IDU_io_rs1_data; // @[CPU.scala 20:14]
-  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 21:14]
+  assign IDU_io_inst = io_in_inst; // @[CPU.scala 24:15]
+  assign IDU_io_rd_data = EXU_io_dest; // @[CPU.scala 30:18]
+  assign EXU_io_rs1 = IDU_io_rs1_data; // @[CPU.scala 28:14]
+  assign EXU_io_rs2 = IDU_io_rs2_data; // @[CPU.scala 29:14]
 endmodule
