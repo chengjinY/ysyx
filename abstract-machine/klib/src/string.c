@@ -54,8 +54,8 @@ int strncmp(const char *s1, const char *s2, size_t n) {
 	for (; s1[i] != '\0' && s2[i] != '\0' && i < n; ++i) {
 		if (s1[i] != s2[i]) return s1[i] - s2[i];
 	}
-	if (i == n || s1[i] == s2[i]) return 0;
-	else return s1[i] - s2[i];
+	if (i == n) return 0;
+	return s1[i] - s2[i];
 }
 
 void *memset(void *s, int c, size_t n) {
@@ -76,7 +76,7 @@ void *memmove(void *dst, const void *src, size_t n) {
 	for (i = 0; i < n; ++i) {
 		ptrd[i] = tmp[i];
 	}
-	return ptrd;
+	return dst;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
