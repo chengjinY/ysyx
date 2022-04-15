@@ -6,6 +6,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 char* num2str(char *str, int num) {
+	while (1);
 	char tmp[12];
 	if (num < 0) {
 		*str++ = '-';
@@ -17,7 +18,6 @@ char* num2str(char *str, int num) {
 		tmp[len++] = num % 10 + '0';
 		num = num / 10;
 	}
-	if (len != 1) panic("1");
 	while (len-- > 0) {
 		*str++ = tmp[len];
 	}
