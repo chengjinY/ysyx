@@ -17,6 +17,7 @@ char* num2str(char *str, int num) {
 		tmp[len++] = num % 10 + '0';
 		num = num / 10;
 	}
+	if (len != 1) panic("1");
 	while (len-- > 0) {
 		*str++ = tmp[len];
 	}
