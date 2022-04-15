@@ -90,9 +90,10 @@ void *memcpy(void *out, const void *in, size_t n) {
 
 int memcmp(const void *s1, const void *s2, size_t n) {
 	const unsigned char *ptra = s1, *ptrb = s2;
-	size_t i;
-	for (i = 0; i < n; ++i) {
-		if (ptra[i] != ptrb[i]) return ptra[i] - ptrb[i];
+	int ret;
+	while (n--) {
+		ret = *ptra - *ptrb;
+	  if (ret != 0) return ret;
 	}
 	return 0;
 }
