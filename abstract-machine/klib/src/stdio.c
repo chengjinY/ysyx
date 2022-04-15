@@ -44,6 +44,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			*str++ = *fmt++;
 			continue;
 		}
+		fmt++;
 	  switch (*fmt) {
 			case 'd':
 				str = num2str(str, va_arg(ap, int));
@@ -53,6 +54,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				while (*s) {
 					*str++ = *s++;
 				}
+				break;
+			default:
+				if (*fmt != '%') *str++ = '%';
+				if (*fmt) *str++ = *fmt;
+				else fmt--;
 				break;
 		}
 	}
