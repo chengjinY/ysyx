@@ -19,7 +19,6 @@ char* num2str(char *str, int num) {
 	}
 	while (len-- > 0) {
 		*str++ = tmp[len];
-		putch(tmp[len]);
 	}
 	return str;
 }
