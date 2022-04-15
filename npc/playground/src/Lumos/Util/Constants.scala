@@ -1,4 +1,4 @@
-package lumos.Shared
+package lumos.Util
 
 object OpcodeConstants {
   val ADDI = 0x13

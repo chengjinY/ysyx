@@ -27,6 +27,11 @@ void gen_addi(int &pos, int rd, int rs1, int imm)
 	pos += 4;
 }
 
+void gen_ebreak()
+{
+	//
+}
+
 // Fetch instructions
 
 uint32_t instpc = 0;
@@ -61,10 +66,10 @@ int main(int argc, char **argv, char **env)
 	int gen_pc = 0, inst_pc = 0;
 	for (int i = 0; i < 10; ++i) {
 		gen_addi(gen_pc, 20, 20, i);
-		cpu -> clock = 0;
+		cpu -> clock = 1;
 		cpu -> eval();
 		m_trace -> dump(sim_time++);
-		cpu -> clock = 1;
+		cpu -> clock = 0;
 		cpu -> eval();
 		m_trace -> dump(sim_time++);
 	}
