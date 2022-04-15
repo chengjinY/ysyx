@@ -89,12 +89,10 @@ void *memcpy(void *out, const void *in, size_t n) {
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
-	const char *ptra = s1, *ptrb = s2;
+	const unsigned char *ptra = s1, *ptrb = s2;
 	size_t i;
 	for (i = 0; i < n; ++i) {
-		if (ptra[i] != ptrb[i]) {
-			return ptra[i] - ptrb[i];
-		}
+		if (ptra[i] != ptrb[i]) return ptra[i] - ptrb[i];
 	}
 	return 0;
 }
