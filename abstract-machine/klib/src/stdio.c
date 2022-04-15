@@ -19,7 +19,6 @@ char* num2str(char *str, int num) {
 	}
 	while (len-- > 0) {
 		*str++ = tmp[len];
-		while (1);
 	}
 	return str;
 }
@@ -42,7 +41,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 	char *str;
 	for (str = out; *fmt; fmt++) {
 		if (*fmt != '%') {
-			*str++ = *fmt++;
+			*str++ = *fmt;
 			continue;
 		}
 		fmt++;
