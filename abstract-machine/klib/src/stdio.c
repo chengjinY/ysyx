@@ -19,6 +19,7 @@ char* num2str(char *str, int num) {
 	}
 	while (len-- > 0) {
 		*str++ = tmp[len];
+		putch(tmp[len]);
 	}
 	return str;
 }
@@ -51,9 +52,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				break;
 			case 's':
 				s = va_arg(ap, char *);
-				while (*s) {
-					*str++ = *s++;
-				}
+				while (*s) *str++ = *s++;
 				break;
 			default:
 				if (*fmt != '%') *str++ = '%';
