@@ -44,39 +44,59 @@ char *strcat(char *dst, const char *src) {
 int strcmp(const char *s1, const char *s2) {
 	size_t i = 0;
 	for (; s1[i] != '\0' && s2[i] != '\0'; ++i) {
-		if (s1[i] < s2[i]) return -1;
-		else if (s1[i] > s2[i]) return 1;
+		if (s1[i] != s2[i]) return s1[i] - s2[i];
 	}
-	if (s1[i] == s2[i]) return 0;
-	else if (s1[i] < s2[i]) return -1;
-	else return 1;
+	return s1[i] - s2[i];
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
 	size_t i = 0;
 	for (; s1[i] != '\0' && s2[i] != '\0' && i < n; ++i) {
-		if (s1[i] < s2[i]) return -1;
-		else if (s1[i] > s2[i]) return 1;
+		if (s1[i] != s2[i]) return s1[i] - s2[i];
 	}
 	if (i == n || s1[i] == s2[i]) return 0;
-	else if (s1[i] < s2[i]) return -1;
-	else return 1;
+	else return s1[i] - s2[i];
 }
 
 void *memset(void *s, int c, size_t n) {
-  panic("Not implemented");
+  char *ptr = s;
+	while (n--) {
+		*ptr++ = c;
+	}
+	return ptr;
 }
 
 void *memmove(void *dst, const void *src, size_t n) {
-  panic("Not implemented");
+  char *ptrd = dst, *tmp = (char *)malloc(sizeof(char) * n);
+	const char *ptrs = src;
+	size_t i;
+	for (i = 0; i < n; ++i) {
+		tmp[i] = ptrs[i];
+	}
+	for (i = 0; i < n; ++i) {
+		ptrd[i] = tmp[i];
+	}
+	return ptrd;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  panic("Not implemented");
+	char *ptrd = out;
+	const char *ptrs = in;
+	while (n--) {
+		*ptrd++ = *ptrs++;
+	}
+	return out;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
-  panic("Not implemented");
+	const char *ptra = s1, *ptrb = s2;
+	size_t i;
+	for (i = 0; i < n; ++i) {
+		if (ptra[i] != ptrb[i]) {
+			return ptra[i] - ptrb[i];
+		}
+	}
+	return 0;
 }
 
 #endif
