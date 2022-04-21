@@ -13,8 +13,12 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at vsrc/FetchInst.v:2:29
-    extern int get_inst();
+    // DPI import at vsrc/Ebreak.v:2:30
+    extern void ebreak();
+    // DPI import at vsrc/MEM.v:2:30
+    extern void pmem_read(long long raddr, long long* rdata);
+    // DPI import at vsrc/MEM.v:4:30
+    extern void pmem_write(long long waddr, long long wdata, char mask);
 
 #ifdef __cplusplus
 }

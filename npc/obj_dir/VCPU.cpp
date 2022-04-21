@@ -13,8 +13,6 @@ VCPU::VCPU(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new VCPU__Syms(_vcontextp__, _vcname__, this)}
     , clock{vlSymsp->TOP.clock}
     , reset{vlSymsp->TOP.reset}
-    , io_in_inst{vlSymsp->TOP.io_in_inst}
-    , io_out_result{vlSymsp->TOP.io_out_result}
     , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
@@ -62,7 +60,7 @@ static void _eval_initial_loop(VCPU__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = VCPU___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/CPU.v", 586, "",
+            VL_FATAL_MT("vsrc/CPU.v", 29, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -93,7 +91,7 @@ void VCPU::eval_step() {
             Verilated::debug(1);
             __Vchange = VCPU___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/CPU.v", 586, "",
+            VL_FATAL_MT("vsrc/CPU.v", 29, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

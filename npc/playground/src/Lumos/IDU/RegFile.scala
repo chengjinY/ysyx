@@ -22,7 +22,7 @@ class RegFile extends Module {
     val out = Output(new RegFileOutput())
   })
 
-  val reg  = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
+  val reg = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
 
   io.out.rs1_data := reg(io.in.rs1_addr)
   io.out.rs2_data := reg(io.in.rs2_addr)

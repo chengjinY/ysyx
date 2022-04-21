@@ -3,11 +3,12 @@ package lumos.IDU
 import chisel3._
 import chisel3.util._
 
-import lumos.Shared.OpcodeConstants._
-import lumos.Shared.ALUConstants._
+import lumos.util.OpcodeConstants._
+import lumos.util.ALUConstants._
 
 class ContrInput extends Bundle {
   val opcode = UInt(7.W)
+  // I don't know if they are used for now.
   // val func3 = UInt(3.W)
   // val func7 = UInt(7.W)
 }
@@ -24,15 +25,16 @@ class Contr extends Module {
     val out = Output(new ContrOutput())
   })
 
-  io.out.reg_write := MuxLookup(io.in.opcode, false.B, Array(
-    ADDI.U -> true.B
+  val controller = ListLookup(io.in.opcode, List(ALUNOP, false.B, false.B), Array(
+/*
+ *  Opcode        ALUOp     RegWrite    ALUSrc
+ */
+    ADDI  -> List(ALUADD,   true.B,     true.B)
+    AUIPC -> List(ALUADD,   true.B,     true.B)
+    JAL   -> List(
   ))
 
-  io.out.alu_src := MuxLookup(io.in.opcode, false.B, Array(
-    ADDI.U -> true.B
-  ))
-
-  io.out.alu_op := MuxLookup(io.in.opcode, ALUNOP.U, Array(
-    ADDI.U -> ALUADD.U
-  ))
+  io.out.alu_op := controller(0)
+  io.out.reg_write := controller(1)
+  io.out.alu_src := controller(2)
 }

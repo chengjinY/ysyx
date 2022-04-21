@@ -7,18 +7,9 @@ import lumos.IFU._
 import lumos.IDU._
 import lumos.EXU._
 
-class CPUInput extends Bundle {
-  val inst = UInt(32.W)
-}
-
-class CPUOutput extends Bundle {
-  val result = UInt(64.W)
-}
-
 class CPU extends Module {
   val io = IO(new Bundle {
-    val in = Input(new CPUInput())
-    val out = Output(new CPUOutput())
+    val out = Output(UInt(64.W))
   })
 
   val pc = RegInit((0x0000000080000000L).U(64.W))
@@ -34,6 +25,7 @@ class CPU extends Module {
   EXU.io.in.alu_op := IDU.io.contr.alu_op
   EXU.io.in.rs1 := IDU.io.out.rs1_data
   EXU.io.in.rs2 := IDU.io.out.rs2_data
+
   IDU.io.in.rd_data := EXU.io.out.dest
-  io.out.result := EXU.io.out.dest
+  io.out := EXU.io.out.dest
 }

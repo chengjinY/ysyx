@@ -17,20 +17,6 @@ class IDUOutput extends Bundle {
   val rs2_data = Output(UInt(64.W))
 }
 
-class Ebreak extends HasBlackBoxInline {
-  val io = IO(new Bundle {
-    val inst = Input(UInt(32.W))
-  })
-  setInline("Ebreak.v",
-    s"""
-    |import "DPI-C" function void ebreak();
-    |module Ebreak(inst);
-    |  input [31:0] inst;
-    |  ebreak();
-    |endmodule
-    """.stripMargin);
-}
-
 class IDU extends Module {
   val io = IO(new Bundle {
     val in = Input(new IDUInput())
@@ -40,7 +26,8 @@ class IDU extends Module {
 
   val contr = Module(new Contr())
   contr.io.in.opcode := io.in.inst(6, 0)
-  io.contr.alu_op := contr.io.out.alu_op  // TODO
+
+  io.contr.alu_op := contr.io.out.alu_op
 
   val reg = Module(new RegFile())
   reg.io.in.reg_write := contr.io.out.reg_write
@@ -48,9 +35,10 @@ class IDU extends Module {
   reg.io.in.rs2_addr := io.in.inst(24, 20)
   reg.io.in.rd_addr := io.in.inst(11, 7)
   reg.io.in.rd_data := io.in.rd_data
+
   io.out.rs1_data := reg.io.out.rs1_data
 
   val immgen = Module(new ImmGen())
   immgen.io.in.inst := io.in.inst
-  io.out.rs2_data := Mux(contr.io.out.alu_src, reg.io.out.rs2_data, immgen.io.out.imm)
+  io.out.rs2_data := Mux(contr.io.out.alu_src, immgen.io.out.imm, reg.io.out.rs2_data)
 }

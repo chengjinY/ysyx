@@ -22,5 +22,6 @@ class EXU extends Module {
   ALU.io.in.alu_op := io.in.alu_op
   ALU.io.in.src1 := io.in.rs1
   ALU.io.in.src2 := io.in.rs2
+
   io.out.dest := ALU.io.out.dest
 }
