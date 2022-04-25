@@ -50,8 +50,15 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
 #ifdef CONFIG_FTRACE
-	// ret, i.e. jalr x0, 0(x1)
-	ftrace_record(pc, s->dnpc, (s->isa.inst.val == 0x00008067));
+	uint32_t finst = s->isa.inst.val;
+	if (finst == 0x00008067) {
+		// ret: jalr x0, 0(x1)
+	  ftrace_record(pc, pc, true);
+	} else if (BITS(finst, 6, 0) == 0x6f && BITS(finst, 11, 7) != 0) {
+		ftrace_record(pc, s->dnpc, false);
+	}	else if (BITS(finst, 6, 0) == 0x67 && BITS(finst, 11, 7) != 0) {
+		ftrace_record(pc, s->dnpc, false);
+	}
 #endif
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
@@ -123,7 +130,7 @@ void cpu_exec(uint64_t n) {
   g_timer += timer_end - timer_start;
 
 	// for trace test
-	nemu_state.state = NEMU_ABORT;
+	// nemu_state.state = NEMU_ABORT;
 
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;

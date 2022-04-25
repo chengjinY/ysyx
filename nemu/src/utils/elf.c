@@ -86,8 +86,6 @@ void init_elf(const char *elf_file) {
 	}
 }
 
-int pre_func = -1;
-
 char *ftrace_search(uint64_t addr, bool is_return) {
 	for (int i = 0; i < num_sym; ++i) {
 		// Check if it is FUNC
@@ -97,8 +95,6 @@ char *ftrace_search(uint64_t addr, bool is_return) {
 		if (sym[i].st_value <= addr && addr < sym[i].st_value + sym[i].st_size) {
 			// printf("[Ftrace - Test]: ");
 			// puts(strtable + sym[i].st_name);
-			if (pre_func == i && is_return == false) return notfound;
-			pre_func = i;
 			return strtable + sym[i].st_name;
 		}
 	}
@@ -123,7 +119,7 @@ void ftrace_output() {
 		if (!elf_ret[i].is_return) ident += 2;
 		for (int j = 0; j < ident; ++j) putchar(' ');
 		if (!elf_ret[i].is_return) {
-			printf("call [%s@%016lx]\n", elf_ret[i].name, elf_ret[i].addr);
+			printf("call [%s@0x%016lx]\n", elf_ret[i].name, elf_ret[i].addr);
 		} else {
 			printf("ret [%s]\n", elf_ret[i].name);
 			ident -= 2;
