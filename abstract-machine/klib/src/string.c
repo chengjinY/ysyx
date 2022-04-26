@@ -67,14 +67,16 @@ void *memset(void *s, int c, size_t n) {
 }
 
 void *memmove(void *dst, const void *src, size_t n) {
-  char *ptrd = dst, *tmp = (char *)malloc(sizeof(char) * n);
+  char *ptrd = dst;
 	const char *ptrs = src;
-	size_t i;
-	for (i = 0; i < n; ++i) {
-		tmp[i] = ptrs[i];
-	}
-	for (i = 0; i < n; ++i) {
-		ptrd[i] = tmp[i];
+	if (dst < src) {
+		while (n--) {
+			*ptrd++ = *ptrs++;
+		}
+	} else {
+		while (n--) {
+			*(ptrd + n) = *(ptrs + n);
+		}
 	}
 	return dst;
 }
