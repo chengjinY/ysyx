@@ -3,7 +3,7 @@ package lumos.IDU
 import chisel3._
 import chisel3.util._
 
-import lumos.util.OpcodeConstants._
+import lumos.util.InstConstants._
 
 class ImmGenInput extends Bundle {
   val inst = UInt(32.W)
@@ -15,7 +15,7 @@ class ImmGenOutput extends Bundle {
 
 class ImmGen extends Module {
   val io = IO(new Bundle {
-    val in = Input(new ImmGenInput())
+    val in  = Input(new ImmGenInput())
     val out = Output(new ImmGenOutput())
   })
 
@@ -34,7 +34,6 @@ class ImmGen extends Module {
   
   val imm = Lookup(io.in.inst, 0.U, Array(
     ADDI  -> I()
-    AUIPC -> U()
   ));
 
   io.out.imm := imm

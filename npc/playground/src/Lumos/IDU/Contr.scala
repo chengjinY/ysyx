@@ -3,38 +3,41 @@ package lumos.IDU
 import chisel3._
 import chisel3.util._
 
-import lumos.util.OpcodeConstants._
+import lumos.util.InstConstants._
 import lumos.util.ALUConstants._
 
 class ContrInput extends Bundle {
-  val opcode = UInt(7.W)
-  // I don't know if they are used for now.
-  // val func3 = UInt(3.W)
-  // val func7 = UInt(7.W)
+  val inst = UInt(32.W)
 }
 
 class ContrOutput extends Bundle {
-  val reg_write = Bool()
-  val alu_src = Bool()
-  val alu_op = UInt(4.W)
+  val alu_op     = UInt(4.W)
+  val alu_src    = Bool()
+  val reg_write  = Bool()
+  val mem_read   = Bool()
+  val mem_write  = Bool()
+  val mem_to_reg = Bool()
+  val pc_src     = Bool()
 }
 
 class Contr extends Module {
   val io = IO(new Bundle{
-    val in = Input(new ContrInput())
+    val in  = Input(new ContrInput())
     val out = Output(new ContrOutput())
   })
 
-  val controller = ListLookup(io.in.opcode, List(ALUNOP, false.B, false.B), Array(
+  val controller = ListLookup(io.in.inst, List(ALUNOP, false.B, false.B, false.B, false.B, false.B, false.B), Array(
 /*
- *  Opcode        ALUOp     RegWrite    ALUSrc
+ *  Opcode        alu_op      alu_src     reg_write     mem_read      mem_write     mem_to_reg      pc_src
  */
-    ADDI  -> List(ALUADD,   true.B,     true.B)
-    AUIPC -> List(ALUADD,   true.B,     true.B)
-    JAL   -> List(
+    ADDI  -> List(ALUADD,     true.B,     true.B,       false.B,      false.B,      false.B,        false.B)
   ))
 
-  io.out.alu_op := controller(0)
-  io.out.reg_write := controller(1)
-  io.out.alu_src := controller(2)
+  io.out.alu_op     := controller(0)
+  io.out.alu_src    := controller(1)
+  io.out.reg_write  := controller(2)
+  io.out.mem_read   := controller(3)
+  io.out.mem_write  := controller(4)
+  io.out.mem_to_reg := controller(5)
+  io.out.pc_src     := controller(6)
 }

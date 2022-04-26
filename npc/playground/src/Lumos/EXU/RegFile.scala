@@ -1,14 +1,14 @@
-package lumos.IDU
+package lumos.EXU
 
 import chisel3._
 import chisel3.util._
 
 class RegFileInput extends Bundle {
   val reg_write = Bool()
-  val rs1_addr = UInt(5.W)
-  val rs2_addr = UInt(5.W)
-  val rd_addr = UInt(5.W)
-  val rd_data = UInt(64.W)
+  val rs1_addr  = UInt(5.W)
+  val rs2_addr  = UInt(5.W)
+  val rd_addr   = UInt(5.W)
+  val rd_data   = UInt(64.W)
 }
 
 class RegFileOutput extends Bundle {
@@ -18,7 +18,7 @@ class RegFileOutput extends Bundle {
 
 class RegFile extends Module {
   val io = IO(new Bundle {
-    val in = Input(new RegFileInput())
+    val in  = Input(new RegFileInput())
     val out = Output(new RegFileOutput())
   })
 

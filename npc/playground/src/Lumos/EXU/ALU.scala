@@ -7,8 +7,8 @@ import lumos.util.ALUConstants._
 
 class ALUInput extends Bundle {
   val alu_op = UInt(4.W)
-  val src1 = UInt(64.W)
-  val src2 = UInt(64.W)
+  val src1   = UInt(64.W)
+  val src2   = UInt(64.W)
 }
 
 class ALUOutput extends Bundle {
@@ -17,7 +17,7 @@ class ALUOutput extends Bundle {
 
 class ALU extends Module {
   val io = IO(new Bundle {
-    val in = Input(new ALUInput())
+    val in  = Input(new ALUInput())
     val out = Output(new ALUOutput())
   })
 
