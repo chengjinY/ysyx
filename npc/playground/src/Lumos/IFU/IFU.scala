@@ -3,7 +3,6 @@ package lumos.IFU
 import chisel3._
 import chisel3.util._
 
-import lumos.util.Ebreak
 import lumos.util.MEM
 
 class IFUInput extends Bundle {
@@ -25,8 +24,5 @@ class IFU extends Module {
   fetchmem.io.ren   := true.B
   fetchmem.io.wen   := false.B
   fetchmem.io.raddr := io.in.addr
-  io.out.inst       := fetchmem.io.rdata(63, 32)
-
-  val ebreak = Module(new Ebreak())
-  ebreak.io.inst := fetchmem.io.rdata(63, 32)
+  io.out.inst       := fetchmem.io.rdata(31, 0)
 }

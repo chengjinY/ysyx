@@ -20,3 +20,11 @@ image: $(IMAGE).elf
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
+
+NPC_HOME = ~/ysyx-workbench/npc
+
+run: image
+	$(MAKE) -C $(NPC_HOME) verilog
+	cp $(IMAGE).bin $(NPC_HOME)/image.bin
+	$(MAKE) -C $(NPC_HOME) sim
+

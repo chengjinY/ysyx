@@ -24,8 +24,14 @@ class ALU extends Module {
   val src1 = io.in.src1
   val src2 = io.in.src2
 
+  def SEXT(x: UInt): UInt = Cat(Fill(32, x(31)), x)
+
   io.out.dest := MuxLookup(io.in.alu_op, 0.U, Array(
-    ALUADD -> (src1 + src2),
-    ALUSUB -> (src1 - src2)
+    ALUAND  -> (src1 & src2),
+    ALUOR   -> (src1 | src2),
+    ALUADD  -> (src1 + src2),
+    SEXTADD -> SEXT(src1 + src2),
+    SFTL    -> (src1 << src2(5, 0)),
+    TRANSB  -> src2
   ))
 }

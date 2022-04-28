@@ -3,6 +3,8 @@ package lumos.EXU
 import chisel3._
 import chisel3.util._
 
+import lumos.util.TraceRegs
+
 class RegFileInput extends Bundle {
   val reg_write = Bool()
   val rs1_addr  = UInt(5.W)
@@ -12,8 +14,8 @@ class RegFileInput extends Bundle {
 }
 
 class RegFileOutput extends Bundle {
-  val rs1_data = UInt(64.W)
-  val rs2_data = UInt(64.W)
+  val rs1_data   = UInt(64.W)
+  val rs2_data   = UInt(64.W)
 }
 
 class RegFile extends Module {
@@ -23,6 +25,9 @@ class RegFile extends Module {
   })
 
   val reg = RegInit(VecInit(Seq.fill(32)(0.U(64.W))))
+
+  val trace_regs = Module(new TraceRegs())
+  trace_regs.io.rf := reg
 
   io.out.rs1_data := reg(io.in.rs1_addr)
   io.out.rs2_data := reg(io.in.rs2_addr)

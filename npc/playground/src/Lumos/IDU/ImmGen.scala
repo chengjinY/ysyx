@@ -22,18 +22,62 @@ class ImmGen extends Module {
   // R-type
   def R() = 0.U
   // I-type
-  def I() = Cat(Fill(20, io.in.inst(31)), io.in.inst(31, 20))
+  def I() = Cat(Fill(52, io.in.inst(31)), io.in.inst(31, 20))
   // S-type
-  def S() = Cat(Fill(20, io.in.inst(31)), io.in.inst(31, 25), io.in.inst(11, 7))
+  def S() = Cat(Fill(52, io.in.inst(31)), io.in.inst(31, 25), io.in.inst(11, 7))
   // B-type
-  def B() = Cat(Fill(20, io.in.inst(31)), io.in.inst(7), io.in.inst(30, 25), io.in.inst(11, 8), "b0".U)
+  def B() = Cat(Fill(52, io.in.inst(31)), io.in.inst(7), io.in.inst(30, 25), io.in.inst(11, 8), "b0".U)
   // U-type
-  def U() = Cat(io.in.inst(31, 12), "b0000 0000 0000".U)
+  def U() = Cat(Fill(32, io.in.inst(31)), io.in.inst(31, 12), "b000000000000".U)
   // J-type
-  def J() = Cat(Fill(12, io.in.inst(31)), io.in.inst(19, 12), io.in.inst(11), io.in.inst(30, 21), "b0".U)
+  def J() = Cat(Fill(44, io.in.inst(31)), io.in.inst(19, 12), io.in.inst(20), io.in.inst(30, 21), "b0".U)
   
   val imm = Lookup(io.in.inst, 0.U, Array(
-    ADDI  -> I()
+    ADD   -> R(),
+    ADDI  -> I(),
+    ADDIW -> I(),
+    ADDW  -> R(),
+    AND   -> R(),
+    ANDI  -> I(),
+    AUIPC -> U(),
+    BEQ   -> B(),
+    BGE   -> B(),
+    BGEU  -> B(),
+    BLT   -> B(),
+    BLTU  -> B(),
+    BNE   -> B(),
+    DIVW  -> R(),
+    JAL   -> J(),
+    JALR  -> I(),
+    LBU   -> I(),
+    LD    -> I(),
+    LH    -> I(),
+    LHU   -> I(),
+    LW    -> I(),
+    LUI   -> U(),
+    MUL   -> R(),
+    MULW  -> R(),
+    OR    -> R(),
+    REMW  -> R(),
+    SB    -> S(),
+    SD    -> S(),
+    SH    -> S(),
+    SW    -> S(),
+    SLLI  -> I(),
+    SLLIW -> I(),
+    SLLW  -> R(),
+    SLT   -> R(),
+    SLTIU -> I(),
+    SLTU  -> R(),
+    SRAI  -> I(),
+    SRAIW -> I(),
+    SRAW  -> R(),
+    SRLI  -> I(),
+    SRLIW -> I(),
+    SRLW  -> R(),
+    SUB   -> R(),
+    SUBW  -> R(),
+    XORI  -> I()
   ));
 
   io.out.imm := imm

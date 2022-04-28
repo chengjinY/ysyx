@@ -26,10 +26,17 @@ VL_MODULE(VCPU___024root) {
     VL_IN8(reset,0,0);
 
     // LOCAL SIGNALS
+    CData/*3:0*/ CPU__DOT__IDU__DOT__contr_io_out_alu_op;
+    CData/*0:0*/ CPU__DOT__IDU__DOT__contr_io_out_reg_write;
+    CData/*0:0*/ CPU__DOT__IDU__DOT__contr_io_out_jalr;
+    VlWide<4>/*126:0*/ CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_21;
     QData/*63:0*/ CPU__DOT__pc;
+    QData/*63:0*/ CPU__DOT__snpc;
     QData/*63:0*/ CPU__DOT___pc_T_1;
     QData/*63:0*/ CPU__DOT__IFU__DOT__fetchmem_rdata;
-    QData/*63:0*/ CPU__DOT__EXU__DOT__regs_io_out_rs1_data;
+    QData/*63:0*/ CPU__DOT__IDU__DOT__immgen_io_out_imm;
+    QData/*63:0*/ CPU__DOT__EXU__DOT__regs_io_in_rd_data;
+    QData/*63:0*/ CPU__DOT__EXU__DOT__ALU_io_in_src1;
     QData/*63:0*/ CPU__DOT__EXU__DOT__ALU_io_in_src2;
     QData/*63:0*/ CPU__DOT__EXU__DOT__mem_rdata;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT__reg_1;
@@ -63,8 +70,10 @@ VL_MODULE(VCPU___024root) {
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT__reg_29;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT__reg_30;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT__reg_31;
+    QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_26;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_58;
-    QData/*63:0*/ CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_5;
+    QData/*63:0*/ CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_3;
+    VlUnpacked<QData/*63:0*/, 32> CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs;
 
     // LOCAL VARIABLES
     CData/*0:0*/ __Vclklast__TOP__clock;

@@ -15,6 +15,8 @@ extern "C" {
     // DPI IMPORTS
     // DPI import at vsrc/Ebreak.v:2:30
     extern void ebreak();
+    // DPI import at vsrc/TraceRegs.v:2:30
+    extern void get_regs(const svOpenArrayHandle regs);
     // DPI import at vsrc/MEM.v:2:30
     extern void pmem_read(long long raddr, long long* rdata);
     // DPI import at vsrc/MEM.v:4:30
