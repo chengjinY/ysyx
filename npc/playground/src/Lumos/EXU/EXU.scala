@@ -40,6 +40,7 @@ class EXU extends Module {
   regs.io.in.rs1_addr  := io.in.rs1
   regs.io.in.rs2_addr  := io.in.rs2
   regs.io.in.rd_addr   := io.in.rd
+  regs.io.in.pc        := io.in.pc
 
   val ALU = Module(new ALU())
   ALU.io.in.alu_op := io.contr.alu_op

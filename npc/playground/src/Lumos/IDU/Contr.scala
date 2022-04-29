@@ -36,7 +36,7 @@ class Contr extends Module {
     ADDW  -> List(SEXTADD,      false.B,      false.B,      true.B,       false.B,      false.B,      false.B,      false.B,      false.B),
     AND   -> List(ALUAND,       false.B,      false.B,      true.B,       false.B,      false.B,      false.B,      false.B,      false.B),
     ANDI  -> List(ALUAND,       false.B,      true.B,       true.B,       false.B,      false.B,      false.B,      false.B,      false.B),
-    AUIPC -> List(ALUADD,       true.B,       false.B,      true.B,       false.B,      false.B,      false.B,      false.B,      false.B),
+    AUIPC -> List(ALUADD,       true.B,       true.B,       true.B,       false.B,      false.B,      false.B,      false.B,      false.B),
 //  BEQ   -> List()
 //  BGE   -> List()
 //  BGEU  -> List()

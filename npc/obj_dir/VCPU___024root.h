@@ -73,7 +73,7 @@ VL_MODULE(VCPU___024root) {
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_26;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_58;
     QData/*63:0*/ CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_3;
-    VlUnpacked<QData/*63:0*/, 32> CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs;
+    VlUnpacked<QData/*63:0*/, 33> CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs;
 
     // LOCAL VARIABLES
     CData/*0:0*/ __Vclklast__TOP__clock;

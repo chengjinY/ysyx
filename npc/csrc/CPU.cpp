@@ -1,3 +1,7 @@
+// ========================= CONFIG =========================
+#define CONFIG_GTKWAVE
+#define CONFIG_DIFFTEST
+
 #include <cstdio>
 // Verilator with trace
 #include <VCPU.h>
@@ -7,15 +11,72 @@
 #include <svdpi.h>
 #include <VCPU__Dpi.h>
 #include <verilated_dpi.h>
+// Difftest
+#include <dlfcn.h>
+
+typedef long long ll;
+
+
+// ========================= Environment =========================
+VerilatedContext *contextp;
+VCPU *cpu;
+// =============== GtkWave ===============
+#ifdef CONFIG_GTKWAVE
+VerilatedVcdC *m_trace;		// trace
+vluint64_t sim_time = 0;	// time of gtkwave
+#endif
+
+// =============== Memory ===============
+#define MEM_BASE 0x80000000
+#define MEM_SIZE 65536
+long long img_size = 0;
+uint8_t mem[MEM_SIZE];
+// Memory transfer
+uint8_t* cpu2mem(ll addr) { return mem + (addr - MEM_BASE); }
+
+// =============== DPI-C ===============
+
+// Memory Read
+extern "C" void pmem_read(ll raddr, ll *rdata)
+{
+  if (raddr < MEM_BASE) return;
+  uint8_t *pt = cpu2mem(raddr) + 7;
+  ll ret = 0;
+  for (int i = 0; i < 8; ++i) {
+    ret = (ret << 8) | (*pt--);
+  }
+  *rdata = ret;
+}
+
+// Memory Write
+extern "C" void pmem_write(ll waddr, ll wdata, char mask)
+{
+  if (waddr < MEM_BASE) return;
+  uint8_t *pt = cpu2mem(waddr);
+  for (int i = 0; i < 8; ++i) {
+    if (mask & 1) *pt = wdata & 0xff;
+    wdata >>= 8, mask >>= 1, pt++;
+  }
+}
+
+// Get Registers
+uint64_t *cpu_gpr = NULL;
+extern "C" void get_regs(const svOpenArrayHandle r)
+{
+  cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r) -> datap());
+}
+
+// Ebreak
+void ebreak()
+{
+#ifdef CONFIG_GTKWAVE
+  m_trace -> close();
+#endif
+  exit(cpu_gpr[10]);
+}
 
 
 // ========================= Debug =========================
-bool is_gtkwave_enabled = true;		// Makefile required it to be true for now
-
-// =============== GtkWave ===============
-#define WTRACE if (is_gtkwave_enabled) m_trace -> dump(sim_time++)
-VerilatedVcdC *m_trace;		// trace
-vluint64_t sim_time = 0;	// time of gtkwave
 
 // =============== SDB ===============
 
@@ -25,109 +86,137 @@ vluint64_t sim_time = 0;	// time of gtkwave
 
 // =============== Ftrace ===============
 
+// =============== Difftest ===============
+#ifdef CONFIG_DIFFTEST
+// Definations of Ref
+enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
+void (*ref_difftest_memcpy)(uint32_t addr, void *buf, size_t n, bool direction) = NULL;
+void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
+void (*ref_difftest_exec)(uint64_t n) = NULL;
+void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 
-// ========================= Environment =========================
-VerilatedContext *contextp;
-VCPU *cpu;
-
-// =============== Memory ===============
-#define SIZE_MEM 65536
-uint8_t mem[SIZE_MEM];
-
-// =============== DPI-C ===============
-
-// Memory Read
-extern "C" void pmem_read(long long raddr, long long *rdata)
+void init_difftest()
 {
-	if (raddr < 0x0000000080000000) return;
-	raddr = raddr - 0x0000000080000000;
-	int pos = raddr;
-	long long ret = 0;
-	for (int i = 7; i >= 0; --i) {
-		ret = (ret << 8) | mem[pos + i];
-	}
-	*rdata = ret;
+  char ref_so_file[] = "/home/johnson/ysyx-workbench/nemu/build/riscv64-nemu-interpreter-so";
+
+  void *handle;
+  handle = dlopen(ref_so_file, RTLD_LAZY);
+  assert(handle);
+
+  ref_difftest_memcpy = (void (*)(uint32_t addr, void *buf, size_t n, bool direction))(dlsym(handle, "difftest_memcpy"));
+  assert(ref_difftest_memcpy);
+
+  ref_difftest_regcpy = (void (*)(void *dut, bool direction))(dlsym(handle, "difftest_regcpy"));
+  assert(ref_difftest_regcpy);
+
+  ref_difftest_exec = (void (*)(uint64_t n))(dlsym(handle, "difftest_exec"));
+  assert(ref_difftest_exec);
+
+  ref_difftest_raise_intr = (void (*)(uint64_t NO))(dlsym(handle, "difftest_raise_intr"));
+  assert(ref_difftest_raise_intr);
+
+  void (*ref_difftest_init)() = (void (*)())(dlsym(handle, "difftest_init"));
+  assert(ref_difftest_init);
+
+  ref_difftest_init();
+  ref_difftest_memcpy(MEM_BASE, mem, img_size, DIFFTEST_TO_REF);
+  ref_difftest_regcpy(cpu_gpr, DIFFTEST_TO_REF);
 }
 
-// Memory Write
-extern "C" void pmem_write(long long waddr, long long wdata, char mask)
+void checkregs(uint64_t *ref_regs)
 {
-	// not correct, not use mask, just for a simple test...
-	if (waddr < 0x0000000080000000) return;
-	waddr = waddr - 0x0000000080000000;
-	int pos = waddr / 8;
-	for (int i = 7; i >= 0; --i) {
-		mem[pos + i] = wdata;
-		wdata = wdata >> 8;
-	}
+  for (int i = 0; i <= 32; ++i) {
+    if (ref_regs[i] != cpu_gpr[i]) {
+      printf("Error: Difftest failed at reg %d, pc = 0x%016lx\n", i, cpu_gpr[32]);
+      for (int j = 0; j <= 32; ++j) {
+        printf("reg %02d: dut = 0x%016lx, ref = 0x%016lx\n", j, cpu_gpr[j], ref_regs[j]);
+      }
+#ifdef CONFIG_GTKWAVE
+      m_trace -> close();
+#endif
+      exit(1);
+    }
+  }
 }
 
-// Get Registers
-uint64_t *cpu_gpr = NULL;
-extern "C" void get_regs(const svOpenArrayHandle r)
+uint64_t ref_regs[33];
+void difftest_exec_once()
 {
-	cpu_gpr = (uint64_t *)(((VerilatedDpiOpenVar*)r) -> datap());
+  ref_difftest_exec(1);
+  // pc -> ref_regs[32]
+  ref_difftest_regcpy(ref_regs, DIFFTEST_TO_DUT);
+  checkregs(ref_regs);
 }
+#endif
 
-// Ebreak
-void ebreak()
-{
-	m_trace -> close();
-	exit(cpu_gpr[10]);
-}
-
-// =============== Functions ===============
+// ========================= Functions =========================
 
 // Load image from am-kernels (Makefile -> ./image.bin)
 void load_image()
 {
-	char image_path[] = "/home/johnson/ysyx-workbench/npc/image.bin";
-	FILE *fp = fopen(image_path, "rb");
-	fseek(fp, 0, SEEK_END);
-	long size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	int ret = fread(mem, size, 1, fp);
-	fclose(fp);
+  char image_path[] = "/home/johnson/ysyx-workbench/npc/image.bin";
+  FILE *fp = fopen(image_path, "rb");
+  fseek(fp, 0, SEEK_END);
+  img_size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  int ret = fread(mem, img_size, 1, fp);
+  fclose(fp);
 }
 
 void cpu_reset()
 {
-	cpu -> clock = 0;
-	cpu -> reset = 1;
-	cpu -> eval();
-	WTRACE;
-	cpu -> clock = 1;
-	cpu -> reset = 1;
-	cpu -> eval();
-	cpu -> reset = 0;
-	WTRACE;
+  cpu -> clock = 0;
+  cpu -> reset = 1;
+  cpu -> eval();
+#ifdef CONFIG_GTKWAVE
+  m_trace -> dump(sim_time++);
+#endif
+  cpu -> clock = 1;
+  cpu -> reset = 1;
+  cpu -> eval();
+#ifdef CONFIG_GTKWAVE
+  m_trace -> dump(sim_time++);
+#endif
+  cpu -> reset = 0;
 }
 
 void exec_once()
 {
-	cpu -> clock ^= 1;
-	cpu -> eval();
-	WTRACE;
+  cpu -> clock = 0;
+  cpu -> eval();
+#ifdef CONFIG_GTKWAVE
+  m_trace -> dump(sim_time++);
+#endif
+  cpu -> clock = 1;
+  cpu -> eval();
+#ifdef CONFIG_GTKWAVE
+  m_trace -> dump(sim_time++);
+#endif
 }
 
 int main(int argc, char **argv, char **env)
 {
-	// Prepare environment
-	contextp = new VerilatedContext;
-	contextp -> commandArgs(argc, argv);
-	cpu = new VCPU(contextp);
-	Verilated::traceEverOn(true);
-	m_trace = new VerilatedVcdC;
-	cpu -> trace(m_trace, 5);
-	m_trace -> open("waveform.vcd");
+  // Prepare environment
+  contextp = new VerilatedContext;
+  contextp -> commandArgs(argc, argv);
+  cpu = new VCPU(contextp);
+#ifdef CONFIG_GTKWAVE
+  Verilated::traceEverOn(true);
+  m_trace = new VerilatedVcdC;
+  cpu -> trace(m_trace, 5);
+  m_trace -> open("waveform.vcd");
+#endif
 
-	// Load image.bin
-	load_image();
-	// Reset CPU
-	cpu_reset();
-	// Exec inf times
-	while (1) {
-		exec_once();
-	}
-	return 0;
+  load_image();
+  cpu_reset();
+#ifdef CONFIG_DIFFTEST
+  init_difftest();
+#endif
+  while (1) {
+    exec_once();
+#ifdef CONFIG_DIFFTEST
+    difftest_exec_once();
+#endif
+  }
+  return 0;
 }

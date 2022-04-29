@@ -5,12 +5,14 @@ import chisel3.util._
 
 class TraceRegs extends HasBlackBoxInline {
   val io = IO(new Bundle {
+    val pc = Input(UInt(64.W))
     val rf = Input(Vec(32, UInt(64.W)))
   })
   setInline("TraceRegs.v",
     s"""
     |import "DPI-C" function void get_regs(input logic [63:0] regs[]);
     |module TraceRegs(
+    |  input [63:0] pc,
     |  input [63:0] rf_0,
     |  input [63:0] rf_1,
     |  input [63:0] rf_2,
@@ -44,7 +46,7 @@ class TraceRegs extends HasBlackBoxInline {
     |  input [63:0] rf_30,
     |  input [63:0] rf_31
     |);
-    |  wire [63:0] regs [32];
+    |  wire [63:0] regs [33];
     |  assign regs[0] = rf_0;
     |  assign regs[1] = rf_1;
     |  assign regs[2] = rf_2;
@@ -77,6 +79,7 @@ class TraceRegs extends HasBlackBoxInline {
     |  assign regs[29] = rf_29;
     |  assign regs[30] = rf_30;
     |  assign regs[31] = rf_31;
+    |  assign regs[32] = pc;
     |  initial get_regs(regs);
     |endmodule
     """.stripMargin)

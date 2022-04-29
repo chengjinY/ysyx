@@ -43,13 +43,13 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
     VlWide<3>/*95:0*/ __Vtemp8;
     VlWide<4>/*127:0*/ __Vtemp9;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_2;
-    QData/*52:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_11;
+    QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_11;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_56;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_189;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_200;
     QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_210;
-    QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_220;
+    QData/*63:0*/ CPU__DOT__IDU__DOT__immgen__DOT___imm_T_221;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_13;
     QData/*63:0*/ CPU__DOT__EXU__DOT__regs__DOT___GEN_45;
     // Body
@@ -117,6 +117,8 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
         = vlSelf->CPU__DOT__EXU__DOT__regs__DOT__reg_30;
     vlSelf->CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs[0x1fU] 
         = vlSelf->CPU__DOT__EXU__DOT__regs__DOT__reg_31;
+    vlSelf->CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs[0x20U] 
+        = vlSelf->CPU__DOT__pc;
     VCPU___024unit____Vdpiimwrap_pmem_read_TOP____024unit(vlSelf->CPU__DOT__pc, vlSelf->__Vtask_pmem_read__0__rdata);
     vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata = vlSelf->__Vtask_pmem_read__0__rdata;
     if ((0x100073U == (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) {
@@ -427,13 +429,12 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
                                                                                 >> 0x1fU)))
                                                                      ? 0xffffffffU
                                                                      : 0U))) 
-                                                   << 0x15U) 
+                                                   << 0x20U) 
                                                   | (QData)((IData)(
-                                                                    (0x1ffffeU 
-                                                                     & ((IData)(
-                                                                                (vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata 
-                                                                                >> 0xcU)) 
-                                                                        << 1U)))));
+                                                                    ((IData)(
+                                                                             (vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata 
+                                                                              >> 0xcU)) 
+                                                                     << 0xcU))));
     CPU__DOT__IDU__DOT__immgen__DOT___imm_T_56 = ((
                                                    ((1U 
                                                      & (IData)(
@@ -892,76 +893,80 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
                                                               & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                              ? 0ULL
                                                              : CPU__DOT__IDU__DOT__immgen__DOT___imm_T_200))))))))));
-    CPU__DOT__IDU__DOT__immgen__DOT___imm_T_220 = (
-                                                   (0x7033U 
+    CPU__DOT__IDU__DOT__immgen__DOT___imm_T_221 = (
+                                                   (0x3bU 
                                                     == 
                                                     (0xfe00707fU 
                                                      & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                     ? 0ULL
                                                     : 
-                                                   ((0x7013U 
+                                                   ((0x7033U 
                                                      == 
-                                                     (0x707fU 
+                                                     (0xfe00707fU 
                                                       & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
-                                                     ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_2
+                                                     ? 0ULL
                                                      : 
-                                                    ((0x17U 
+                                                    ((0x7013U 
                                                       == 
-                                                      (0x7fU 
+                                                      (0x707fU 
                                                        & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
-                                                      ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_11
+                                                      ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_2
                                                       : 
-                                                     ((0x63U 
+                                                     ((0x17U 
                                                        == 
-                                                       (0x707fU 
+                                                       (0x7fU 
                                                         & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
-                                                       ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
+                                                       ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_11
                                                        : 
-                                                      ((0x5063U 
+                                                      ((0x63U 
                                                         == 
                                                         (0x707fU 
                                                          & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                         ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
                                                         : 
-                                                       ((0x7063U 
+                                                       ((0x5063U 
                                                          == 
                                                          (0x707fU 
                                                           & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                          ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
                                                          : 
-                                                        ((0x4063U 
+                                                        ((0x7063U 
                                                           == 
                                                           (0x707fU 
                                                            & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                           ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
                                                           : 
-                                                         ((0x6063U 
+                                                         ((0x4063U 
                                                            == 
                                                            (0x707fU 
                                                             & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                            ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
                                                            : 
-                                                          ((0x1063U 
+                                                          ((0x6063U 
                                                             == 
                                                             (0x707fU 
                                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                                                             ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
                                                             : 
-                                                           ((0x200403bU 
+                                                           ((0x1063U 
                                                              == 
-                                                             (0xfe00707fU 
+                                                             (0x707fU 
                                                               & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
-                                                             ? 0ULL
-                                                             : CPU__DOT__IDU__DOT__immgen__DOT___imm_T_210))))))))));
+                                                             ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_14
+                                                             : 
+                                                            ((0x200403bU 
+                                                              == 
+                                                              (0xfe00707fU 
+                                                               & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
+                                                              ? 0ULL
+                                                              : CPU__DOT__IDU__DOT__immgen__DOT___imm_T_210)))))))))));
     vlSelf->CPU__DOT__IDU__DOT__immgen_io_out_imm = 
         ((0x33U == (0xfe00707fU & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
           ? 0ULL : ((0x13U == (0x707fU & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                      ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_2
                      : ((0x1bU == (0x707fU & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
                          ? CPU__DOT__IDU__DOT__immgen__DOT___imm_T_2
-                         : ((0x3bU == (0xfe00707fU 
-                                       & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata)))
-                             ? 0ULL : CPU__DOT__IDU__DOT__immgen__DOT___imm_T_220))));
+                         : CPU__DOT__IDU__DOT__immgen__DOT___imm_T_221)));
     vlSelf->CPU__DOT___pc_T_1 = (vlSelf->CPU__DOT__pc 
                                  + vlSelf->CPU__DOT__IDU__DOT__immgen_io_out_imm);
     vlSelf->CPU__DOT__EXU__DOT__ALU_io_in_src2 = ((
@@ -990,10 +995,10 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
                                                                    (0x707fU 
                                                                     & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
                                                                   | ((0x17U 
-                                                                      != 
+                                                                      == 
                                                                       (0x7fU 
                                                                        & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                                     & ((0x6fU 
+                                                                     | ((0x6fU 
                                                                          != 
                                                                          (0x7fU 
                                                                           & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
@@ -1112,7 +1117,7 @@ void VCPU___024root___settle__TOP__1(VCPU___024root* vlSelf) {
                                                                  vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_21[0U]))));
 }
 
-void VCPU___024unit____Vdpiimwrap_get_regs__Vdpioc2_TOP____024unit(const VlUnpacked<QData/*63:0*/, 32> &regs);
+void VCPU___024unit____Vdpiimwrap_get_regs__Vdpioc2_TOP____024unit(const VlUnpacked<QData/*63:0*/, 33> &regs);
 
 void VCPU___024root___initial__TOP__3(VCPU___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -1199,7 +1204,7 @@ void VCPU___024root___ctor_var_reset(VCPU___024root* vlSelf) {
     vlSelf->CPU__DOT__EXU__DOT__regs__DOT__reg_31 = VL_RAND_RESET_Q(64);
     vlSelf->CPU__DOT__EXU__DOT__regs__DOT___GEN_26 = VL_RAND_RESET_Q(64);
     vlSelf->CPU__DOT__EXU__DOT__regs__DOT___GEN_58 = VL_RAND_RESET_Q(64);
-    for (int __Vi0=0; __Vi0<32; ++__Vi0) {
+    for (int __Vi0=0; __Vi0<33; ++__Vi0) {
         vlSelf->CPU__DOT__EXU__DOT__regs__DOT__trace_regs__DOT__regs[__Vi0] = VL_RAND_RESET_Q(64);
     }
     vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_3 = VL_RAND_RESET_Q(64);

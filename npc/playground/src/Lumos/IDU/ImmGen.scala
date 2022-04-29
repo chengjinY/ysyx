@@ -26,11 +26,11 @@ class ImmGen extends Module {
   // S-type
   def S() = Cat(Fill(52, io.in.inst(31)), io.in.inst(31, 25), io.in.inst(11, 7))
   // B-type
-  def B() = Cat(Fill(52, io.in.inst(31)), io.in.inst(7), io.in.inst(30, 25), io.in.inst(11, 8), "b0".U)
+  def B() = Cat(Fill(52, io.in.inst(31)), io.in.inst(7), io.in.inst(30, 25), io.in.inst(11, 8), "b0".U(1.W))
   // U-type
-  def U() = Cat(Fill(32, io.in.inst(31)), io.in.inst(31, 12), "b000000000000".U)
+  def U() = Cat(Fill(32, io.in.inst(31)), io.in.inst(31, 12), "h000".U(12.W))
   // J-type
-  def J() = Cat(Fill(44, io.in.inst(31)), io.in.inst(19, 12), io.in.inst(20), io.in.inst(30, 21), "b0".U)
+  def J() = Cat(Fill(44, io.in.inst(31)), io.in.inst(19, 12), io.in.inst(20), io.in.inst(30, 21), "b0".U(1.W))
   
   val imm = Lookup(io.in.inst, 0.U, Array(
     ADD   -> R(),

@@ -45,10 +45,10 @@ VL_INLINE_OPT void VCPU___024unit____Vdpiimwrap_pmem_write_TOP____024unit(QData/
 
 extern "C" void get_regs(const svOpenArrayHandle regs);
 
-VL_INLINE_OPT void VCPU___024unit____Vdpiimwrap_get_regs__Vdpioc2_TOP____024unit(const VlUnpacked<QData/*63:0*/, 32> &regs) {
+VL_INLINE_OPT void VCPU___024unit____Vdpiimwrap_get_regs__Vdpioc2_TOP____024unit(const VlUnpacked<QData/*63:0*/, 33> &regs) {
     VL_DEBUG_IF(VL_DBG_MSGF("+        VCPU___024unit____Vdpiimwrap_get_regs__Vdpioc2_TOP____024unit\n"); );
     // Body
-    static const int regs__Vopenprops__ulims[2] = {0, 31};
+    static const int regs__Vopenprops__ulims[2] = {0, 32};
     static const VerilatedVarProps regs__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0, VerilatedVarProps::Unpacked(), 1, regs__Vopenprops__ulims);
     VerilatedDpiOpenVar regs__Vopenarray (&regs__Vopenprops, &regs);
     get_regs(&regs__Vopenarray);
