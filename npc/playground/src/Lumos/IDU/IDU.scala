@@ -10,7 +10,7 @@ class IDUInput extends Bundle {
 }
 
 class IDUControl extends Bundle {
-  val alu_op     = UInt(4.W)
+  val alu_op     = UInt(5.W)
   val alu_srca   = Bool()
   val alu_srcb   = Bool()
   val reg_write  = Bool()
@@ -19,6 +19,8 @@ class IDUControl extends Bundle {
   val mem_to_reg = Bool()
   val pc_src     = Bool()
   val jalr       = Bool()
+  val branch     = UInt(3.W)
+  val wdth       = UInt(3.W)
 }
 
 class IDUOutput extends Bundle {
@@ -36,7 +38,7 @@ class IDU extends Module {
   })
 
   val ebreak = Module(new Ebreak())
-  ebreak.io.inst       := io.in.inst
+  ebreak.io.inst      := io.in.inst
 
   val contr = Module(new Contr())
   contr.io.in.inst    := io.in.inst
@@ -49,6 +51,8 @@ class IDU extends Module {
   io.contr.mem_to_reg := contr.io.out.mem_to_reg
   io.contr.pc_src     := contr.io.out.pc_src
   io.contr.jalr       := contr.io.out.jalr
+  io.contr.branch     := contr.io.out.branch
+  io.contr.wdth       := contr.io.out.wdth
 
   val immgen = Module(new ImmGen())
   immgen.io.in.inst := io.in.inst

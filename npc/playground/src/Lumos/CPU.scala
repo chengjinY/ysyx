@@ -29,6 +29,8 @@ class CPU extends Module {
   EXU.io.contr.mem_write  := IDU.io.contr.mem_write
   EXU.io.contr.mem_to_reg := IDU.io.contr.mem_to_reg
   EXU.io.contr.jalr       := IDU.io.contr.jalr
+  EXU.io.contr.branch     := IDU.io.contr.branch
+  EXU.io.contr.wdth       := IDU.io.contr.wdth
   EXU.io.in.pc            := pc
   EXU.io.in.snpc          := snpc
   EXU.io.in.rs1           := IDU.io.out.rs1
@@ -36,5 +38,8 @@ class CPU extends Module {
   EXU.io.in.rd            := IDU.io.out.rd
   EXU.io.in.imm           := IDU.io.out.imm
 
-  pc := Mux(IDU.io.contr.pc_src, pc + IDU.io.out.imm, Mux(IDU.io.contr.jalr, EXU.io.out.alu_dest & "hFFFFFFFFFFFFFFFE".U, snpc))
+  pc := Mux(IDU.io.contr.pc_src,
+    Mux((IDU.io.contr.branch === 4.U) | EXU.io.out.pc_bsrc, pc + IDU.io.out.imm, snpc),
+    Mux(IDU.io.contr.jalr, EXU.io.out.alu_dest & "hFFFFFFFFFFFFFFFE".U, snpc)
+  )
 }

@@ -54,7 +54,7 @@ void init_elf(const char *elf_file) {
 	if (fread(shdr, sizeof(Elf64_Shdr), ehdr -> e_shnum, elf_fp) == 0) {
 		Log("[Ftrace - fread] Error occors while reading Section header.");
 	}
-	// Find .symtab
+	// Find .symtab and .strtab
 	int symtab = -1, strtab = -1;
 	for (int i = 0; i < ehdr -> e_shnum; ++i) {
 		if (shdr[i].sh_type == SHT_SYMTAB) symtab = i;
@@ -81,7 +81,7 @@ void init_elf(const char *elf_file) {
 	*/
 	// Read .strtab
 	fseek(elf_fp, shdr[strtab].sh_offset, SEEK_SET);
-  if (fread(strtable, 1, shdr[strtab].sh_size, elf_fp) == 0) {
+	if (fread(strtable, 1, shdr[strtab].sh_size, elf_fp) == 0) {
 		Log("[Ftrace - fread] Error occors while reading .strtab.");
 	}
 }

@@ -1,5 +1,5 @@
 // ========================= CONFIG =========================
-#define CONFIG_GTKWAVE
+// #define CONFIG_GTKWAVE
 #define CONFIG_DIFFTEST
 
 #include <cstdio>
@@ -54,7 +54,7 @@ extern "C" void pmem_write(ll waddr, ll wdata, char mask)
   if (waddr < MEM_BASE) return;
   uint8_t *pt = cpu2mem(waddr);
   for (int i = 0; i < 8; ++i) {
-    if (mask & 1) *pt = wdata & 0xff;
+    if (mask & 1) *pt = (wdata & 0xff);
     wdata >>= 8, mask >>= 1, pt++;
   }
 }
