@@ -24,7 +24,6 @@ image: $(IMAGE).elf
 NPC_HOME = ~/ysyx-workbench/npc
 
 run: image
-	$(MAKE) -C $(NPC_HOME) verilog
 	cp $(IMAGE).bin $(NPC_HOME)/image.bin
 	$(MAKE) -C $(NPC_HOME) sim
 

@@ -22,10 +22,10 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        tracep->declBit(c+141,"clock", false,-1);
-        tracep->declBit(c+142,"reset", false,-1);
-        tracep->declBit(c+141,"CPU clock", false,-1);
-        tracep->declBit(c+142,"CPU reset", false,-1);
+        tracep->declBit(c+149,"clock", false,-1);
+        tracep->declBit(c+150,"reset", false,-1);
+        tracep->declBit(c+149,"CPU clock", false,-1);
+        tracep->declBit(c+150,"CPU reset", false,-1);
         tracep->declQuad(c+1,"CPU IFU_io_in_addr", false,-1, 63,0);
         tracep->declBus(c+3,"CPU IFU_io_out_inst", false,-1, 31,0);
         tracep->declBus(c+3,"CPU IDU_io_in_inst", false,-1, 31,0);
@@ -44,8 +44,8 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declBit(c+16,"CPU IDU_io_contr_jalr", false,-1);
         tracep->declBus(c+17,"CPU IDU_io_contr_branch", false,-1, 2,0);
         tracep->declBus(c+18,"CPU IDU_io_contr_wdth", false,-1, 2,0);
-        tracep->declBit(c+141,"CPU EXU_clock", false,-1);
-        tracep->declBit(c+142,"CPU EXU_reset", false,-1);
+        tracep->declBit(c+149,"CPU EXU_clock", false,-1);
+        tracep->declBit(c+150,"CPU EXU_reset", false,-1);
         tracep->declQuad(c+1,"CPU EXU_io_in_pc", false,-1, 63,0);
         tracep->declQuad(c+19,"CPU EXU_io_in_snpc", false,-1, 63,0);
         tracep->declBus(c+4,"CPU EXU_io_in_rs1", false,-1, 4,0);
@@ -68,20 +68,20 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declQuad(c+19,"CPU snpc", false,-1, 63,0);
         tracep->declQuad(c+1,"CPU IFU io_in_addr", false,-1, 63,0);
         tracep->declBus(c+3,"CPU IFU io_out_inst", false,-1, 31,0);
-        tracep->declBit(c+143,"CPU IFU fetchmem_ren", false,-1);
-        tracep->declBit(c+144,"CPU IFU fetchmem_wen", false,-1);
+        tracep->declBit(c+151,"CPU IFU fetchmem_ren", false,-1);
+        tracep->declBit(c+152,"CPU IFU fetchmem_wen", false,-1);
         tracep->declQuad(c+1,"CPU IFU fetchmem_raddr", false,-1, 63,0);
         tracep->declQuad(c+24,"CPU IFU fetchmem_rdata", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU IFU fetchmem_waddr", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU IFU fetchmem_wdata", false,-1, 63,0);
-        tracep->declBus(c+147,"CPU IFU fetchmem_mask", false,-1, 7,0);
-        tracep->declBit(c+143,"CPU IFU fetchmem ren", false,-1);
-        tracep->declBit(c+144,"CPU IFU fetchmem wen", false,-1);
+        tracep->declQuad(c+153,"CPU IFU fetchmem_waddr", false,-1, 63,0);
+        tracep->declQuad(c+153,"CPU IFU fetchmem_wdata", false,-1, 63,0);
+        tracep->declBus(c+155,"CPU IFU fetchmem_mask", false,-1, 7,0);
+        tracep->declBit(c+151,"CPU IFU fetchmem ren", false,-1);
+        tracep->declBit(c+152,"CPU IFU fetchmem wen", false,-1);
         tracep->declQuad(c+1,"CPU IFU fetchmem raddr", false,-1, 63,0);
         tracep->declQuad(c+24,"CPU IFU fetchmem rdata", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU IFU fetchmem waddr", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU IFU fetchmem wdata", false,-1, 63,0);
-        tracep->declBus(c+147,"CPU IFU fetchmem mask", false,-1, 7,0);
+        tracep->declQuad(c+153,"CPU IFU fetchmem waddr", false,-1, 63,0);
+        tracep->declQuad(c+153,"CPU IFU fetchmem wdata", false,-1, 63,0);
+        tracep->declBus(c+155,"CPU IFU fetchmem mask", false,-1, 7,0);
         tracep->declBus(c+3,"CPU IDU io_in_inst", false,-1, 31,0);
         tracep->declBus(c+4,"CPU IDU io_out_rs1", false,-1, 4,0);
         tracep->declBus(c+5,"CPU IDU io_out_rs2", false,-1, 4,0);
@@ -141,8 +141,8 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declBus(c+38,"CPU IDU immgen imm_lo_hi_6", false,-1, 9,0);
         tracep->declBus(c+39,"CPU IDU immgen imm_hi_lo_9", false,-1, 6,0);
         tracep->declBus(c+6,"CPU IDU immgen imm_lo_18", false,-1, 4,0);
-        tracep->declBit(c+141,"CPU EXU clock", false,-1);
-        tracep->declBit(c+142,"CPU EXU reset", false,-1);
+        tracep->declBit(c+149,"CPU EXU clock", false,-1);
+        tracep->declBit(c+150,"CPU EXU reset", false,-1);
         tracep->declQuad(c+1,"CPU EXU io_in_pc", false,-1, 63,0);
         tracep->declQuad(c+19,"CPU EXU io_in_snpc", false,-1, 63,0);
         tracep->declBus(c+4,"CPU EXU io_in_rs1", false,-1, 4,0);
@@ -161,8 +161,8 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declBus(c+18,"CPU EXU io_contr_wdth", false,-1, 2,0);
         tracep->declQuad(c+21,"CPU EXU io_out_alu_dest", false,-1, 63,0);
         tracep->declBit(c+23,"CPU EXU io_out_pc_bsrc", false,-1);
-        tracep->declBit(c+141,"CPU EXU regs_clock", false,-1);
-        tracep->declBit(c+142,"CPU EXU regs_reset", false,-1);
+        tracep->declBit(c+149,"CPU EXU regs_clock", false,-1);
+        tracep->declBit(c+150,"CPU EXU regs_reset", false,-1);
         tracep->declQuad(c+1,"CPU EXU regs_io_in_pc", false,-1, 63,0);
         tracep->declBit(c+12,"CPU EXU regs_io_in_reg_write", false,-1);
         tracep->declBus(c+4,"CPU EXU regs_io_in_rs1_addr", false,-1, 4,0);
@@ -192,8 +192,8 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declQuad(c+60,"CPU EXU mem_dest_hi_1", false,-1, 47,0);
         tracep->declBus(c+62,"CPU EXU mem_dest_hi_2", false,-1, 31,0);
         tracep->declQuad(c+63,"CPU EXU mem_dest", false,-1, 63,0);
-        tracep->declBit(c+141,"CPU EXU regs clock", false,-1);
-        tracep->declBit(c+142,"CPU EXU regs reset", false,-1);
+        tracep->declBit(c+149,"CPU EXU regs clock", false,-1);
+        tracep->declBit(c+150,"CPU EXU regs reset", false,-1);
         tracep->declQuad(c+1,"CPU EXU regs io_in_pc", false,-1, 63,0);
         tracep->declBit(c+12,"CPU EXU regs io_in_reg_write", false,-1);
         tracep->declBus(c+4,"CPU EXU regs io_in_rs1_addr", false,-1, 4,0);
@@ -203,7 +203,7 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declQuad(c+42,"CPU EXU regs io_out_rs1_data", false,-1, 63,0);
         tracep->declQuad(c+44,"CPU EXU regs io_out_rs2_data", false,-1, 63,0);
         tracep->declQuad(c+1,"CPU EXU regs trace_regs_pc", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU EXU regs trace_regs_rf_0", false,-1, 63,0);
+        tracep->declQuad(c+153,"CPU EXU regs trace_regs_rf_0", false,-1, 63,0);
         tracep->declQuad(c+65,"CPU EXU regs trace_regs_rf_1", false,-1, 63,0);
         tracep->declQuad(c+67,"CPU EXU regs trace_regs_rf_2", false,-1, 63,0);
         tracep->declQuad(c+69,"CPU EXU regs trace_regs_rf_3", false,-1, 63,0);
@@ -267,7 +267,7 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declQuad(c+123,"CPU EXU regs reg_30", false,-1, 63,0);
         tracep->declQuad(c+125,"CPU EXU regs reg_31", false,-1, 63,0);
         tracep->declQuad(c+1,"CPU EXU regs trace_regs pc", false,-1, 63,0);
-        tracep->declQuad(c+145,"CPU EXU regs trace_regs rf_0", false,-1, 63,0);
+        tracep->declQuad(c+153,"CPU EXU regs trace_regs rf_0", false,-1, 63,0);
         tracep->declQuad(c+65,"CPU EXU regs trace_regs rf_1", false,-1, 63,0);
         tracep->declQuad(c+67,"CPU EXU regs trace_regs rf_2", false,-1, 63,0);
         tracep->declQuad(c+69,"CPU EXU regs trace_regs rf_3", false,-1, 63,0);
@@ -319,6 +319,14 @@ void VCPU___024root__traceInitSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declBus(c+138,"CPU EXU ALU io_out_dest_hi_5", false,-1, 31,0);
         tracep->declBus(c+139,"CPU EXU ALU io_out_dest_lo_6", false,-1, 31,0);
         tracep->declBus(c+140,"CPU EXU ALU io_out_dest_hi_6", false,-1, 31,0);
+        tracep->declBus(c+141,"CPU EXU ALU io_out_dest_lo_7", false,-1, 31,0);
+        tracep->declBus(c+142,"CPU EXU ALU io_out_dest_hi_7", false,-1, 31,0);
+        tracep->declBus(c+143,"CPU EXU ALU io_out_dest_lo_8", false,-1, 31,0);
+        tracep->declBus(c+144,"CPU EXU ALU io_out_dest_hi_8", false,-1, 31,0);
+        tracep->declBus(c+145,"CPU EXU ALU io_out_dest_lo_9", false,-1, 31,0);
+        tracep->declBus(c+146,"CPU EXU ALU io_out_dest_hi_9", false,-1, 31,0);
+        tracep->declBus(c+147,"CPU EXU ALU io_out_dest_lo_10", false,-1, 31,0);
+        tracep->declBus(c+148,"CPU EXU ALU io_out_dest_hi_10", false,-1, 31,0);
         tracep->declBit(c+13,"CPU EXU mem ren", false,-1);
         tracep->declBit(c+14,"CPU EXU mem wen", false,-1);
         tracep->declQuad(c+21,"CPU EXU mem raddr", false,-1, 63,0);
@@ -377,9 +385,7 @@ void VCPU___024root__traceFullSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->fullCData(oldp+9,(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_alu_op),5);
         tracep->fullBit(oldp+10,(((0x33U != (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                  & ((0x13U != (0x707fU 
-                                                & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                     & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_196)))));
+                                  & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_229))));
         tracep->fullBit(oldp+11,(((0x33U != (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
                                   & ((0x13U == (0x707fU 
@@ -389,76 +395,27 @@ void VCPU___024root__traceFullSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
                                         | ((0x3bU != 
                                             (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                           & ((0x7033U 
-                                               != (0xfe00707fU 
-                                                   & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                              & ((0x7013U 
-                                                  == 
-                                                  (0x707fU 
-                                                   & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                 | ((0x17U 
-                                                     == 
-                                                     (0x7fU 
-                                                      & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                    | ((0x63U 
-                                                        != 
-                                                        (0x707fU 
-                                                         & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                       & ((0x5063U 
-                                                           != 
-                                                           (0x707fU 
-                                                            & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                          & ((0x7063U 
-                                                              != 
-                                                              (0x707fU 
-                                                               & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                             & ((0x4063U 
-                                                                 != 
-                                                                 (0x707fU 
-                                                                  & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                                & ((0x6063U 
-                                                                    != 
-                                                                    (0x707fU 
-                                                                     & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                                   & ((0x1063U 
-                                                                       != 
-                                                                       (0x707fU 
-                                                                        & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                                      & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_234))))))))))))))));
+                                           & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_283)))))));
         tracep->fullBit(oldp+12,(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_reg_write));
         tracep->fullBit(oldp+13,(((0x33U != (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                  & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_344))));
+                                  & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_400))));
         tracep->fullBit(oldp+14,(((0x33U != (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
                                   & ((0x13U != (0x707fU 
                                                 & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                     & ((0x1bU != (0x707fU 
-                                                   & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                        & ((0x3bU != 
-                                            (0xfe00707fU 
-                                             & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                           & ((0x7033U 
-                                               != (0xfe00707fU 
-                                                   & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                              & ((0x7013U 
-                                                  != 
-                                                  (0x707fU 
-                                                   & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                                 & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_388)))))))));
+                                     & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_456)))));
         tracep->fullBit(oldp+15,(((0x33U != (0xfe00707fU 
                                              & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                  & ((0x13U != (0x707fU 
-                                                & (IData)(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata))) 
-                                     & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_490)))));
+                                  & (IData)(vlSelf->CPU__DOT__IDU__DOT__contr__DOT___iducontr_T_571))));
         tracep->fullBit(oldp+16,(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_jalr));
         tracep->fullCData(oldp+17,(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_branch),3);
         tracep->fullCData(oldp+18,(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_wdth),3);
         tracep->fullQData(oldp+19,((4ULL + vlSelf->CPU__DOT__pc)),64);
         tracep->fullQData(oldp+21,((((QData)((IData)(
-                                                     vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_97[1U])) 
+                                                     vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_153[1U])) 
                                      << 0x20U) | (QData)((IData)(
-                                                                 vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_97[0U])))),64);
+                                                                 vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_153[0U])))),64);
         tracep->fullBit(oldp+23,(vlSelf->CPU__DOT__EXU__DOT__ALU_io_out_cmp));
         tracep->fullQData(oldp+24,(vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata),64);
         tracep->fullQData(oldp+26,(((1U & (IData)((vlSelf->CPU__DOT__IFU__DOT__fetchmem_rdata 
@@ -547,10 +504,10 @@ void VCPU___024root__traceFullSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
                                                   == (IData)(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_wdth)))))),8);
         tracep->fullQData(oldp+53,(((4U == (IData)(vlSelf->CPU__DOT__IDU__DOT__contr_io_out_branch))
                                      ? (((QData)((IData)(
-                                                         vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_97[1U])) 
+                                                         vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_153[1U])) 
                                          << 0x20U) 
                                         | (QData)((IData)(
-                                                          vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_97[0U])))
+                                                          vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_153[0U])))
                                      : (QData)((IData)(vlSelf->CPU__DOT__EXU__DOT__ALU_io_out_cmp)))),64);
         tracep->fullCData(oldp+55,((0xffU & (IData)(vlSelf->CPU__DOT__EXU__DOT__mem_rdata))),8);
         tracep->fullSData(oldp+56,((0xffffU & (IData)(vlSelf->CPU__DOT__EXU__DOT__mem_rdata))),16);
@@ -666,9 +623,11 @@ void VCPU___024root__traceFullSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->fullIData(oldp+134,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_31[0U] 
                                       >> 0x1fU) ? 0xffffffffU
                                       : 0U)),32);
-        tracep->fullIData(oldp+135,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_37[0U]),32);
-        tracep->fullIData(oldp+136,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_37[0U] 
-                                      >> 0x1fU) ? 0xffffffffU
+        tracep->fullIData(oldp+135,((IData)(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_40)),32);
+        tracep->fullIData(oldp+136,(((1U & (IData)(
+                                                   (vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_40 
+                                                    >> 0x1fU)))
+                                      ? 0xffffffffU
                                       : 0U)),32);
         tracep->fullIData(oldp+137,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_5),32);
         tracep->fullIData(oldp+138,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_5 
@@ -678,11 +637,27 @@ void VCPU___024root__traceFullSub0(VCPU___024root* vlSelf, VerilatedVcd* tracep)
         tracep->fullIData(oldp+140,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_6 
                                       >> 0x1fU) ? 0xffffffffU
                                       : 0U)),32);
-        tracep->fullBit(oldp+141,(vlSelf->clock));
-        tracep->fullBit(oldp+142,(vlSelf->reset));
-        tracep->fullBit(oldp+143,(1U));
-        tracep->fullBit(oldp+144,(0U));
-        tracep->fullQData(oldp+145,(0ULL),64);
-        tracep->fullCData(oldp+147,(0U),8);
+        tracep->fullIData(oldp+141,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___GEN_1),32);
+        tracep->fullIData(oldp+142,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___GEN_1 
+                                      >> 0x1fU) ? 0xffffffffU
+                                      : 0U)),32);
+        tracep->fullIData(oldp+143,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_75[0U]),32);
+        tracep->fullIData(oldp+144,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT___io_out_dest_T_75[0U] 
+                                      >> 0x1fU) ? 0xffffffffU
+                                      : 0U)),32);
+        tracep->fullIData(oldp+145,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_9),32);
+        tracep->fullIData(oldp+146,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_9 
+                                      >> 0x1fU) ? 0xffffffffU
+                                      : 0U)),32);
+        tracep->fullIData(oldp+147,(vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_10),32);
+        tracep->fullIData(oldp+148,(((vlSelf->CPU__DOT__EXU__DOT__ALU__DOT__io_out_dest_lo_10 
+                                      >> 0x1fU) ? 0xffffffffU
+                                      : 0U)),32);
+        tracep->fullBit(oldp+149,(vlSelf->clock));
+        tracep->fullBit(oldp+150,(vlSelf->reset));
+        tracep->fullBit(oldp+151,(1U));
+        tracep->fullBit(oldp+152,(0U));
+        tracep->fullQData(oldp+153,(0ULL),64);
+        tracep->fullCData(oldp+155,(0U),8);
     }
 }

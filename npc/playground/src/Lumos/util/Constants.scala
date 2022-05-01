@@ -67,6 +67,7 @@ object InstConstants {
 
 object ALUConstants {
   val ALUNOP   = "b00000".U
+  val TRANSB   = "b00110".U
   val ALUAND   = "b00001".U
   val ALUOR    = "b00010".U
   val ALUXOR   = "b00011".U
