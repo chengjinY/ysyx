@@ -44,6 +44,7 @@ class ALU extends Module {
     SUBU64   -> (a64.asUInt() - b64.asUInt()).asUInt(),
     MUL32    -> (SEXT((a64.asUInt() * b64.asUInt())(31, 0).asUInt())).asUInt(),
     MUL64    -> (a64.asUInt() * b64.asUInt()).asUInt(),
+    // Singed div need to be improved.
     DIVS32   -> (SEXT((a64(31, 0).asSInt() / b64(31, 0).asSInt())(31, 0).asUInt())).asUInt(),
     DIVS64   -> (a64.asSInt() / b64.asSInt()).asUInt(),
     DIVU32   -> (SEXT((a64(31, 0).asUInt() / b64(31, 0).asUInt())(31, 0).asUInt())).asUInt(),
