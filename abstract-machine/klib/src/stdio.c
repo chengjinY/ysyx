@@ -23,8 +23,15 @@ char* num2str(char *str, int num) {
 	return str;
 }
 
+static char out[2048];
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+  int n;
+  va_list args;
+  va_start(args, fmt);
+  n = vsprintf(out, fmt, args);
+  va_end(args);
+  putstr(out);
+  return n;
 }
 
 int sprintf(char *out, const char *fmt, ...) {

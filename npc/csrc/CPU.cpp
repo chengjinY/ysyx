@@ -281,10 +281,10 @@ void difftest_exec_once()
 void debug_exit(int status)
 {
 #ifdef CONFIG_GTKWAVE
-      m_trace -> close();
+  m_trace -> close();
 #endif
 #ifdef CONFIG_ITRACE
-  itrace_output();
+  if (status != 0) itrace_output();
 #endif
   if (status == 0) puts("\33[1;32mSim Result: HIT GOOD TRAP\33[0m");
   else puts("\33[1;31mSim Result: HIT BAD TRAP\33[0m");
