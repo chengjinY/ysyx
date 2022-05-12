@@ -17,8 +17,19 @@ static bool g_print_step = false;
 
 void device_update();
 
-// watchpoints.c
+#ifdef CONFIG_IRINGBUF
+int ringptr = 15;
+char ringbuf[16][128];
+#endif
+
+#ifdef CONFIG_WATCHPOINT
 bool watchpoints_check();
+#endif
+
+#ifdef CONFIG_FTRACE
+void ftrace_record(uint64_t pc, uint64_t addr, bool is_return);
+void ftrace_output();
+#endif
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
@@ -38,6 +49,17 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
+#ifdef CONFIG_FTRACE
+	uint32_t finst = s->isa.inst.val;
+	if (finst == 0x00008067) {
+		// ret: jalr x0, 0(x1)
+	  ftrace_record(pc, pc, true);
+	} else if (BITS(finst, 6, 0) == 0x6f && BITS(finst, 11, 7) != 0) {
+		ftrace_record(pc, s->dnpc, false);
+	}	else if (BITS(finst, 6, 0) == 0x67 && BITS(finst, 11, 7) != 0) {
+		ftrace_record(pc, s->dnpc, false);
+	}
+#endif
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
@@ -58,6 +80,10 @@ static void exec_once(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+#ifdef CONFIG_IRINGBUF
+	ringptr = (ringptr + 1) % 16;
+	strcpy(ringbuf[ringptr], s->logbuf);
+#endif
 #endif
 }
 
@@ -103,10 +129,28 @@ void cpu_exec(uint64_t n) {
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
 
+	// for trace test
+	// nemu_state.state = NEMU_ABORT;
+
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
-    case NEMU_END: case NEMU_ABORT:
+		case NEMU_ABORT:
+#ifdef CONFIG_IRINGBUF
+			printf("========== IRingBuf Result ==========\n");
+			for (int i = 0; i < 16; ++i) {
+				if (i == ringptr) printf("--->");
+				else printf("    ");
+				printf("%s\n", ringbuf[i]);
+			}
+			printf("\n");
+#endif
+#ifdef CONFIG_FTRACE
+			printf("========== Ftrace Result ==========\n");
+			ftrace_output();
+			printf("\n");
+#endif
+    case NEMU_END:
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ASNI_FMT("ABORT", ASNI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ASNI_FMT("HIT GOOD TRAP", ASNI_FG_GREEN) :
