@@ -102,7 +102,7 @@ void init_monitor(int argc, char *argv[]) {
 
 #ifdef CONFIG_FTRACE
 	/* Open the elf file. */
-	init_elf(elf_file);
+	init_elf(elf_zfile);
 #endif
 
   /* Initialize memory. */

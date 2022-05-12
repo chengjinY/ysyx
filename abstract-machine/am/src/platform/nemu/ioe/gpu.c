@@ -7,14 +7,22 @@ void __am_gpu_init() {
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
+  int height = inw(VGACTL_ADDR);
+  int width = inw(VGACTL_ADDR + 2);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
-    .width = 0, .height = 0,
-    .vmemsz = 0
+    .width = width, .height = height,
+    .vmemsz = width * height * sizeof(uint32_t)
   };
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  int width = inw(VGACTL_ADDR + 2);
+  for (int i = 0; i < ctl->h; ++i) {
+    for (int j = 0; j < ctl->w; ++j) {
+      outl(FB_ADDR + (width * (ctl->y + i) + (ctl->x + j)) * sizeof(uint32_t), ((uint32_t*)ctl->pixels)[i * ctl->w + j]);
+    }
+  }
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }

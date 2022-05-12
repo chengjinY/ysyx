@@ -15,7 +15,7 @@ paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 static word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
 #ifdef CONFIG_MTRACE
-	printf("[MTrace - Read]: addr = 0x%x, len = %d\n", addr, len);
+	Log("[MTrace - Rezad]: addr = 0x%x, len = %d", addr, len);
 #endif
   return ret;
 }
@@ -23,7 +23,7 @@ static word_t pmem_read(paddr_t addr, int len) {
 static void pmem_write(paddr_t addr, int len, word_t data) {
   host_write(guest_to_host(addr), len, data);
 #ifdef CONFIG_MTRACE
-	printf("[MTrace - Write]: addr = 0x%x, len = %d\n", addr, len);
+	Log("[MTrace - Write]: addr = 0x%x, len = %d", addr, len);
 #endif
 }
 
