@@ -5,27 +5,30 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-char* num2str(char *str, int num) {
-  char tmp[12];
+typedef long long ll;
+
+char* num2str(char *str, ll num, ll base) {
+  char tmp[32];
   if (num < 0) {
     *str++ = '-';
     num = -num;
   }
   int len = 0;
-  if (num == 0) tmp[len++] = '0';
+  if (num == 0) tmp[len++] = 0;
   else while (num) {
-    tmp[len++] = num % 10 + '0';
-    num = num / 10;
+    tmp[len++] = num % base;
+    num = num / base;
   }
   while (len-- > 0) {
-    *str++ = tmp[len];
+    if (tmp[len] < 10) *str++ = tmp[len] + '0';
+    else *str++ = tmp[len] + 'A';
   }
   return str;
 }
 
 int printf(const char *fmt, ...) {
   int n;
-  char buf[256];
+  char buf[8192];
   va_list args;
   va_start(args, fmt);
   n = vsprintf(buf, fmt, args);
@@ -58,7 +61,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         break;
       case 'd':
         // cannot handle %02d etc. maybe fix future.
-        str = num2str(str, va_arg(ap, int));
+        str = num2str(str, va_arg(ap, ll), 10);
+        break;
+      case 'p':
+        str = num2str(str, va_arg(ap, ll), 16);
         break;
       case 's':
         s = va_arg(ap, char *);
