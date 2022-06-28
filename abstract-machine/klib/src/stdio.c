@@ -21,7 +21,7 @@ char* num2str(char *str, ll num, ll base) {
   }
   while (len-- > 0) {
     if (tmp[len] < 10) *str++ = tmp[len] + '0';
-    else *str++ = tmp[len] + 'A';
+    else *str++ = tmp[len] - 10 + 'A';
   }
   return str;
 }

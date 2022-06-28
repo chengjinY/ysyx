@@ -5,7 +5,7 @@
 
 enum {
   mtvec, mepc, mstatus, mcause,
-  none, // none
+  csr_regnum, // none
 };
 
 typedef struct {
