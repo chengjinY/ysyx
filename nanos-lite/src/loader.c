@@ -12,7 +12,7 @@
 #if defined(__ISA_AM_NATIVE__)
 # define EXPECT_TYPE EM_X86_64
 #elif defined(__ISA_X86__)
-# define EXPECT_TYPE EM_X86_64
+# define EXPECT_TYPE EM_386
 #elif defined(__ISA_MIPS32__)
 # define EXPECT_TYPE EM_MIPS
 #elif defined(__ISA_RISCV32__) || defined(__ISA_RISCV64__)
