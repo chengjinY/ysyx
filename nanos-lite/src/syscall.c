@@ -19,13 +19,17 @@ void do_syscall(Context *c) {
       c->GPRx = 0;
       break;
     case SYS_write:
-      // printf("[Strace - do_syscall] SYS_write.\n");
+      printf("[Strace - do_syscall] SYS_write.\n");
       if (a[1] == 1 || a[1] == 2) {
         for (int i = 0; i < a[3]; ++i) {
           putch(*(char*)(a[2] + i));
         }
         c->GPRx = a[3];
       } else c->GPRx = -1;
+      break;
+    case SYS_brk:
+      printf("[Strace - do_syscall] SYS_brk\n");
+      c->GPRx = 0;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
