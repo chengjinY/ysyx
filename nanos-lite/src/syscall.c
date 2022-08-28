@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include <sys/time.h>
 
 int fs_open(const char *pathname, int flags, int mode);
 size_t fs_read(int fd, void *buf, size_t len);
@@ -14,6 +15,7 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
+  int us = 0;
   switch (a[0]) {
     case SYS_exit:
       // printf("[Strace - do_syscall] SYS_exit.\n");
@@ -38,14 +40,7 @@ void do_syscall(Context *c) {
       break;
     case SYS_write:
       printf("[Strace - do_syscall] SYS_write\n");
-      if (a[1] == 1 || a[1] == 2) {
-        for (int i = 0; i < a[3]; ++i) {
-          putch(*(char*)(a[2] + i));
-        }
-        c->GPRx = a[3];
-      } else if (a[1] != 0) {
-        c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
-      } else c->GPRx = -1;
+      c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
       break;
     case SYS_lseek:
       printf("[Strace - do_syscall] SYS_lseek\n");
@@ -54,6 +49,15 @@ void do_syscall(Context *c) {
     case SYS_close:
       printf("[Strace - do_syscall] SYS_close\n");
       c->GPRx = fs_close(a[1]);
+      break;
+    case SYS_gettimeofday:
+      // printf("[Strace - do_syscall] SYS_gettimeofday\n");
+      us = io_read(AM_TIMER_UPTIME).us;
+      ((struct timeval *) a[1])->tv_usec = us % 1000000;
+      ((struct timeval *) a[1])->tv_sec = us / 1000000;
+      ((struct timezone *)a[2])->tz_minuteswest = -480; // China (to be edited if it has error)
+      ((struct timezone *)a[2])->tz_dsttime = 0;
+      c->GPRx = 0;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
