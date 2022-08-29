@@ -31,23 +31,23 @@ void do_syscall(Context *c) {
       c->GPRx = 0;
       break;
     case SYS_open:
-      printf("[Strace - do_syscall] SYS_open\n");
+      // printf("[Strace - do_syscall] SYS_open\n");
       c->GPRx = fs_open((const char *)a[1], a[2], a[3]);
       break;
     case SYS_read:
-      printf("[Strace - do_syscall] SYS_read\n");
+      // printf("[Strace - do_syscall] SYS_read\n");
       c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
       break;
     case SYS_write:
-      printf("[Strace - do_syscall] SYS_write\n");
+      // printf("[Strace - do_syscall] SYS_write\n");
       c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
       break;
     case SYS_lseek:
-      printf("[Strace - do_syscall] SYS_lseek\n");
+      // printf("[Strace - do_syscall] SYS_lseek\n");
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
       break;
     case SYS_close:
-      printf("[Strace - do_syscall] SYS_close\n");
+      // printf("[Strace - do_syscall] SYS_close\n");
       c->GPRx = fs_close(a[1]);
       break;
     case SYS_gettimeofday:
