@@ -29,29 +29,47 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   AM_INPUT_KEYBRD_T kbd;
   ioe_read(AM_INPUT_KEYBRD, &kbd);
   if (kbd.keycode == 0) return 0;
-  char *s = (char *)buf;
-  for (int i = 0; i < min(len, 3); ++i) {
-    if (i == 0) s[i] = 'k';
-    else if (i == 2) s[i] = ' ';
-    else if (kbd.keydown == true) s[i] = 'd';
-    else s[i] = 'u';
+  if (kbd.keydown == true) {
+    len = snprintf(buf, len, "kd %s\n", keyname[kbd.keycode]);
+  } else {
+    len = snprintf(buf, len, "ku %s\n", keyname[kbd.keycode]);
   }
-  int slen = sizeof(keyname[kbd.keycode]);
-  for (int i = 3, j = 0; i < len && j < slen; ++i, ++j) {
-    s[i] = keyname[kbd.keycode][j];
-  }
-  // no '\n' here cause we only consider one event, multiple events may cause errors
-  // backslash, tab, ... have a strange blank line if we add '\n' here, to be considered
-  s[min(slen + 3, len)] = '\0';
-  return min(slen + 3, len);
+  return len;
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  AM_GPU_CONFIG_T cfg;
+  ioe_read(AM_GPU_CONFIG, &cfg);
+  return snprintf(buf, len, "WIDTH:%d\nHEIGHT:%d\n", cfg.width, cfg.height);
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  offset /= 4, len /= 4;
+  printf("== offset: %d, len: %d ==\n", offset, len);
+  // size of screen
+  AM_GPU_CONFIG_T cfg;
+  ioe_read(AM_GPU_CONFIG, &cfg);
+  // fill
+  AM_GPU_FBDRAW_T ctl;
+  ctl.h = ctl.w = 0;
+  int used = 0;    // number of pixels
+  // (x, y) -> (width, height)
+  ctl.x = offset % cfg.width, ctl.y = offset / cfg.width;
+  printf("%d %d\n", ctl.x, ctl.y);
+  if (len > cfg.width) {
+    ctl.h = len / cfg.width, ctl.w = cfg.width;
+    ctl.pixels = (void *)buf;
+    ctl.sync = true;
+    ioe_write(AM_GPU_FBDRAW, &ctl);
+    used += ctl.h * ctl.w * 4;
+  }
+  ctl.x += ctl.h;
+  if (len % cfg.width != 0) {
+    ctl.h = 1, ctl.w = len % cfg.width;
+    ctl.pixels = (void *)(buf + used);
+    ioe_write(AM_GPU_FBDRAW, &ctl);
+  }
+  return len;
 }
 
 void init_device() {
