@@ -56,7 +56,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   // (x, y) -> (width, height)
   ctl.x = offset % cfg.width, ctl.y = offset / cfg.width;
   printf("%d %d\n", ctl.x, ctl.y);
-  if (len > cfg.width) {
+  if (len >= cfg.width) {
     ctl.h = len / cfg.width, ctl.w = cfg.width;
     ctl.pixels = (void *)buf;
     ctl.sync = true;

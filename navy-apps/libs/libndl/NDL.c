@@ -48,19 +48,22 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
-  assert(0 <= *w && *w < screen_w);
-  assert(0 <= *h && *h < screen_h);
+  // printf("%d %d\n", screen_w, *w);
+  // printf("%d %d\n", screen_h, *h);
+  assert(1 <= *w && *w <= screen_w);
+  assert(1 <= *h && *h <= screen_h);
   canvas_w = *w;
   canvas_h = *h;
   center_w = screen_w / 2 - canvas_w / 2;
   center_h = screen_h / 2 - canvas_h / 2;
-  printf("%d %d\n", center_h, center_w);
+  // printf("%d %d\n", center_h, center_w);
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int fd = open("/dev/fb", 0, 0);
   printf("%d\n", fd);
   for (int i = 0; i < h; ++i) {
+    // printf("write %d\n", i);
     lseek(fd, ((center_h + x + i) * screen_w + center_w + y) * 4, SEEK_SET);
     write(fd, pixels + i * w, w * 4);
   }
