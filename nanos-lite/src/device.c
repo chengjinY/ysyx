@@ -45,7 +45,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   offset /= 4, len /= 4;
-  printf("== offset: %d, len: %d ==\n", offset, len);
+  // printf("== offset: %d, len: %d ==\n", offset, len);
   // size of screen
   AM_GPU_CONFIG_T cfg;
   ioe_read(AM_GPU_CONFIG, &cfg);
@@ -55,7 +55,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int used = 0;    // number of pixels
   // (x, y) -> (width, height)
   ctl.x = offset % cfg.width, ctl.y = offset / cfg.width;
-  printf("%d %d\n", ctl.x, ctl.y);
+  // printf("%d %d\n", ctl.x, ctl.y);
   if (len >= cfg.width) {
     ctl.h = len / cfg.width, ctl.w = cfg.width;
     ctl.pixels = (void *)buf;

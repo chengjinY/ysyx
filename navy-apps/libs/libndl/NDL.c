@@ -48,8 +48,10 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
-  // printf("%d %d\n", screen_w, *w);
-  // printf("%d %d\n", screen_h, *h);
+  printf("%d %d\n", screen_w, *w);
+  printf("%d %d\n", screen_h, *h);
+  if (*w == 0) *w = screen_w;
+  if (*h == 0) *h = screen_h;
   assert(1 <= *w && *w <= screen_w);
   assert(1 <= *h && *h <= screen_h);
   canvas_w = *w;
@@ -61,10 +63,10 @@ void NDL_OpenCanvas(int *w, int *h) {
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int fd = open("/dev/fb", 0, 0);
-  printf("%d\n", fd);
+  // printf("%d\n", fd);
   for (int i = 0; i < h; ++i) {
     // printf("write %d\n", i);
-    lseek(fd, ((center_h + x + i) * screen_w + center_w + y) * 4, SEEK_SET);
+    lseek(fd, ((center_h + y + i) * screen_w + center_w + x) * 4, SEEK_SET);
     write(fd, pixels + i * w, w * 4);
   }
 }
@@ -87,7 +89,9 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
-  int fd = open("/proc/dispinfo", 0, 0);
+  int fd;
+  // fetch size of screen
+  fd = open("/proc/dispinfo", 0, 0);
   char buf[64];
   read(fd, buf, 64);
   int len = strlen(buf), flag = 1;
