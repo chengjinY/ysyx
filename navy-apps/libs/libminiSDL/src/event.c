@@ -13,18 +13,13 @@ int SDL_PushEvent(SDL_Event *ev) {
   return 0;
 }
 
-int SDL_PollEvent(SDL_Event *ev) {
-  return 0;
-}
-
 #define EVENT_BUF_LENGTH 1024
 char buf[EVENT_BUF_LENGTH];
-int SDL_WaitEvent(SDL_Event *event) {
-  // after keydown and keyup, ret should be zero, and then set keysym to NONE.
+int SDL_PollEvent(SDL_Event *ev) {
   if (NDL_PollEvent(buf, EVENT_BUF_LENGTH) == 0) {
-    event->type = SDL_KEYUP;
-    event->key.keysym.sym = 0;
-    return 1;
+    ev->type = SDL_KEYUP;
+    ev->key.keysym.sym = 0;
+    return 0;
   }
   if (buf[0] == 'k') {
     int code = 0;
@@ -35,15 +30,21 @@ int SDL_WaitEvent(SDL_Event *event) {
       }
     }
     if (buf[1] == 'd') {
-      event->type = SDL_KEYDOWN;
-      event->key.keysym.sym = code;
+      ev->type = SDL_KEYDOWN;
+      ev->key.keysym.sym = code;
       // printf("Down %d\n", code);
     } else if (buf[1] == 'u') {
-      event->type = SDL_KEYUP;
-      event->key.keysym.sym = code;
+      ev->type = SDL_KEYUP;
+      ev->key.keysym.sym = code;
       // printf("Up %d\n", code);
     }
   }
+  return 1;
+}
+
+int SDL_WaitEvent(SDL_Event *event) {
+  // after keydown and keyup, ret should be zero, and then set keysym to NONE.
+  while (SDL_PollEvent(event) == 0);
   return 1;
 }
 
