@@ -8,6 +8,7 @@
 SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
   assert(src->type == RW_TYPE_MEM);
   assert(freesrc == 0);
+  printf("Unimplemented function: IMG_Load_RW\n");
   return NULL;
 }
 
@@ -25,10 +26,12 @@ SDL_Surface* IMG_Load(const char *filename) {
 }
 
 int IMG_isPNG(SDL_RWops *src) {
+  printf("Unimplemented function: IMG_isPNG\n");
   return 0;
 }
 
 SDL_Surface* IMG_LoadJPG_RW(SDL_RWops *src) {
+  printf("Unimplemented function: IMG_LoadJPG_RW\n");
   return IMG_Load_RW(src, 0);
 }
 

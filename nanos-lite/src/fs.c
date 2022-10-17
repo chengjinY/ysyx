@@ -53,14 +53,14 @@ int fs_open(const char *pathname, int flags, int mode) {
   for (int i = 0; i < num; ++i) {
     if (strcmp(pathname, file_table[i].name) == 0) return i;
   }
-  panic("wrong file pathname.");
+  panic("wrong file pathname: %s.", pathname);
 }
 
 size_t fs_read(int fd, void *buf, size_t len) {
   if (file_table[fd].read == NULL) {
     if (file_table[fd].open_offset + len > file_table[fd].size) {
       len = file_table[fd].size - file_table[fd].open_offset;
-      Log("Warning: fs_read offset has been reset.");
+      // Log("Warning: fs_read offset has been reset.");
     }
     size_t ret = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
     file_table[fd].open_offset += len;
@@ -72,7 +72,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (file_table[fd].write == NULL) {
     if (file_table[fd].open_offset + len > file_table[fd].size) {
       len = file_table[fd].size - file_table[fd].open_offset;
-      Log("Warning: fs_write offset has been reset.");
+      // Log("Warning: fs_write offset has been reset.");
     }
     size_t ret = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
     file_table[fd].open_offset += len;

@@ -10,6 +10,7 @@ inline int min(int a, int b) {
 }
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
+  // printf("Func: SDL_BlitSurface\n");
   assert(dst && src); // dst and src are not NULL
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   int sx, sy, w, h, dx, dy;
@@ -20,20 +21,25 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   // printf("sx: %d, sy: %d, w: %d, h: %d, dx: %d, dy: %d\n", sx, sy, w, h, dx, dy);
   // printf("src-w: %d, src-h: %d, dst-w: %d, dst-h: %d\n", src->w, src->h, dst->w, dst->h);
   // should be in the rect of dst
+  assert(sx >= 0 && sy >= 0);
+  assert(dx >= 0 && dy >= 0);
   w = min(w, dst->w - dx);
   h = min(h, dst->h - dy);
   // copy
   for (int i = 0; i < h; ++i) {
     for (int j = 0; j < w; ++j) {
       // printf("%d %d\n", i, j);
-      for (int k = 0; k < 4; ++k) {
-        *(dst->pixels + ((dy + i) * dst->w + dx + j) * 4 + k) = *(src->pixels + ((sy + i) * src->w + sx + j) * 4 + k);
+      for (int k = 0; k < dst->format->BytesPerPixel; ++k) {
+        *(dst->pixels + ((dy + i) * dst->w + dx + j) * dst->format->BytesPerPixel + k) = 
+        *(src->pixels + ((sy + i) * src->w + sx + j) * dst->format->BytesPerPixel + k);
       }
     }
   }
+  // printf("End of Func: SDL_BlitSurface\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  // printf("Func: SDL_FillRect\n");
   int x, y, w, h;
   if (dstrect == NULL) x = 0, y = 0, w = dst->w, h = dst->h;
   else x = dstrect->x, y = dstrect->y, w = dstrect->w, h = dstrect->h;
@@ -45,11 +51,25 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  // printf("Func: SDL_UpdateRect\n");
   SDL_LockSurface(s);
   if (!(x | y | w | h)) w = s->w, h = s->h;
   // printf("%d %d %d %d\n", x, y, w, h);
-  NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
+  if (s->format->BytesPerPixel == 4) {
+    NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
+  } else {
+    uint32_t *c = malloc(sizeof(uint32_t));
+    for (int i = 0; i < h; ++i) {
+      for (int j = 0; j < w; ++j) {
+        SDL_Color col = s->format->palette->colors[(uint8_t)s->pixels[(y + i) * s->w + x + j]];
+        *c = (col.r << 16) | (col.g << 8) | (col.b);
+        NDL_DrawRect((uint32_t *)c, x + j, y + i, 1, 1);
+      }
+    }
+    free(c);
+  }
   SDL_UnlockSurface(s);
+  // printf("End of Func: SDL_UpdateRect\n");
 }
 
 // APIs below are already implemented.
